@@ -382,6 +382,7 @@
         // Update student grid
         function updateStudentGrid(students) {
             const grid = document.getElementById('studentGrid');
+            const data = getData();
             
             if (students.length === 0) {
                 grid.innerHTML = `
@@ -579,6 +580,13 @@
             checkForUpdates();
             updateDashboard(); // Force update to show online/offline status
         }, 1000);
+
+        // Listen for storage changes (cross-device communication)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'classStacksData') {
+                checkForUpdates();
+            }
+        });
 
         // Update class code display
         document.getElementById('classCodeDisplay').textContent = `CLASS-${CLASS_CODE}`;
