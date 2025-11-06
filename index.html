@@ -437,6 +437,57 @@
             display: none;
         }
         
+        .demo-students {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .message-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .message-modal h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .message-textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border: 2px solid #e1e5ee;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            resize: vertical;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -521,9 +572,6 @@
                 <div class="nav-item" onclick="showSection('controls')">
                     ⚙️ Classroom Controls
                 </div>
-                <div class="nav-item" onclick="showSection('reports')">
-                    📈 Reports & Analytics
-                </div>
             </div>
         </div>
         
@@ -553,8 +601,8 @@
                             <div class="stat-label">Blocked Sites</div>
                         </div>
                         <div class="stat-card danger">
-                            <div class="stat-value" id="alertsToday">0</div>
-                            <div class="stat-label">Alerts Today</div>
+                            <div class="stat-value" id="restrictedStudents">0</div>
+                            <div class="stat-label">Restricted</div>
                         </div>
                     </div>
                     
@@ -564,6 +612,18 @@
                             <div>System: Dashboard initialized</div>
                             <div class="log-time" id="currentTime"></div>
                         </div>
+                    </div>
+
+                    <div class="demo-students">
+                        <h4>🚀 Quick Start Demo</h4>
+                        <p>To test the system:</p>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>Open <strong>student-browser.html</strong> in another tab/device</li>
+                            <li>Student signs in with: Name: <code>demo</code>, Class Code: <code>CS2024</code></li>
+                            <li>Student will appear here automatically</li>
+                            <li>Use "Restrict" button to enable website blocking</li>
+                            <li>Block sites like "youtube.com" to test blocking</li>
+                        </ol>
                     </div>
                 </div>
                 
@@ -582,12 +642,10 @@
                     <div class="controls-panel">
                         <div class="control-group">
                             <h3>Website Filtering</h3>
+                            <p style="color: #666; margin-bottom: 10px;">Blocking only works when students are in "Restricted Mode"</p>
                             <div style="display: flex; gap: 10px; margin-top: 15px;">
                                 <input type="text" id="blockUrlInput" placeholder="Enter website to block (e.g., youtube.com)" style="flex: 1;">
                                 <button class="btn btn-danger" onclick="blockWebsite()">Block Site</button>
-                            </div>
-                            <div style="margin-top: 10px; font-size: 0.9rem; color: #666;">
-                                <strong>Currently Blocked:</strong> YouTube, Facebook, TikTok, Instagram, Netflix
                             </div>
                         </div>
                         
@@ -600,22 +658,25 @@
                         
                         <div class="control-group">
                             <h3>Class Settings</h3>
-                            <button class="btn" onclick="createClassCode()">Generate Class Code</button>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                <strong>Current Class Code:</strong> <span id="currentClassCode">CS2024</span><br>
+                                <small>Students use this code to join your class</small>
+                            </div>
+                            <button class="btn" onclick="createClassCode()">Generate New Class Code</button>
                             <div id="classCodeDisplay" class="class-code-display">
                                 <!-- Class code will appear here -->
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Reports Section -->
-                <div id="reportsSection" style="display: none;">
-                    <h3 class="section-title">Reports & Analytics</h3>
-                    <div class="controls-panel">
-                        <h3>Student Activity Report</h3>
-                        <p>Monitor student browsing patterns and productivity metrics.</p>
-                        <button class="btn" onclick="generateReport()">Generate Weekly Report</button>
-                        <div id="reportOutput" style="margin-top: 20px;"></div>
+
+                        <div class="control-group">
+                            <h3>Quick Actions</h3>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button class="btn btn-warning" onclick="blockCommonSites()">Block Social Media</button>
+                                <button class="btn btn-success" onclick="unblockAllSites()">Unblock All Sites</button>
+                                <button class="btn btn-danger" onclick="restrictAllStudents()">Restrict All Students</button>
+                                <button class="btn" onclick="unrestrictAllStudents()">Unrestrict All Students</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -624,11 +685,24 @@
         <div class="sync-status" id="syncStatus">🔄 Syncing...</div>
     </div>
 
+    <!-- Message Modal -->
+    <div class="message-modal" id="messageModal">
+        <div class="message-modal-content">
+            <h3 id="messageModalTitle">Send Message to Student</h3>
+            <textarea class="message-textarea" id="messageText" placeholder="Type your message here..."></textarea>
+            <div class="message-actions">
+                <button class="btn btn-danger" onclick="closeMessageModal()">Cancel</button>
+                <button class="btn" onclick="sendMessageToStudent()">Send Message</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Teacher authentication and data management
         const teacherAccounts = JSON.parse(localStorage.getItem('teacherAccounts') || '{}');
         let currentTeacher = null;
         let syncInterval = null;
+        let currentMessageStudent = null;
         
         // Initialize default teacher account
         if (!teacherAccounts['teacher@classstacks.com']) {
@@ -641,33 +715,35 @@
             localStorage.setItem('teacherAccounts', JSON.stringify(teacherAccounts));
         }
         
-        // Initialize blocked sites with popular sites that block iframes
-        if (!localStorage.getItem('blockedSites')) {
-            localStorage.setItem('blockedSites', JSON.stringify([
-                'youtube.com',
-                'facebook.com', 
-                'tiktok.com',
-                'instagram.com',
-                'netflix.com',
-                'twitter.com',
-                'reddit.com',
-                'discord.com'
-            ]));
+        // Initialize data storage
+        function initializeData() {
+            if (!localStorage.getItem('blockedSites')) {
+                localStorage.setItem('blockedSites', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('restrictedStudents')) {
+                localStorage.setItem('restrictedStudents', JSON.stringify({}));
+            }
+            if (!localStorage.getItem('activityLog')) {
+                localStorage.setItem('activityLog', JSON.stringify([{
+                    actor: 'System',
+                    action: 'Class Stacks initialized',
+                    timestamp: Date.now()
+                }]));
+            }
+            if (!localStorage.getItem('teacherMessages')) {
+                localStorage.setItem('teacherMessages', JSON.stringify({}));
+            }
         }
-        
-        // Initialize restricted students
-        if (!localStorage.getItem('restrictedStudents')) {
-            localStorage.setItem('restrictedStudents', JSON.stringify({}));
-        }
-        
-        // Initialize activity log
-        if (!localStorage.getItem('activityLog')) {
-            localStorage.setItem('activityLog', JSON.stringify([{
-                actor: 'System',
-                action: 'Class Stacks initialized',
-                timestamp: Date.now()
-            }]));
-        }
+
+        // Check for existing session on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeData();
+            const savedTeacher = localStorage.getItem('currentTeacher');
+            if (savedTeacher) {
+                currentTeacher = JSON.parse(savedTeacher);
+                showDashboard();
+            }
+        });
         
         // Tab switching
         function switchTab(tab) {
@@ -714,11 +790,13 @@
                 };
                 localStorage.setItem('teacherAccounts', JSON.stringify(teacherAccounts));
                 currentTeacher = teacherAccounts[email];
+                localStorage.setItem('currentTeacher', JSON.stringify(currentTeacher));
                 showDashboard();
             } else {
                 // Teacher login
                 if (teacherAccounts[email] && teacherAccounts[email].password === password) {
                     currentTeacher = teacherAccounts[email];
+                    localStorage.setItem('currentTeacher', JSON.stringify(currentTeacher));
                     showDashboard();
                 } else {
                     showError('Invalid email or password');
@@ -737,6 +815,7 @@
             document.getElementById('authContainer').style.display = 'none';
             document.getElementById('dashboard').style.display = 'flex';
             document.getElementById('userWelcome').textContent = `Welcome, ${currentTeacher.name}`;
+            document.getElementById('currentClassCode').textContent = currentTeacher.classCode;
             initializeDashboard();
             startSyncMonitoring();
         }
@@ -748,14 +827,12 @@
             document.getElementById('overviewSection').style.display = 'none';
             document.getElementById('studentsSection').style.display = 'none';
             document.getElementById('controlsSection').style.display = 'none';
-            document.getElementById('reportsSection').style.display = 'none';
             
             document.getElementById(section + 'Section').style.display = 'block';
             document.getElementById('sectionTitle').textContent = 
                 section.charAt(0).toUpperCase() + section.slice(1) + 
                 (section === 'overview' ? ' Overview' : 
-                 section === 'students' ? ' Management' : 
-                 section === 'controls' ? ' Controls' : ' & Analytics');
+                 section === 'students' ? ' Management' : ' Controls');
             
             // Refresh data when switching sections
             if (section === 'students') updateStudentMonitoring();
@@ -778,10 +855,22 @@
             const studentGrid = document.getElementById('studentGrid');
             studentGrid.innerHTML = '';
             
+            if (students.length === 0) {
+                studentGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 15px;">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">👨‍🎓</div>
+                        <h3>No Students Connected</h3>
+                        <p>Students will appear here when they sign in using your class code.</p>
+                        <p><strong>Your Class Code: ${currentTeacher.classCode}</strong></p>
+                    </div>
+                `;
+                return;
+            }
+            
             students.forEach(student => {
                 const restrictedStudents = JSON.parse(localStorage.getItem('restrictedStudents') || '{}');
                 const isRestricted = restrictedStudents[student.id];
-                const isActive = student.lastActive > (Date.now() - 300000); // 5 minutes
+                const isActive = student.lastActive > (Date.now() - 10000); // 10 seconds
                 
                 const card = document.createElement('div');
                 card.className = 'student-card';
@@ -790,7 +879,7 @@
                         <div class="student-avatar">${student.name.charAt(0)}</div>
                         <div>
                             <h4>${student.name}</h4>
-                            <p>ID: ${student.id}</p>
+                            <p>ID: ${student.id.substring(0, 8)}</p>
                             ${isRestricted ? '<p style="color: var(--danger); font-size: 0.8rem;">🔒 Restricted Mode</p>' : ''}
                         </div>
                         <div class="student-status ${isActive ? (isRestricted ? 'status-restricted' : 'status-online') : 'status-offline'}">
@@ -812,11 +901,10 @@
                         </div>
                     </div>
                     <div class="student-actions">
-                        <button class="action-btn btn" onclick="sendMessage('${student.id}')">Message</button>
+                        <button class="action-btn btn" onclick="openMessageModal('${student.id}', '${student.name}')">Message</button>
                         <button class="action-btn ${isRestricted ? 'btn-success' : 'btn-warning'}" onclick="toggleRestriction('${student.id}')">
                             ${isRestricted ? 'Unrestrict' : 'Restrict'}
                         </button>
-                        <button class="action-btn btn-danger" onclick="viewStudentDetails('${student.id}')">Details</button>
                     </div>
                 `;
                 studentGrid.appendChild(card);
@@ -825,14 +913,23 @@
         
         function getActiveStudents() {
             const students = [];
+            const now = Date.now();
             
-            // Check all localStorage keys for student data
+            // Clean up old students (inactive for more than 1 minute)
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if (key.startsWith('student_')) {
                     try {
                         const studentData = JSON.parse(localStorage.getItem(key));
-                        students.push(studentData);
+                        // Remove if inactive for more than 1 minute
+                        if (now - studentData.lastActive > 60000) {
+                            localStorage.removeItem(key);
+                            continue;
+                        }
+                        // Only show students from this teacher's class
+                        if (studentData.classCode === currentTeacher.classCode) {
+                            students.push(studentData);
+                        }
                     } catch (e) {
                         console.log('Error parsing student data:', key);
                     }
@@ -847,6 +944,11 @@
             const blockedSites = JSON.parse(localStorage.getItem('blockedSites') || '[]');
             
             blockedList.innerHTML = '';
+            if (blockedSites.length === 0) {
+                blockedList.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No websites blocked</div>';
+                return;
+            }
+            
             blockedSites.forEach(site => {
                 const item = document.createElement('div');
                 item.className = 'blocked-item';
@@ -860,14 +962,14 @@
         
         function updateDashboardStats() {
             const students = getActiveStudents();
-            const activeStudents = students.filter(s => s.lastActive > (Date.now() - 300000)).length;
+            const activeStudents = students.filter(s => s.lastActive > (Date.now() - 10000)).length;
             const blockedSites = JSON.parse(localStorage.getItem('blockedSites') || '[]').length;
             const restrictedStudents = Object.keys(JSON.parse(localStorage.getItem('restrictedStudents') || '{}')).length;
             
             document.getElementById('totalStudents').textContent = students.length;
             document.getElementById('activeStudents').textContent = activeStudents;
             document.getElementById('blockedSites').textContent = blockedSites;
-            document.getElementById('alertsToday').textContent = restrictedStudents;
+            document.getElementById('restrictedStudents').textContent = restrictedStudents;
         }
         
         function updateActivityLog() {
@@ -902,11 +1004,63 @@
                     showSyncStatus('Website blocked successfully');
                     
                     // Force update all student browsers
-                    localStorage.setItem('forceStudentUpdate', Date.now().toString());
+                    localStorage.setItem('lastUpdate', Date.now().toString());
                 } else {
                     showSyncStatus('Website already blocked', 'warning');
                 }
             }
+        }
+
+        function blockCommonSites() {
+            const commonSites = ['youtube.com', 'facebook.com', 'tiktok.com', 'instagram.com', 'netflix.com'];
+            const blockedSites = JSON.parse(localStorage.getItem('blockedSites') || '[]');
+            
+            commonSites.forEach(site => {
+                if (!blockedSites.includes(site)) {
+                    blockedSites.push(site);
+                }
+            });
+            
+            localStorage.setItem('blockedSites', JSON.stringify(blockedSites));
+            updateBlockedList();
+            updateDashboardStats();
+            addToActivityLog('Teacher', 'Blocked all social media sites');
+            showSyncStatus('Social media sites blocked');
+            localStorage.setItem('lastUpdate', Date.now().toString());
+        }
+
+        function unblockAllSites() {
+            localStorage.setItem('blockedSites', JSON.stringify([]));
+            updateBlockedList();
+            updateDashboardStats();
+            addToActivityLog('Teacher', 'Unblocked all websites');
+            showSyncStatus('All websites unblocked');
+            localStorage.setItem('lastUpdate', Date.now().toString());
+        }
+
+        function restrictAllStudents() {
+            const students = getActiveStudents();
+            const restrictedStudents = JSON.parse(localStorage.getItem('restrictedStudents') || '{}');
+            
+            students.forEach(student => {
+                restrictedStudents[student.id] = true;
+            });
+            
+            localStorage.setItem('restrictedStudents', JSON.stringify(restrictedStudents));
+            updateStudentMonitoring();
+            updateDashboardStats();
+            addToActivityLog('Teacher', 'Restricted all students');
+            showSyncStatus('All students restricted');
+            localStorage.setItem('lastUpdate', Date.now().toString());
+        }
+
+        function unrestrictAllStudents() {
+            localStorage.setItem('restrictedStudents', JSON.stringify({}));
+            updateStudentMonitoring();
+            updateDashboardStats();
+            addToActivityLog('Teacher', 'Unrestricted all students');
+            showSyncStatus('All students unrestricted');
+            localStorage.setItem('lastUpdate', Date.now().toString());
         }
         
         function unblockWebsite(site) {
@@ -917,9 +1071,7 @@
             updateDashboardStats();
             addToActivityLog('Teacher', `Unblocked website: ${site}`);
             showSyncStatus('Website unblocked successfully');
-            
-            // Force update all student browsers
-            localStorage.setItem('forceStudentUpdate', Date.now().toString());
+            localStorage.setItem('lastUpdate', Date.now().toString());
         }
         
         function toggleRestriction(studentId) {
@@ -929,67 +1081,83 @@
                 // Unrestrict student
                 delete restrictedStudents[studentId];
                 localStorage.setItem('restrictedStudents', JSON.stringify(restrictedStudents));
-                addToActivityLog('Teacher', `Removed restrictions from student ${studentId}`);
+                addToActivityLog('Teacher', `Removed restrictions from student`);
                 showSyncStatus('Student restrictions removed');
             } else {
                 // Restrict student
                 restrictedStudents[studentId] = true;
                 localStorage.setItem('restrictedStudents', JSON.stringify(restrictedStudents));
-                addToActivityLog('Teacher', `Applied restrictions to student ${studentId}`);
+                addToActivityLog('Teacher', `Applied restrictions to student`);
                 showSyncStatus('Student restrictions applied');
             }
             
             updateStudentMonitoring();
             updateDashboardStats();
-            
-            // Force update student browser
-            localStorage.setItem('forceStudentUpdate', Date.now().toString());
+            localStorage.setItem('lastUpdate', Date.now().toString());
         }
         
         function createClassCode() {
             const code = 'CLASS' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            currentTeacher.classCode = code;
+            teacherAccounts[currentTeacher.email].classCode = code;
+            localStorage.setItem('teacherAccounts', JSON.stringify(teacherAccounts));
+            localStorage.setItem('currentTeacher', JSON.stringify(currentTeacher));
+            
             const display = document.getElementById('classCodeDisplay');
             display.style.display = 'block';
             display.innerHTML = `
-                <strong>Class Code:</strong> ${code}<br>
-                <small>Share this code with students to join your class. Students will use this code when they sign in.</small>
+                <strong>New Class Code:</strong> ${code}<br>
+                <small>Share this code with students to join your class.</small>
             `;
+            document.getElementById('currentClassCode').textContent = code;
             addToActivityLog('Teacher', `Generated new class code: ${code}`);
             showSyncStatus('Class code generated');
         }
         
-        function sendMessage(studentId) {
-            const message = prompt('Enter message to send to student:');
-            if (message) {
-                addToActivityLog('Teacher', `Sent message to ${studentId}: "${message}"`);
-                showSyncStatus('Message sent to student');
+        function openMessageModal(studentId, studentName) {
+            currentMessageStudent = studentId;
+            document.getElementById('messageModalTitle').textContent = `Send Message to ${studentName}`;
+            document.getElementById('messageText').value = '';
+            document.getElementById('messageModal').style.display = 'flex';
+        }
+
+        function closeMessageModal() {
+            document.getElementById('messageModal').style.display = 'none';
+            currentMessageStudent = null;
+        }
+
+        function sendMessageToStudent() {
+            const message = document.getElementById('messageText').value.trim();
+            if (!message) {
+                alert('Please enter a message');
+                return;
             }
-        }
-        
-        function viewStudentDetails(studentId) {
-            const studentData = JSON.parse(localStorage.getItem(studentId) || '{}');
-            alert(`Student Details:\nName: ${studentData.name}\nID: ${studentData.id}\nCurrent URL: ${studentData.currentUrl || 'None'}\nLast Active: ${formatTime(studentData.lastActive)}\nRestricted: ${JSON.parse(localStorage.getItem('restrictedStudents') || '{}')[studentId] ? 'Yes' : 'No'}`);
-        }
-        
-        function generateReport() {
-            const students = getActiveStudents();
-            const activeCount = students.filter(s => s.lastActive > (Date.now() - 300000)).length;
-            const blockedCount = JSON.parse(localStorage.getItem('blockedSites') || '[]').length;
-            const restrictedCount = Object.keys(JSON.parse(localStorage.getItem('restrictedStudents') || '{}')).length;
+
+            if (!currentMessageStudent) {
+                alert('No student selected');
+                return;
+            }
+
+            // Save message to localStorage for cross-device communication
+            const messages = JSON.parse(localStorage.getItem('teacherMessages') || '{}');
+            if (!messages[currentMessageStudent]) {
+                messages[currentMessageStudent] = [];
+            }
             
-            const reportOutput = document.getElementById('reportOutput');
-            reportOutput.innerHTML = `
-                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
-                    <h4>Weekly Classroom Report</h4>
-                    <p><strong>Total Students:</strong> ${students.length}</p>
-                    <p><strong>Average Active Students:</strong> ${activeCount}</p>
-                    <p><strong>Blocked Websites:</strong> ${blockedCount}</p>
-                    <p><strong>Restricted Students:</strong> ${restrictedCount}</p>
-                    <p><strong>Report Generated:</strong> ${new Date().toLocaleString()}</p>
-                </div>
-            `;
-            addToActivityLog('Teacher', 'Generated weekly report');
-            showSyncStatus('Report generated successfully');
+            messages[currentMessageStudent].push({
+                message: message,
+                timestamp: Date.now(),
+                from: currentTeacher.name
+            });
+
+            localStorage.setItem('teacherMessages', JSON.stringify(messages));
+            addToActivityLog('Teacher', `Sent message to student`);
+            showSyncStatus('Message sent to student');
+
+            // Force message update on student browser
+            localStorage.setItem('newMessage_' + currentMessageStudent, Date.now().toString());
+            
+            closeMessageModal();
         }
         
         function addToActivityLog(actor, action) {
@@ -1035,8 +1203,10 @@
             
             // Listen for storage changes (cross-tab/device communication)
             window.addEventListener('storage', function(e) {
-                showSyncStatus('Data updated from another device');
-                initializeDashboard();
+                if (e.key === 'lastUpdate' || e.key === 'newMessage_' || e.key?.startsWith('student_')) {
+                    showSyncStatus('Data updated from another device');
+                    initializeDashboard();
+                }
             });
         }
         
@@ -1045,6 +1215,7 @@
                 clearInterval(syncInterval);
             }
             
+            localStorage.removeItem('currentTeacher');
             currentTeacher = null;
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('authContainer').style.display = 'flex';
@@ -1053,11 +1224,6 @@
         
         // Initialize auth tab
         switchTab('login');
-        
-        // Auto-update time every minute
-        setInterval(() => {
-            document.getElementById('currentTime').textContent = new Date().toLocaleTimeString();
-        }, 60000);
     </script>
 </body>
 </html>
