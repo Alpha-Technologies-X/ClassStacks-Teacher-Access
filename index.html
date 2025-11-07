@@ -497,9 +497,23 @@
             font-family: monospace;
             word-break: break-all;
         }
+        
+        .connection-status {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--success);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
+    <div class="connection-status" id="connectionStatus">🟢 Connected</div>
+    
     <div class="container">
         <div class="header">
             <div class="logo">🏫 Class Stacks</div>
@@ -641,6 +655,8 @@
         let selectedStudentId = null;
         let currentClassCode = '';
         let classes = {};
+        let serverData = null;
+        let teacherId = 'teacher_' + Math.random().toString(36).substr(2, 9);
 
         // Initialize data structure
         function initializeData() {
@@ -650,22 +666,8 @@
                 classes = JSON.parse(savedClasses);
             }
             
-            // Initialize shared data if it doesn't exist
-            if (!localStorage.getItem('classStacksData')) {
-                const initialData = {
-                    students: {},
-                    classes: {},
-                    blockedSites: [
-                        'youtube.com', 'facebook.com', 'tiktok.com', 'instagram.com', 
-                        'netflix.com', 'twitter.com', 'snapchat.com', 'reddit.com', 
-                        'twitch.tv', 'porn', 'xxx', 'adult', 'gambling'
-                    ],
-                    classSettings: {},
-                    teacherControl: {},
-                    lastUpdated: Date.now()
-                };
-                localStorage.setItem('classStacksData', JSON.stringify(initialData));
-            }
+            // Initialize server data if it doesn't exist
+            initializeServerData();
             
             // Set first class as current if none selected
             if (!currentClassCode && Object.keys(classes).length > 0) {
@@ -675,6 +677,89 @@
             updateStudentUrl();
             updateClassList();
             updateClassCodeDisplay();
+            
+            // Start server sync
+            startServerSync();
+        }
+
+        // Initialize server data structure
+        function initializeServerData() {
+            // Try to get existing server data
+            try {
+                serverData = JSON.parse(localStorage.getItem('classStacksServerData'));
+            } catch (e) {
+                serverData = null;
+            }
+            
+            if (!serverData) {
+                serverData = {
+                    students: {},
+                    classes: {},
+                    blockedSites: [
+                        'youtube.com', 'facebook.com', 'tiktok.com', 'instagram.com', 
+                        'netflix.com', 'twitter.com', 'snapchat.com', 'reddit.com', 
+                        'twitch.tv', 'porn', 'xxx', 'adult', 'gambling'
+                    ],
+                    classSettings: {},
+                    teacherControl: {},
+                    studentLocks: {},
+                    messages: {},
+                    lastUpdated: Date.now(),
+                    serverId: 'server_' + Date.now()
+                };
+                saveServerData();
+            }
+        }
+
+        // Save data to server storage
+        function saveServerData() {
+            serverData.lastUpdated = Date.now();
+            serverData.lastUpdatedBy = teacherId;
+            localStorage.setItem('classStacksServerData', JSON.stringify(serverData));
+            lastUpdateTime = Date.now();
+        }
+
+        // Sync with server data
+        function syncWithServer() {
+            try {
+                const storedData = JSON.parse(localStorage.getItem('classStacksServerData'));
+                if (storedData && storedData.lastUpdated > lastUpdateTime) {
+                    // Merge data from other devices
+                    serverData = { ...serverData, ...storedData };
+                    lastUpdateTime = storedData.lastUpdated;
+                    updateConnectionStatus('🟢 Synced');
+                    return true;
+                }
+            } catch (e) {
+                console.error('Sync error:', e);
+                updateConnectionStatus('🔴 Sync Error');
+            }
+            return false;
+        }
+
+        // Start server synchronization
+        function startServerSync() {
+            // Sync every 500ms for real-time updates
+            setInterval(() => {
+                if (syncWithServer()) {
+                    updateDashboard();
+                }
+            }, 500);
+            
+            // Force save every 2 seconds to ensure data persistence
+            setInterval(() => {
+                saveServerData();
+            }, 2000);
+        }
+
+        // Update connection status
+        function updateConnectionStatus(status) {
+            document.getElementById('connectionStatus').textContent = status;
+            if (status.includes('🔴')) {
+                document.getElementById('connectionStatus').style.background = 'var(--danger)';
+            } else {
+                document.getElementById('connectionStatus').style.background = 'var(--success)';
+            }
         }
 
         // Create a new class
@@ -702,14 +787,13 @@
             // Save classes
             localStorage.setItem('classStacksClasses', JSON.stringify(classes));
             
-            // Update class settings in shared data
-            const data = getData();
-            if (!data.classSettings) data.classSettings = {};
-            data.classSettings[code] = {
+            // Update class settings in server data
+            if (!serverData.classSettings) serverData.classSettings = {};
+            serverData.classSettings[code] = {
                 blockingEnabled: true,
                 allowBrowsing: true
             };
-            saveData(data);
+            saveServerData();
             
             currentClassCode = code;
             updateClassList();
@@ -751,8 +835,7 @@
                 classItem.onclick = () => selectClass(classCode);
                 
                 // Get student count for this class
-                const data = getData();
-                const classStudents = Object.values(data.students).filter(s => s.classCode === classCode);
+                const classStudents = Object.values(serverData.students).filter(s => s.classCode === classCode);
                 const activeStudents = classStudents.filter(s => Date.now() - s.lastActive < 15000).length;
                 
                 classItem.innerHTML = `
@@ -791,11 +874,10 @@
             classes[currentClassCode].blockingEnabled = true;
             localStorage.setItem('classStacksClasses', JSON.stringify(classes));
             
-            const data = getData();
-            if (!data.classSettings) data.classSettings = {};
-            if (!data.classSettings[currentClassCode]) data.classSettings[currentClassCode] = {};
-            data.classSettings[currentClassCode].blockingEnabled = true;
-            saveData(data);
+            if (!serverData.classSettings) serverData.classSettings = {};
+            if (!serverData.classSettings[currentClassCode]) serverData.classSettings[currentClassCode] = {};
+            serverData.classSettings[currentClassCode].blockingEnabled = true;
+            saveServerData();
             
             updateClassList();
             alert('Blocking enabled for this class');
@@ -811,11 +893,10 @@
             classes[currentClassCode].blockingEnabled = false;
             localStorage.setItem('classStacksClasses', JSON.stringify(classes));
             
-            const data = getData();
-            if (!data.classSettings) data.classSettings = {};
-            if (!data.classSettings[currentClassCode]) data.classSettings[currentClassCode] = {};
-            data.classSettings[currentClassCode].blockingEnabled = false;
-            saveData(data);
+            if (!serverData.classSettings) serverData.classSettings = {};
+            if (!serverData.classSettings[currentClassCode]) serverData.classSettings[currentClassCode] = {};
+            serverData.classSettings[currentClassCode].blockingEnabled = false;
+            saveServerData();
             
             updateClassList();
             alert('Blocking disabled for this class');
@@ -828,11 +909,10 @@
                 return;
             }
             
-            const data = getData();
-            if (!data.classSettings) data.classSettings = {};
-            if (!data.classSettings[currentClassCode]) data.classSettings[currentClassCode] = {};
-            data.classSettings[currentClassCode].allowBrowsing = false;
-            saveData(data);
+            if (!serverData.classSettings) serverData.classSettings = {};
+            if (!serverData.classSettings[currentClassCode]) serverData.classSettings[currentClassCode] = {};
+            serverData.classSettings[currentClassCode].allowBrowsing = false;
+            saveServerData();
             
             alert('All student browsers locked - no websites can be accessed');
         }
@@ -844,11 +924,10 @@
                 return;
             }
             
-            const data = getData();
-            if (!data.classSettings) data.classSettings = {};
-            if (!data.classSettings[currentClassCode]) data.classSettings[currentClassCode] = {};
-            data.classSettings[currentClassCode].allowBrowsing = true;
-            saveData(data);
+            if (!serverData.classSettings) serverData.classSettings = {};
+            if (!serverData.classSettings[currentClassCode]) serverData.classSettings[currentClassCode] = {};
+            serverData.classSettings[currentClassCode].allowBrowsing = true;
+            saveServerData();
             
             alert('Student browsers unlocked - websites can be accessed');
         }
@@ -860,44 +939,29 @@
             document.getElementById('studentUrl').textContent = baseUrl + 'student.html';
         }
 
-        // Get all data
-        function getData() {
-            return JSON.parse(localStorage.getItem('classStacksData') || '{"students":{},"classes":{},"blockedSites":[],"classSettings":{},"teacherControl":{},"studentLocks":{}}');
-        }
-
-        // Save data
-        function saveData(data) {
-            data.lastUpdated = Date.now();
-            localStorage.setItem('classStacksData', JSON.stringify(data));
-            lastUpdateTime = Date.now();
-        }
-
         // Update dashboard display
         function updateDashboard() {
             if (!currentClassCode) return;
             
-            const data = getData();
-            const students = Object.values(data.students);
-            
             // Filter students by current class code
-            const classStudents = students.filter(student => student.classCode === currentClassCode);
+            const classStudents = Object.values(serverData.students).filter(student => student.classCode === currentClassCode);
             const activeStudents = classStudents.filter(s => Date.now() - s.lastActive < 15000).length;
             
             // Get class settings
-            const classSettings = data.classSettings && data.classSettings[currentClassCode] ? data.classSettings[currentClassCode] : { allowBrowsing: true, blockingEnabled: true };
+            const classSettings = serverData.classSettings && serverData.classSettings[currentClassCode] ? serverData.classSettings[currentClassCode] : { allowBrowsing: true, blockingEnabled: true };
             const lockedStudents = classSettings.allowBrowsing === false ? classStudents.length : 0;
 
             // Update stats
             document.getElementById('totalStudents').textContent = classStudents.length;
             document.getElementById('activeStudents').textContent = activeStudents;
-            document.getElementById('blockedSites').textContent = data.blockedSites.length;
+            document.getElementById('blockedSites').textContent = serverData.blockedSites.length;
             document.getElementById('restrictedStudents').textContent = lockedStudents;
 
             // Update student grid
             updateStudentGrid(classStudents, classSettings);
             
             // Update blocked sites list
-            updateBlockedList(data.blockedSites);
+            updateBlockedList(serverData.blockedSites);
             
             // Update screen view if a student is selected
             if (selectedStudentId) {
@@ -908,7 +972,6 @@
         // Update student grid
         function updateStudentGrid(students, classSettings) {
             const grid = document.getElementById('studentGrid');
-            const data = getData();
             
             if (students.length === 0) {
                 grid.innerHTML = `
@@ -924,7 +987,7 @@
             grid.innerHTML = '';
             students.forEach(student => {
                 const isActive = Date.now() - student.lastActive < 15000;
-                const isLocked = classSettings.allowBrowsing === false || (data.studentLocks && data.studentLocks[student.id]);
+                const isLocked = classSettings.allowBrowsing === false || (serverData.studentLocks && serverData.studentLocks[student.id]);
                 const isSelected = student.id === selectedStudentId;
                 
                 const card = document.createElement('div');
@@ -970,18 +1033,17 @@
 
         // Toggle individual student lock
         function toggleStudentLock(studentId) {
-            const data = getData();
-            if (!data.students[studentId]) return;
+            if (!serverData.students[studentId]) return;
             
-            if (!data.studentLocks) data.studentLocks = {};
+            if (!serverData.studentLocks) serverData.studentLocks = {};
             
-            if (data.studentLocks[studentId]) {
-                delete data.studentLocks[studentId];
+            if (serverData.studentLocks[studentId]) {
+                delete serverData.studentLocks[studentId];
             } else {
-                data.studentLocks[studentId] = true;
+                serverData.studentLocks[studentId] = true;
             }
             
-            saveData(data);
+            saveServerData();
             updateDashboard();
         }
 
@@ -994,8 +1056,7 @@
 
         // Update the screen view for the selected student
         function updateScreenView(studentId) {
-            const data = getData();
-            const student = data.students[studentId];
+            const student = serverData.students[studentId];
             
             if (!student) {
                 // Student not found, show placeholder
@@ -1102,13 +1163,12 @@
             
             const url = prompt('Enter URL to navigate student to:');
             if (url) {
-                const data = getData();
-                if (!data.teacherControl) data.teacherControl = {};
-                data.teacherControl[selectedStudentId] = {
+                if (!serverData.teacherControl) serverData.teacherControl = {};
+                serverData.teacherControl[selectedStudentId] = {
                     url: url,
                     timestamp: Date.now()
                 };
-                saveData(data);
+                saveServerData();
                 alert(`Navigation command sent to student. They will be redirected to: ${url}`);
             }
         }
@@ -1140,10 +1200,9 @@
             const url = urlInput.value.trim().toLowerCase();
             
             if (url) {
-                const data = getData();
-                if (!data.blockedSites.includes(url)) {
-                    data.blockedSites.push(url);
-                    saveData(data);
+                if (!serverData.blockedSites.includes(url)) {
+                    serverData.blockedSites.push(url);
+                    saveServerData();
                     urlInput.value = '';
                     updateDashboard();
                 } else {
@@ -1154,32 +1213,29 @@
 
         // Unblock a website
         function unblockWebsite(site) {
-            const data = getData();
-            data.blockedSites = data.blockedSites.filter(s => s !== site);
-            saveData(data);
+            serverData.blockedSites = serverData.blockedSites.filter(s => s !== site);
+            saveServerData();
             updateDashboard();
         }
 
         // Block common social media sites
         function blockCommonSites() {
             const commonSites = ['youtube.com', 'facebook.com', 'tiktok.com', 'instagram.com', 'netflix.com', 'twitter.com', 'snapchat.com', 'reddit.com', 'twitch.tv'];
-            const data = getData();
             
             commonSites.forEach(site => {
-                if (!data.blockedSites.includes(site)) {
-                    data.blockedSites.push(site);
+                if (!serverData.blockedSites.includes(site)) {
+                    serverData.blockedSites.push(site);
                 }
             });
             
-            saveData(data);
+            saveServerData();
             updateDashboard();
         }
 
         // Unblock all sites
         function unblockAllSites() {
-            const data = getData();
-            data.blockedSites = [];
-            saveData(data);
+            serverData.blockedSites = [];
+            saveServerData();
             updateDashboard();
         }
 
@@ -1187,17 +1243,16 @@
         function sendMessage(studentId) {
             const message = prompt('Enter message to send to student:');
             if (message) {
-                const data = getData();
-                if (!data.messages) data.messages = {};
-                if (!data.messages[studentId]) data.messages[studentId] = [];
+                if (!serverData.messages) serverData.messages = {};
+                if (!serverData.messages[studentId]) serverData.messages[studentId] = [];
                 
-                data.messages[studentId].push({
+                serverData.messages[studentId].push({
                     text: message,
                     timestamp: Date.now(),
                     from: 'Teacher'
                 });
                 
-                saveData(data);
+                saveServerData();
                 alert('Message sent!');
             }
         }
@@ -1213,31 +1268,14 @@
             return new Date(timestamp).toLocaleDateString();
         }
 
-        // Check for updates
-        function checkForUpdates() {
-            const data = getData();
-            if (data.lastUpdated > lastUpdateTime) {
-                updateDashboard();
-                lastUpdateTime = data.lastUpdated;
-            }
-        }
-
         // Initialize and start monitoring
         initializeData();
         updateDashboard();
         
         // Check for updates every second
         setInterval(() => {
-            checkForUpdates();
-            updateDashboard(); // Force update to show online/offline status
+            updateDashboard();
         }, 1000);
-
-        // Listen for storage changes (cross-device communication)
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'classStacksData') {
-                checkForUpdates();
-            }
-        });
     </script>
 </body>
 </html>
