@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Class Stacks - Teacher Dashboard</title>
     <style>
+        /* All the CSS styles from before remain the same */
         :root {
             --primary: #4361ee;
             --secondary: #3f37c9;
@@ -497,6 +498,21 @@
             font-family: monospace;
             word-break: break-all;
         }
+        
+        .live-preview {
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .preview-content {
+            text-align: center;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
@@ -588,13 +604,15 @@
                         <div class="screen-placeholder-icon">👨‍🎓</div>
                         <p>Select a student to view their activity</p>
                     </div>
-                    <div class="website-preview" id="websitePreview" style="display: none;">
-                        <div class="website-icon-large" id="websiteIcon">🌐</div>
-                        <div class="website-name" id="websiteName">Website Preview</div>
-                        <div class="url-display" id="previewUrl">https://example.com</div>
-                        <div style="color: #666; font-size: 0.9rem; text-align: center;">
-                            <p>🟢 Live Activity View</p>
-                            <p>Student is currently viewing this website</p>
+                    <div class="live-preview" id="livePreview" style="display: none;">
+                        <div class="preview-content">
+                            <div class="website-icon-large" id="websiteIcon">🌐</div>
+                            <div class="website-name" id="websiteName">Website Preview</div>
+                            <div class="url-display" id="previewUrl">https://example.com</div>
+                            <div style="color: #666; font-size: 0.9rem; text-align: center; margin-top: 20px;">
+                                <p>🟢 Live Activity View</p>
+                                <p>Student is currently viewing this website</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -608,6 +626,9 @@
                     <div class="screen-controls">
                         <button class="take-control-btn" onclick="takeControlOfStudent()">
                             <span>🎮</span> Navigate Student
+                        </button>
+                        <button class="refresh-btn" onclick="refreshStudentView()">
+                            <span>🔄</span> Refresh
                         </button>
                     </div>
                 </div>
@@ -641,6 +662,7 @@
         let selectedStudentId = null;
         let currentClassCode = '';
         let classes = {};
+        let updateInterval;
 
         // Initialize data structure
         function initializeData() {
@@ -662,6 +684,8 @@
                     ],
                     classSettings: {},
                     teacherControl: {},
+                    studentLocks: {},
+                    messages: {},
                     lastUpdated: Date.now()
                 };
                 localStorage.setItem('classStacksData', JSON.stringify(initialData));
@@ -675,6 +699,26 @@
             updateStudentUrl();
             updateClassList();
             updateClassCodeDisplay();
+            
+            // Start real-time updates
+            startRealTimeUpdates();
+        }
+
+        // Start real-time updates using polling
+        function startRealTimeUpdates() {
+            updateInterval = setInterval(() => {
+                checkForUpdates();
+                updateDashboard();
+            }, 2000); // Update every 2 seconds
+            
+            // Also listen for storage events (cross-tab communication)
+            window.addEventListener('storage', handleStorageEvent);
+        }
+
+        function handleStorageEvent(e) {
+            if (e.key === 'classStacksData') {
+                checkForUpdates();
+            }
         }
 
         // Create a new class
@@ -753,7 +797,7 @@
                 // Get student count for this class
                 const data = getData();
                 const classStudents = Object.values(data.students).filter(s => s.classCode === classCode);
-                const activeStudents = classStudents.filter(s => Date.now() - s.lastActive < 15000).length;
+                const activeStudents = classStudents.filter(s => Date.now() - s.lastActive < 30000).length;
                 
                 classItem.innerHTML = `
                     <div class="class-info">
@@ -862,7 +906,7 @@
 
         // Get all data
         function getData() {
-            return JSON.parse(localStorage.getItem('classStacksData') || '{"students":{},"classes":{},"blockedSites":[],"classSettings":{},"teacherControl":{},"studentLocks":{}}');
+            return JSON.parse(localStorage.getItem('classStacksData') || '{"students":{},"classes":{},"blockedSites":[],"classSettings":{},"teacherControl":{},"studentLocks":{},"messages":{}}');
         }
 
         // Save data
@@ -870,6 +914,16 @@
             data.lastUpdated = Date.now();
             localStorage.setItem('classStacksData', JSON.stringify(data));
             lastUpdateTime = Date.now();
+        }
+
+        // Check for updates
+        function checkForUpdates() {
+            const data = getData();
+            if (data.lastUpdated > lastUpdateTime) {
+                lastUpdateTime = data.lastUpdated;
+                return true;
+            }
+            return false;
         }
 
         // Update dashboard display
@@ -881,7 +935,7 @@
             
             // Filter students by current class code
             const classStudents = students.filter(student => student.classCode === currentClassCode);
-            const activeStudents = classStudents.filter(s => Date.now() - s.lastActive < 15000).length;
+            const activeStudents = classStudents.filter(s => Date.now() - s.lastActive < 30000).length;
             
             // Get class settings
             const classSettings = data.classSettings && data.classSettings[currentClassCode] ? data.classSettings[currentClassCode] : { allowBrowsing: true, blockingEnabled: true };
@@ -923,7 +977,7 @@
 
             grid.innerHTML = '';
             students.forEach(student => {
-                const isActive = Date.now() - student.lastActive < 15000;
+                const isActive = Date.now() - student.lastActive < 30000;
                 const isLocked = classSettings.allowBrowsing === false || (data.studentLocks && data.studentLocks[student.id]);
                 const isSelected = student.id === selectedStudentId;
                 
@@ -946,7 +1000,7 @@
                     <div class="student-details">
                         <div class="detail-row">
                             <span>Current Activity:</span>
-                            <span>${student.currentUrl || 'Browsing'}</span>
+                            <span>${student.currentUrl ? getWebsiteName(extractDomain(student.currentUrl)) : 'Home Screen'}</span>
                         </div>
                         <div class="detail-row">
                             <span>Last Active:</span>
@@ -1000,13 +1054,13 @@
             if (!student) {
                 // Student not found, show placeholder
                 document.getElementById('screenPlaceholder').style.display = 'flex';
-                document.getElementById('websitePreview').style.display = 'none';
+                document.getElementById('livePreview').style.display = 'none';
                 document.getElementById('screenInfo').style.display = 'none';
                 document.getElementById('selectedStudentName').textContent = 'Student not found';
                 return;
             }
             
-            const isActive = Date.now() - student.lastActive < 15000;
+            const isActive = Date.now() - student.lastActive < 30000;
             
             // Update header
             document.getElementById('selectedStudentName').textContent = student.name;
@@ -1019,7 +1073,7 @@
             // Show website preview if student is active and has a URL
             if (isActive && student.currentUrl && student.currentUrl !== '') {
                 document.getElementById('screenPlaceholder').style.display = 'none';
-                document.getElementById('websitePreview').style.display = 'flex';
+                document.getElementById('livePreview').style.display = 'flex';
                 document.getElementById('screenInfo').style.display = 'block';
                 
                 // Update website preview
@@ -1029,7 +1083,7 @@
                 document.getElementById('websiteIcon').textContent = getWebsiteIcon(domain);
             } else {
                 document.getElementById('screenPlaceholder').style.display = 'flex';
-                document.getElementById('websitePreview').style.display = 'none';
+                document.getElementById('livePreview').style.display = 'none';
                 document.getElementById('screenInfo').style.display = 'block';
                 
                 // Update placeholder message
@@ -1045,6 +1099,13 @@
                         <p>Student is on home screen</p>
                     `;
                 }
+            }
+        }
+
+        // Refresh student view
+        function refreshStudentView() {
+            if (selectedStudentId) {
+                updateScreenView(selectedStudentId);
             }
         }
 
@@ -1071,7 +1132,11 @@
                 'twitter.com': 'Twitter',
                 'instagram.com': 'Instagram',
                 'tiktok.com': 'TikTok',
-                'netflix.com': 'Netflix'
+                'netflix.com': 'Netflix',
+                'chat.openai.com': 'ChatGPT',
+                'stackoverflow.com': 'Stack Overflow',
+                'code.org': 'Code.org',
+                'scratch.mit.edu': 'Scratch'
             };
             return names[domain] || domain;
         }
@@ -1088,7 +1153,11 @@
                 'twitter.com': '🐦',
                 'instagram.com': '📷',
                 'tiktok.com': '🎵',
-                'netflix.com': '🎬'
+                'netflix.com': '🎬',
+                'chat.openai.com': '🤖',
+                'stackoverflow.com': '💡',
+                'code.org': '👨‍💻',
+                'scratch.mit.edu': '🐱'
             };
             return icons[domain] || '🌐';
         }
@@ -1213,31 +1282,9 @@
             return new Date(timestamp).toLocaleDateString();
         }
 
-        // Check for updates
-        function checkForUpdates() {
-            const data = getData();
-            if (data.lastUpdated > lastUpdateTime) {
-                updateDashboard();
-                lastUpdateTime = data.lastUpdated;
-            }
-        }
-
         // Initialize and start monitoring
         initializeData();
         updateDashboard();
-        
-        // Check for updates every second
-        setInterval(() => {
-            checkForUpdates();
-            updateDashboard(); // Force update to show online/offline status
-        }, 1000);
-
-        // Listen for storage changes (cross-device communication)
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'classStacksData') {
-                checkForUpdates();
-            }
-        });
     </script>
 </body>
 </html>
