@@ -150,7 +150,7 @@
         
         .student-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -162,6 +162,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
         }
         
         .student-card:hover {
@@ -236,6 +237,7 @@
         .student-actions {
             display: flex;
             gap: 10px;
+            margin-top: 15px;
         }
         
         .btn {
@@ -532,6 +534,77 @@
             border-radius: 8px;
             margin-top: 10px;
             display: none;
+            max-height: 250px;
+            object-fit: contain;
+        }
+
+        /* New styles for student screen thumbnails */
+        .student-screen-container {
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            height: 180px;
+            position: relative;
+        }
+
+        .student-screen-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .student-screen-thumbnail:hover {
+            transform: scale(1.02);
+        }
+
+        .screen-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .student-screen-container:hover .screen-overlay {
+            opacity: 1;
+        }
+
+        .screen-overlay-text {
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .screenshot-info {
+            font-size: 0.8rem;
+            color: #666;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .no-screenshot {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            background: #f8f9fa;
+        }
+
+        .no-screenshot-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -558,7 +631,7 @@
             <button class="global-control-btn btn-danger" onclick="disableBlockingForCurrentClass()">🚫 Disable Blocking</button>
             <button class="global-control-btn btn-dark" onclick="lockAllStudents()">🔒 Lock All Browsers</button>
             <button class="global-control-btn btn-primary" onclick="unlockAllStudents()">🔓 Unlock All Browsers</button>
-            <button class="global-control-btn btn-warning" onclick="takeScreenshotAll()">📸 Screenshot All</button>
+            <button class="global-control-btn btn-warning" onclick="requestAllScreenshots()">📸 Request All Screenshots</button>
         </div>
 
         <div class="stats-grid">
@@ -652,13 +725,14 @@
                     <div class="screen-url" id="currentStudentUrl">No URL available</div>
                     <div><strong>Status:</strong> <span id="currentStudentStatus">Offline</span></div>
                     <div><strong>Last Active:</strong> <span id="lastActiveTime">Just now</span></div>
+                    <div><strong>Last Screenshot:</strong> <span id="lastScreenshotTime">Never</span></div>
                     
                     <div class="screen-controls">
                         <button class="take-control-btn" onclick="takeControlOfStudent()">
                             <span>🎮</span> Navigate Student
                         </button>
                         <button class="refresh-btn" onclick="requestScreenshot()">
-                            <span>📸</span> Take Screenshot
+                            <span>📸</span> Request Screenshot
                         </button>
                         <button class="btn btn-danger" onclick="closeStudentTab()">
                             <span>❌</span> Close Tab
@@ -675,15 +749,14 @@
         </div>
 
         <div class="instructions">
-            <h3>🚀 Linewize-Style Features:</h3>
+            <h3>🚀 Real Screenshot Monitoring:</h3>
             <ol>
-                <li><strong>Real-time Monitoring</strong> - See exactly what students are viewing</li>
+                <li><strong>Live Screenshots</strong> - Students automatically capture screenshots every 2.5 seconds</li>
+                <li><strong>Real Monitoring</strong> - See exactly what students are viewing in real screenshots</li>
+                <li><strong>Works with All Sites</strong> - No iframe restrictions, works with Google, YouTube, etc.</li>
                 <li><strong>Website Filtering</strong> - Block inappropriate or distracting sites</li>
                 <li><strong>Screen Control</strong> - Navigate students to specific websites</li>
                 <li><strong>Browser Locking</strong> - Prevent all website access when needed</li>
-                <li><strong>Screenshot Capture</strong> - Take real-time screenshots of student screens</li>
-                <li><strong>Activity Timeline</strong> - Track student browsing history</li>
-                <li><strong>Tab Management</strong> - Close distracting tabs remotely</li>
             </ol>
         </div>
     </div>
@@ -745,7 +818,7 @@
             updateInterval = setInterval(() => {
                 checkForUpdates();
                 updateDashboard();
-            }, 2000);
+            }, 1000); // Update every second for real-time feel
             
             window.addEventListener('storage', handleStorageEvent);
         }
@@ -932,8 +1005,8 @@
             alert('Student browsers unlocked - websites can be accessed');
         }
 
-        // Take screenshot of all students
-        function takeScreenshotAll() {
+        // Request screenshots from all students
+        function requestAllScreenshots() {
             if (!currentClassCode) {
                 alert('Please select a class first');
                 return;
@@ -1041,6 +1114,10 @@
                 const isLocked = classSettings.allowBrowsing === false || (data.studentLocks && data.studentLocks[student.id]);
                 const isSelected = student.id === selectedStudentId;
                 
+                // Get latest screenshot for this student
+                const screenshot = data.screenshots && data.screenshots[student.id];
+                const hasScreenshot = screenshot && screenshot.imageData;
+                
                 const card = document.createElement('div');
                 card.className = `student-card ${isSelected ? 'active' : ''}`;
                 card.setAttribute('data-student-id', student.id);
@@ -1071,6 +1148,21 @@
                             <span>${isActive ? '🟢 Active' : '🔴 Offline'}</span>
                         </div>
                     </div>
+                    
+                    <div class="student-screen-container">
+                        ${hasScreenshot ? 
+                            `<img src="${screenshot.imageData}" class="student-screen-thumbnail" alt="${student.name}'s screen">
+                             <div class="screen-overlay">
+                                <div class="screen-overlay-text">Click to view full screen</div>
+                             </div>
+                             <div class="screenshot-info">Updated: ${formatTime(screenshot.timestamp)}</div>` :
+                            `<div class="no-screenshot">
+                                <div class="no-screenshot-icon">📱</div>
+                                <div>Waiting for screenshot...</div>
+                             </div>`
+                        }
+                    </div>
+                    
                     <div class="student-actions">
                         <button class="btn ${isLocked ? 'btn-success' : 'btn-dark'}" onclick="event.stopPropagation(); toggleStudentLock('${student.id}')">
                             ${isLocked ? 'Unlock' : 'Lock'}
@@ -1116,6 +1208,7 @@
                 document.getElementById('screenPlaceholder').style.display = 'flex';
                 document.getElementById('livePreview').style.display = 'none';
                 document.getElementById('screenInfo').style.display = 'none';
+                document.getElementById('studentScreenshot').style.display = 'none';
                 document.getElementById('selectedStudentName').textContent = 'Student not found';
                 return;
             }
@@ -1130,43 +1223,48 @@
             document.getElementById('currentStudentStatus').textContent = isActive ? 'Online' : 'Offline';
             document.getElementById('lastActiveTime').textContent = formatTime(student.lastActive);
             
-            // Show website preview if student is active and has a URL
-            if (isActive && student.currentUrl && student.currentUrl !== '') {
+            // Check for screenshot
+            const screenshot = data.screenshots && data.screenshots[studentId];
+            if (screenshot && screenshot.imageData) {
+                document.getElementById('lastScreenshotTime').textContent = formatTime(screenshot.timestamp);
+                document.getElementById('studentScreenshot').src = screenshot.imageData;
+                document.getElementById('studentScreenshot').style.display = 'block';
                 document.getElementById('screenPlaceholder').style.display = 'none';
-                document.getElementById('livePreview').style.display = 'flex';
-                document.getElementById('screenInfo').style.display = 'block';
-                
-                // Update website preview
-                const domain = extractDomain(student.currentUrl);
-                document.getElementById('previewUrl').textContent = student.currentUrl;
-                document.getElementById('websiteName').textContent = getWebsiteName(domain);
-                document.getElementById('websiteIcon').textContent = getWebsiteIcon(domain);
-                
-                // Check for new screenshot
-                if (data.screenshots && data.screenshots[studentId] && data.screenshots[studentId].imageData) {
-                    document.getElementById('studentScreenshot').src = data.screenshots[studentId].imageData;
-                    document.getElementById('studentScreenshot').style.display = 'block';
-                } else {
-                    document.getElementById('studentScreenshot').style.display = 'none';
-                }
-            } else {
-                document.getElementById('screenPlaceholder').style.display = 'flex';
                 document.getElementById('livePreview').style.display = 'none';
                 document.getElementById('screenInfo').style.display = 'block';
+            } else {
+                document.getElementById('lastScreenshotTime').textContent = 'Never';
                 document.getElementById('studentScreenshot').style.display = 'none';
                 
-                // Update placeholder message
-                const placeholder = document.getElementById('screenPlaceholder');
-                if (!isActive) {
-                    placeholder.innerHTML = `
-                        <div class="screen-placeholder-icon">🔴</div>
-                        <p>Student is offline</p>
-                    `;
-                } else if (!student.currentUrl || student.currentUrl === '') {
-                    placeholder.innerHTML = `
-                        <div class="screen-placeholder-icon">🏠</div>
-                        <p>Student is on home screen</p>
-                    `;
+                // Show website preview if student is active and has a URL
+                if (isActive && student.currentUrl && student.currentUrl !== '') {
+                    document.getElementById('screenPlaceholder').style.display = 'none';
+                    document.getElementById('livePreview').style.display = 'flex';
+                    document.getElementById('screenInfo').style.display = 'block';
+                    
+                    // Update website preview
+                    const domain = extractDomain(student.currentUrl);
+                    document.getElementById('previewUrl').textContent = student.currentUrl;
+                    document.getElementById('websiteName').textContent = getWebsiteName(domain);
+                    document.getElementById('websiteIcon').textContent = getWebsiteIcon(domain);
+                } else {
+                    document.getElementById('screenPlaceholder').style.display = 'flex';
+                    document.getElementById('livePreview').style.display = 'none';
+                    document.getElementById('screenInfo').style.display = 'block';
+                    
+                    // Update placeholder message
+                    const placeholder = document.getElementById('screenPlaceholder');
+                    if (!isActive) {
+                        placeholder.innerHTML = `
+                            <div class="screen-placeholder-icon">🔴</div>
+                            <p>Student is offline</p>
+                        `;
+                    } else if (!student.currentUrl || student.currentUrl === '') {
+                        placeholder.innerHTML = `
+                            <div class="screen-placeholder-icon">🏠</div>
+                            <p>Student is on home screen</p>
+                        `;
+                    }
                 }
             }
         }
@@ -1312,7 +1410,8 @@
                 'stackoverflow.com': 'Stack Overflow',
                 'code.org': 'Code.org',
                 'scratch.mit.edu': 'Scratch',
-                'w3schools.com': 'W3Schools'
+                'w3schools.com': 'W3Schools',
+                'duolingo.com': 'Duolingo'
             };
             return names[domain] || domain;
         }
@@ -1334,7 +1433,8 @@
                 'stackoverflow.com': '💡',
                 'code.org': '👨‍💻',
                 'scratch.mit.edu': '🐱',
-                'w3schools.com': '🌍'
+                'w3schools.com': '🌍',
+                'duolingo.com': '🦉'
             };
             return icons[domain] || '🌐';
         }
