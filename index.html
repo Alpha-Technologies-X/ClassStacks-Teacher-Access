@@ -29,7 +29,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         
@@ -47,6 +47,10 @@
             margin-bottom: 10px;
         }
         
+        .class-code-section {
+            margin: 20px 0;
+        }
+        
         .class-code {
             background: var(--primary);
             color: white;
@@ -56,6 +60,17 @@
             margin: 15px 0;
             font-size: 1.2rem;
             font-weight: bold;
+        }
+        
+        .generate-code-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
         }
         
         .stats-grid {
@@ -80,6 +95,12 @@
             margin-bottom: 10px;
         }
         
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+        }
+        
         .student-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -92,6 +113,17 @@
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .student-card.active {
+            border: 3px solid var(--primary);
         }
         
         .student-header {
@@ -160,6 +192,12 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
         }
         
         .btn-primary {
@@ -225,6 +263,70 @@
             border-radius: 5px;
         }
         
+        .screen-view-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .screen-view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e1e5ee;
+        }
+        
+        .screen-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .screen-placeholder {
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+        
+        .screen-placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+        
+        .student-screen {
+            width: 100%;
+            height: 300px;
+            border: none;
+            background: white;
+        }
+        
+        .screen-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        .screen-url {
+            font-family: monospace;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        
         .sync-status {
             position: fixed;
             bottom: 20px;
@@ -243,6 +345,50 @@
             padding: 20px;
             margin-top: 20px;
         }
+        
+        .no-student-selected {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        
+        .screen-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .refresh-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .take-control-btn {
+            background: var(--warning);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .share-link {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -250,7 +396,10 @@
         <div class="header">
             <div class="logo">🏫 Class Stacks</div>
             <h1>Teacher Dashboard</h1>
-            <div class="class-code" id="classCodeDisplay">CLASS-CS2024</div>
+            <div class="class-code-section">
+                <div class="class-code" id="classCodeDisplay">CLASS-XXXXXX</div>
+                <button class="generate-code-btn" onclick="generateClassCode()">Generate New Code</button>
+            </div>
             <p>Monitor and manage student browsing activity in real-time</p>
         </div>
 
@@ -273,83 +422,170 @@
             </div>
         </div>
 
-        <div class="controls">
-            <div class="control-group">
-                <h3>Website Filtering</h3>
-                <input type="text" class="url-input" id="blockUrlInput" placeholder="Enter website to block (e.g., youtube.com)">
-                <button class="btn btn-danger" onclick="blockWebsite()">Block Website</button>
-                <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">
-                    <strong>Note:</strong> Blocking only works when students are in "Restricted Mode"
-                </p>
-            </div>
-            
-            <div class="control-group">
-                <h3>Blocked Websites</h3>
-                <div class="blocked-list" id="blockedList">
-                    <!-- Blocked sites will appear here -->
+        <div class="dashboard-layout">
+            <div>
+                <div class="controls">
+                    <div class="control-group">
+                        <h3>Website Filtering</h3>
+                        <input type="text" class="url-input" id="blockUrlInput" placeholder="Enter website to block (e.g., youtube.com)">
+                        <button class="btn btn-danger" onclick="blockWebsite()">Block Website</button>
+                        <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">
+                            <strong>Note:</strong> Blocking only works when students are in "Restricted Mode"
+                        </p>
+                    </div>
+                    
+                    <div class="control-group">
+                        <h3>Blocked Websites</h3>
+                        <div class="blocked-list" id="blockedList">
+                            <!-- Blocked sites will appear here -->
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <h3>Quick Actions</h3>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn btn-warning" onclick="blockCommonSites()">Block Social Media</button>
+                            <button class="btn btn-success" onclick="unblockAllSites()">Unblock All</button>
+                            <button class="btn btn-danger" onclick="restrictAllStudents()">Restrict All</button>
+                            <button class="btn btn-primary" onclick="unrestrictAllStudents()">Unrestrict All</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="control-group">
-                <h3>Quick Actions</h3>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button class="btn btn-warning" onclick="blockCommonSites()">Block Social Media</button>
-                    <button class="btn btn-success" onclick="unblockAllSites()">Unblock All</button>
-                    <button class="btn btn-danger" onclick="restrictAllStudents()">Restrict All</button>
-                    <button class="btn btn-primary" onclick="unrestrictAllStudents()">Unrestrict All</button>
-                </div>
-            </div>
-        </div>
 
-        <h2 style="margin-bottom: 20px;">Student Management</h2>
-        <div class="student-grid" id="studentGrid">
-            <!-- Students will appear here -->
+                <h2 style="margin-bottom: 20px;">Student Management</h2>
+                <div class="student-grid" id="studentGrid">
+                    <!-- Students will appear here -->
+                </div>
+            </div>
+
+            <div class="screen-view-panel">
+                <div class="screen-view-header">
+                    <h3>Student Screen View</h3>
+                    <div id="selectedStudentName">No student selected</div>
+                </div>
+                
+                <div class="screen-container" id="screenContainer">
+                    <div class="screen-placeholder" id="screenPlaceholder">
+                        <div class="screen-placeholder-icon">👨‍🎓</div>
+                        <p>Select a student to view their screen</p>
+                    </div>
+                    <iframe class="student-screen" id="studentScreen" style="display: none;"></iframe>
+                </div>
+                
+                <div class="screen-info" id="screenInfo" style="display: none;">
+                    <div><strong>Current URL:</strong></div>
+                    <div class="screen-url" id="currentStudentUrl">No URL available</div>
+                    <div><strong>Status:</strong> <span id="currentStudentStatus">Offline</span></div>
+                    
+                    <div class="screen-controls">
+                        <button class="refresh-btn" onclick="refreshStudentScreen()">
+                            <span>🔄</span> Refresh View
+                        </button>
+                        <button class="take-control-btn" onclick="takeControlOfStudent()">
+                            <span>🎮</span> Take Control
+                        </button>
+                    </div>
+                </div>
+
+                <div class="share-link">
+                    <h4>Share with Students:</h4>
+                    <p>Student URL: <code id="studentUrl">student.html</code></p>
+                    <p>Current Class Code: <strong id="currentClassCode">XXXXXX</strong></p>
+                </div>
+            </div>
         </div>
 
         <div class="instructions">
-            <h3>🚀 How to Use Across Devices:</h3>
+            <h3>🚀 How to Use Screen View:</h3>
             <ol>
-                <li><strong>Share this URL with students:</strong> <code id="studentUrl">student-browser.html</code></li>
-                <li><strong>Students use Class Code:</strong> <code>CS2024</code></li>
-                <li><strong>Students appear here automatically</strong> when they connect</li>
-                <li><strong>Click "Restrict"</strong> to enable website blocking for a student</li>
-                <li><strong>Block sites</strong> like youtube.com, facebook.com, etc.</li>
+                <li><strong>Generate a class code</strong> and share it with students</li>
+                <li><strong>Click on any student card</strong> to view their screen</li>
+                <li><strong>View their current webpage</strong> in real-time</li>
+                <li><strong>Use "Refresh View"</strong> to update the screen if needed</li>
+                <li><strong>Use "Take Control"</strong> to navigate the student's browser</li>
             </ol>
-            <p><strong>💡 Tip:</strong> Open student-browser.html on your phone/tablet to test!</p>
+            <p><strong>💡 Tip:</strong> The screen view shows exactly what the student sees in their Class Stacks browser</p>
         </div>
     </div>
 
     <div class="sync-status" id="syncStatus">🔄 Live - Auto Updating</div>
 
     <script>
-        // Global data storage - this is our "shared database"
-        const CLASS_CODE = "CS2024";
+        // Global variables
         let lastUpdateTime = 0;
+        let selectedStudentId = null;
+        let currentClassCode = '';
 
         // Initialize data structure
         function initializeData() {
+            // Generate initial class code if none exists
+            if (!localStorage.getItem('classStacksTeacher')) {
+                generateClassCode();
+            } else {
+                const teacherData = JSON.parse(localStorage.getItem('classStacksTeacher'));
+                currentClassCode = teacherData.classCode;
+                updateClassCodeDisplay();
+            }
+            
+            // Initialize shared data if it doesn't exist
             if (!localStorage.getItem('classStacksData')) {
                 const initialData = {
                     students: {},
                     blockedSites: [],
                     restrictedStudents: {},
+                    teacherControl: {},
                     lastUpdated: Date.now()
                 };
                 localStorage.setItem('classStacksData', JSON.stringify(initialData));
             }
+            
             updateStudentUrl();
+        }
+
+        // Generate a new class code
+        function generateClassCode() {
+            // Generate a 6-character alphanumeric code
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            currentClassCode = code;
+            
+            // Save teacher data
+            const teacherData = {
+                classCode: code,
+                created: Date.now()
+            };
+            localStorage.setItem('classStacksTeacher', JSON.stringify(teacherData));
+            
+            updateClassCodeDisplay();
+            
+            // Clear existing students when generating a new code
+            const data = getData();
+            data.students = {};
+            saveData(data);
+            
+            alert(`New class code generated: ${code}`);
+        }
+
+        // Update class code display
+        function updateClassCodeDisplay() {
+            document.getElementById('classCodeDisplay').textContent = `CLASS-${currentClassCode}`;
+            document.getElementById('currentClassCode').textContent = currentClassCode;
         }
 
         // Update student URL with full path
         function updateStudentUrl() {
             const currentUrl = window.location.href;
             const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
-            document.getElementById('studentUrl').textContent = baseUrl + 'student-browser.html';
+            document.getElementById('studentUrl').textContent = baseUrl + 'student.html';
         }
 
         // Get all data
         function getData() {
-            return JSON.parse(localStorage.getItem('classStacksData') || '{"students":{},"blockedSites":[],"restrictedStudents":{}}');
+            return JSON.parse(localStorage.getItem('classStacksData') || '{"students":{},"blockedSites":[],"restrictedStudents":{},"teacherControl":{}}');
         }
 
         // Save data
@@ -363,20 +599,28 @@
         function updateDashboard() {
             const data = getData();
             const students = Object.values(data.students);
-            const activeStudents = students.filter(s => Date.now() - s.lastActive < 15000).length;
+            
+            // Filter students by current class code
+            const classStudents = students.filter(student => student.classCode === currentClassCode);
+            const activeStudents = classStudents.filter(s => Date.now() - s.lastActive < 15000).length;
             const restrictedCount = Object.keys(data.restrictedStudents).length;
 
             // Update stats
-            document.getElementById('totalStudents').textContent = students.length;
+            document.getElementById('totalStudents').textContent = classStudents.length;
             document.getElementById('activeStudents').textContent = activeStudents;
             document.getElementById('blockedSites').textContent = data.blockedSites.length;
             document.getElementById('restrictedStudents').textContent = restrictedCount;
 
             // Update student grid
-            updateStudentGrid(students);
+            updateStudentGrid(classStudents);
             
             // Update blocked sites list
             updateBlockedList(data.blockedSites);
+            
+            // Update screen view if a student is selected
+            if (selectedStudentId) {
+                updateScreenView(selectedStudentId);
+            }
         }
 
         // Update student grid
@@ -389,7 +633,7 @@
                     <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 15px;">
                         <div style="font-size: 4rem; margin-bottom: 20px;">👨‍🎓</div>
                         <h3>No Students Connected</h3>
-                        <p>Students will appear here when they connect using class code: <strong>${CLASS_CODE}</strong></p>
+                        <p>Students will appear here when they connect using class code: <strong>${currentClassCode}</strong></p>
                     </div>
                 `;
                 return;
@@ -399,9 +643,13 @@
             students.forEach(student => {
                 const isActive = Date.now() - student.lastActive < 15000;
                 const isRestricted = data.restrictedStudents[student.id];
+                const isSelected = student.id === selectedStudentId;
                 
                 const card = document.createElement('div');
-                card.className = 'student-card';
+                card.className = `student-card ${isSelected ? 'active' : ''}`;
+                card.setAttribute('data-student-id', student.id);
+                card.onclick = () => selectStudent(student.id);
+                
                 card.innerHTML = `
                     <div class="student-header">
                         <div class="student-avatar">${student.name.charAt(0).toUpperCase()}</div>
@@ -428,14 +676,104 @@
                         </div>
                     </div>
                     <div class="student-actions">
-                        <button class="btn ${isRestricted ? 'btn-success' : 'btn-warning'}" onclick="toggleRestriction('${student.id}')">
+                        <button class="btn ${isRestricted ? 'btn-success' : 'btn-warning'}" onclick="event.stopPropagation(); toggleRestriction('${student.id}')">
                             ${isRestricted ? 'Unrestrict' : 'Restrict'}
                         </button>
-                        <button class="btn btn-primary" onclick="sendMessage('${student.id}')">Message</button>
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); sendMessage('${student.id}')">Message</button>
                     </div>
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        // Select a student to view their screen
+        function selectStudent(studentId) {
+            selectedStudentId = studentId;
+            updateScreenView(studentId);
+            updateDashboard(); // Refresh to highlight selected student
+        }
+
+        // Update the screen view for the selected student
+        function updateScreenView(studentId) {
+            const data = getData();
+            const student = data.students[studentId];
+            
+            if (!student) {
+                // Student not found, show placeholder
+                document.getElementById('screenPlaceholder').style.display = 'flex';
+                document.getElementById('studentScreen').style.display = 'none';
+                document.getElementById('screenInfo').style.display = 'none';
+                document.getElementById('selectedStudentName').textContent = 'Student not found';
+                return;
+            }
+            
+            const isActive = Date.now() - student.lastActive < 15000;
+            const isRestricted = data.restrictedStudents[studentId];
+            
+            // Update header
+            document.getElementById('selectedStudentName').textContent = student.name;
+            
+            // Update screen info
+            document.getElementById('currentStudentUrl').textContent = student.currentUrl || 'Home screen';
+            document.getElementById('currentStudentStatus').textContent = isActive ? 
+                (isRestricted ? 'Online (Restricted)' : 'Online') : 'Offline';
+            
+            // Show screen if student is active and has a URL
+            if (isActive && student.currentUrl && student.currentUrl !== '') {
+                document.getElementById('screenPlaceholder').style.display = 'none';
+                document.getElementById('studentScreen').style.display = 'block';
+                document.getElementById('screenInfo').style.display = 'block';
+                
+                // Update the iframe source
+                const iframe = document.getElementById('studentScreen');
+                iframe.src = student.currentUrl.startsWith('http') ? 
+                    student.currentUrl : `https://${student.currentUrl}`;
+            } else {
+                document.getElementById('screenPlaceholder').style.display = 'flex';
+                document.getElementById('studentScreen').style.display = 'none';
+                document.getElementById('screenInfo').style.display = 'block';
+                
+                // Update placeholder message
+                const placeholder = document.getElementById('screenPlaceholder');
+                if (!isActive) {
+                    placeholder.innerHTML = `
+                        <div class="screen-placeholder-icon">🔴</div>
+                        <p>Student is offline</p>
+                    `;
+                } else if (!student.currentUrl || student.currentUrl === '') {
+                    placeholder.innerHTML = `
+                        <div class="screen-placeholder-icon">🏠</div>
+                        <p>Student is on home screen</p>
+                    `;
+                }
+            }
+        }
+
+        // Refresh the student screen view
+        function refreshStudentScreen() {
+            if (selectedStudentId) {
+                updateScreenView(selectedStudentId);
+            }
+        }
+
+        // Take control of student's browser
+        function takeControlOfStudent() {
+            if (!selectedStudentId) {
+                alert('Please select a student first');
+                return;
+            }
+            
+            const url = prompt('Enter URL to navigate student to:');
+            if (url) {
+                const data = getData();
+                if (!data.teacherControl) data.teacherControl = {};
+                data.teacherControl[selectedStudentId] = {
+                    url: url,
+                    timestamp: Date.now()
+                };
+                saveData(data);
+                alert(`Navigation command sent to student. They will be redirected to: ${url}`);
+            }
         }
 
         // Update blocked sites list
@@ -587,9 +925,6 @@
                 checkForUpdates();
             }
         });
-
-        // Update class code display
-        document.getElementById('classCodeDisplay').textContent = `CLASS-${CLASS_CODE}`;
     </script>
 </body>
 </html>
