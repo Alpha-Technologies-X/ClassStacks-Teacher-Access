@@ -606,6 +606,52 @@
             font-size: 2rem;
             margin-bottom: 10px;
         }
+        
+        /* Fullscreen modal for screenshots */
+        .screenshot-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .screenshot-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .screenshot-modal-img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 10px;
+        }
+        
+        .screenshot-modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .screenshot-modal-info {
+            color: white;
+            text-align: center;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -758,6 +804,18 @@
                 <li><strong>Screen Control</strong> - Navigate students to specific websites</li>
                 <li><strong>Browser Locking</strong> - Prevent all website access when needed</li>
             </ol>
+        </div>
+    </div>
+
+    <!-- Screenshot Modal -->
+    <div class="screenshot-modal" id="screenshotModal">
+        <div class="screenshot-modal-content">
+            <button class="screenshot-modal-close" onclick="closeScreenshotModal()">×</button>
+            <img class="screenshot-modal-img" id="screenshotModalImg" src="" alt="Student Screen">
+            <div class="screenshot-modal-info">
+                <div id="screenshotModalStudent">Student Name</div>
+                <div id="screenshotModalTime">Time: Just now</div>
+            </div>
         </div>
     </div>
 
@@ -1151,7 +1209,7 @@
                     
                     <div class="student-screen-container">
                         ${hasScreenshot ? 
-                            `<img src="${screenshot.imageData}" class="student-screen-thumbnail" alt="${student.name}'s screen">
+                            `<img src="${screenshot.imageData}" class="student-screen-thumbnail" alt="${student.name}'s screen" onclick="openScreenshotModal('${student.id}')">
                              <div class="screen-overlay">
                                 <div class="screen-overlay-text">Click to view full screen</div>
                              </div>
@@ -1173,6 +1231,25 @@
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        // Open screenshot in modal
+        function openScreenshotModal(studentId) {
+            const data = getData();
+            const screenshot = data.screenshots && data.screenshots[studentId];
+            const student = data.students[studentId];
+            
+            if (screenshot && screenshot.imageData) {
+                document.getElementById('screenshotModalImg').src = screenshot.imageData;
+                document.getElementById('screenshotModalStudent').textContent = student.name;
+                document.getElementById('screenshotModalTime').textContent = `Time: ${formatTime(screenshot.timestamp)}`;
+                document.getElementById('screenshotModal').style.display = 'flex';
+            }
+        }
+
+        // Close screenshot modal
+        function closeScreenshotModal() {
+            document.getElementById('screenshotModal').style.display = 'none';
         }
 
         // Toggle individual student lock
