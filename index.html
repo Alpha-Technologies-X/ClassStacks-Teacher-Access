@@ -389,6 +389,15 @@
             margin-top: 15px;
             word-break: break-all;
         }
+        
+        .proxy-notice {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
@@ -429,9 +438,9 @@
                         <h3>Website Filtering</h3>
                         <input type="text" class="url-input" id="blockUrlInput" placeholder="Enter website to block (e.g., youtube.com)">
                         <button class="btn btn-danger" onclick="blockWebsite()">Block Website</button>
-                        <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">
-                            <strong>Note:</strong> Blocking only works when students are in "Restricted Mode"
-                        </p>
+                        <div class="proxy-notice">
+                            <strong>Note:</strong> Websites are blocked using domain matching. Blocking works in restricted mode.
+                        </div>
                     </div>
                     
                     <div class="control-group">
@@ -531,7 +540,7 @@
             if (!localStorage.getItem('classStacksData')) {
                 const initialData = {
                     students: {},
-                    blockedSites: [],
+                    blockedSites: ['porn', 'xxx', 'adult', 'gambling', 'casino', 'drugs'],
                     restrictedStudents: {},
                     teacherControl: {},
                     lastUpdated: Date.now()
@@ -724,10 +733,13 @@
                 document.getElementById('studentScreen').style.display = 'block';
                 document.getElementById('screenInfo').style.display = 'block';
                 
-                // Update the iframe source
+                // Update the iframe source - use a proxy approach
                 const iframe = document.getElementById('studentScreen');
-                iframe.src = student.currentUrl.startsWith('http') ? 
+                const fullUrl = student.currentUrl.startsWith('http') ? 
                     student.currentUrl : `https://${student.currentUrl}`;
+                
+                // Use a CORS proxy to bypass iframe restrictions
+                iframe.src = `https://corsproxy.io/?${encodeURIComponent(fullUrl)}`;
             } else {
                 document.getElementById('screenPlaceholder').style.display = 'flex';
                 document.getElementById('studentScreen').style.display = 'none';
@@ -825,7 +837,7 @@
 
         // Block common social media sites
         function blockCommonSites() {
-            const commonSites = ['youtube.com', 'facebook.com', 'tiktok.com', 'instagram.com', 'netflix.com', 'twitter.com'];
+            const commonSites = ['youtube.com', 'facebook.com', 'tiktok.com', 'instagram.com', 'netflix.com', 'twitter.com', 'snapchat.com', 'reddit.com', 'twitch.tv'];
             const data = getData();
             
             commonSites.forEach(site => {
