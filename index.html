@@ -652,6 +652,39 @@
             text-align: center;
             margin-top: 15px;
         }
+        
+        /* Live screen view */
+        .live-screen-view {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            position: relative;
+        }
+        
+        .live-screen-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .live-screen-refresh {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
     </style>
 </head>
 <body>
@@ -743,32 +776,24 @@
 
             <div class="screen-view-panel">
                 <div class="screen-view-header">
-                    <h3>Student Activity View</h3>
+                    <h3>Student Screen View</h3>
                     <div id="selectedStudentName">No student selected</div>
                 </div>
                 
                 <div class="screen-container" id="screenContainer">
                     <div class="screen-placeholder" id="screenPlaceholder">
                         <div class="screen-placeholder-icon">👨‍🎓</div>
-                        <p>Select a student to view their activity</p>
+                        <p>Select a student to view their screen</p>
                     </div>
-                    <div class="live-preview" id="livePreview" style="display: none;">
-                        <div class="preview-content">
-                            <div class="website-icon-large" id="websiteIcon">🌐</div>
-                            <div class="website-name" id="websiteName">Website Preview</div>
-                            <div class="url-display" id="previewUrl">https://example.com</div>
-                            <div style="color: #666; font-size: 0.9rem; text-align: center; margin-top: 20px;">
-                                <p>🟢 Live Activity View</p>
-                                <p>Student is currently viewing this website</p>
-                            </div>
-                        </div>
+                    <div class="live-screen-view" id="liveScreenView">
+                        <img class="live-screen-img" id="liveScreenImg" src="" alt="Student Screen">
+                        <button class="live-screen-refresh" onclick="refreshStudentScreen()">
+                            <span>🔄</span> Refresh
+                        </button>
                     </div>
-                    <img class="student-screenshot" id="studentScreenshot" alt="Student Screen">
                 </div>
                 
                 <div class="screen-info" id="screenInfo" style="display: none;">
-                    <div><strong>Current URL:</strong></div>
-                    <div class="screen-url" id="currentStudentUrl">No URL available</div>
                     <div><strong>Status:</strong> <span id="currentStudentStatus">Offline</span></div>
                     <div><strong>Last Active:</strong> <span id="lastActiveTime">Just now</span></div>
                     <div><strong>Last Screenshot:</strong> <span id="lastScreenshotTime">Never</span></div>
@@ -795,11 +820,12 @@
         </div>
 
         <div class="instructions">
-            <h3>🚀 Real Screenshot Monitoring:</h3>
+            <h3>🚀 Real Screen Monitoring:</h3>
             <ol>
                 <li><strong>Live Screenshots</strong> - Students automatically capture screenshots every 2.5 seconds</li>
                 <li><strong>Real Monitoring</strong> - See exactly what students are viewing in real screenshots</li>
                 <li><strong>Works with All Sites</strong> - No iframe restrictions, works with Google, YouTube, etc.</li>
+                <li><strong>Cross-Device Support</strong> - Works even when teacher and students are on different devices</li>
                 <li><strong>Website Filtering</strong> - Block inappropriate or distracting sites</li>
                 <li><strong>Screen Control</strong> - Navigate students to specific websites</li>
                 <li><strong>Browser Locking</strong> - Prevent all website access when needed</li>
@@ -1283,9 +1309,8 @@
             
             if (!student) {
                 document.getElementById('screenPlaceholder').style.display = 'flex';
-                document.getElementById('livePreview').style.display = 'none';
+                document.getElementById('liveScreenView').style.display = 'none';
                 document.getElementById('screenInfo').style.display = 'none';
-                document.getElementById('studentScreenshot').style.display = 'none';
                 document.getElementById('selectedStudentName').textContent = 'Student not found';
                 return;
             }
@@ -1296,7 +1321,6 @@
             document.getElementById('selectedStudentName').textContent = student.name;
             
             // Update screen info
-            document.getElementById('currentStudentUrl').textContent = student.currentUrl || 'Home screen';
             document.getElementById('currentStudentStatus').textContent = isActive ? 'Online' : 'Offline';
             document.getElementById('lastActiveTime').textContent = formatTime(student.lastActive);
             
@@ -1304,46 +1328,36 @@
             const screenshot = data.screenshots && data.screenshots[studentId];
             if (screenshot && screenshot.imageData) {
                 document.getElementById('lastScreenshotTime').textContent = formatTime(screenshot.timestamp);
-                document.getElementById('studentScreenshot').src = screenshot.imageData;
-                document.getElementById('studentScreenshot').style.display = 'block';
+                document.getElementById('liveScreenImg').src = screenshot.imageData;
                 document.getElementById('screenPlaceholder').style.display = 'none';
-                document.getElementById('livePreview').style.display = 'none';
+                document.getElementById('liveScreenView').style.display = 'flex';
                 document.getElementById('screenInfo').style.display = 'block';
             } else {
                 document.getElementById('lastScreenshotTime').textContent = 'Never';
-                document.getElementById('studentScreenshot').style.display = 'none';
+                document.getElementById('screenPlaceholder').style.display = 'flex';
+                document.getElementById('liveScreenView').style.display = 'none';
+                document.getElementById('screenInfo').style.display = 'block';
                 
-                // Show website preview if student is active and has a URL
-                if (isActive && student.currentUrl && student.currentUrl !== '') {
-                    document.getElementById('screenPlaceholder').style.display = 'none';
-                    document.getElementById('livePreview').style.display = 'flex';
-                    document.getElementById('screenInfo').style.display = 'block';
-                    
-                    // Update website preview
-                    const domain = extractDomain(student.currentUrl);
-                    document.getElementById('previewUrl').textContent = student.currentUrl;
-                    document.getElementById('websiteName').textContent = getWebsiteName(domain);
-                    document.getElementById('websiteIcon').textContent = getWebsiteIcon(domain);
+                // Update placeholder message
+                const placeholder = document.getElementById('screenPlaceholder');
+                if (!isActive) {
+                    placeholder.innerHTML = `
+                        <div class="screen-placeholder-icon">🔴</div>
+                        <p>Student is offline</p>
+                    `;
                 } else {
-                    document.getElementById('screenPlaceholder').style.display = 'flex';
-                    document.getElementById('livePreview').style.display = 'none';
-                    document.getElementById('screenInfo').style.display = 'block';
-                    
-                    // Update placeholder message
-                    const placeholder = document.getElementById('screenPlaceholder');
-                    if (!isActive) {
-                        placeholder.innerHTML = `
-                            <div class="screen-placeholder-icon">🔴</div>
-                            <p>Student is offline</p>
-                        `;
-                    } else if (!student.currentUrl || student.currentUrl === '') {
-                        placeholder.innerHTML = `
-                            <div class="screen-placeholder-icon">🏠</div>
-                            <p>Student is on home screen</p>
-                        `;
-                    }
+                    placeholder.innerHTML = `
+                        <div class="screen-placeholder-icon">📱</div>
+                        <p>Waiting for student screen...</p>
+                    `;
                 }
             }
+        }
+
+        // Refresh student screen
+        function refreshStudentScreen() {
+            if (!selectedStudentId) return;
+            requestScreenshot(selectedStudentId);
         }
 
         // Request screenshot from student
