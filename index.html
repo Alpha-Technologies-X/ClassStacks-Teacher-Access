@@ -29,8 +29,168 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
+        }
+        
+        /* Authentication Styles */
+        .auth-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .auth-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-logo h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5ee;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-success:hover {
+            background: #21867a;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+        }
+        
+        .btn-warning:hover {
+            background: #e68948;
+        }
+        
+        .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .auth-toggle a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .auth-toggle a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: var(--danger);
+            text-align: center;
+            margin-top: 15px;
+            padding: 12px;
+            background: #ffeaea;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .success-message {
+            color: var(--success);
+            text-align: center;
+            margin-top: 15px;
+            padding: 12px;
+            background: #e8f5e8;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+        }
+        
+        .teacher-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .teacher-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
         }
         
         .header {
@@ -42,82 +202,23 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        .logo {
-            font-size: 3rem;
-            margin-bottom: 10px;
+        .school-info {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
         
-        .class-management {
-            margin: 20px 0;
-        }
-        
-        .class-selector {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .class-code {
+        .school-code {
             background: var(--primary);
             color: white;
             padding: 10px 20px;
             border-radius: 25px;
             display: inline-block;
-            margin: 15px 0;
+            margin: 10px 0;
             font-size: 1.2rem;
             font-weight: bold;
-        }
-        
-        .generate-code-btn {
-            background: var(--success);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .class-list {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .class-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid #e1e5ee;
-            cursor: pointer;
-        }
-        
-        .class-item.active {
-            background: #f8f9fa;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .class-item:last-child {
-            border-bottom: none;
-        }
-        
-        .class-info {
-            flex: 1;
-        }
-        
-        .class-name {
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-        
-        .class-stats {
-            font-size: 0.9rem;
-            color: #666;
         }
         
         .stats-grid {
@@ -142,144 +243,43 @@
             margin-bottom: 10px;
         }
         
-        .dashboard-layout {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 20px;
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
         }
         
-        .student-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .student-card {
+        .action-btn {
+            padding: 12px 20px;
             background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-        
-        .student-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
-        
-        .student-card.active {
-            border: 3px solid var(--primary);
-        }
-        
-        .student-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .student-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-right: 15px;
-        }
-        
-        .student-status {
-            margin-left: auto;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        
-        .status-online {
-            background: var(--success);
-            color: white;
-        }
-        
-        .status-offline {
-            background: #ccc;
-            color: #666;
-        }
-        
-        .status-restricted {
-            background: var(--danger);
-            color: white;
-        }
-        
-        .status-locked {
-            background: #6c757d;
-            color: white;
-        }
-        
-        .student-details {
-            margin-bottom: 15px;
-        }
-        
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .student-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+            border: 2px solid #e1e5ee;
+            border-radius: 10px;
+            font-size: 16px;
             font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s;
+            flex: 1;
+            min-width: 200px;
         }
         
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        .action-btn:hover {
+            border-color: var(--primary);
+            background: #f8f9fa;
         }
         
-        .btn-primary {
+        .action-btn.primary {
             background: var(--primary);
             color: white;
+            border-color: var(--primary);
         }
         
-        .btn-danger {
-            background: var(--danger);
-            color: white;
+        .action-btn.primary:hover {
+            background: var(--secondary);
         }
         
-        .btn-warning {
-            background: var(--warning);
-            color: white;
-        }
-        
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-        
-        .btn-dark {
-            background: #6c757d;
-            color: white;
-        }
-        
-        .controls {
+        /* School Management */
+        .management-section {
             background: white;
             padding: 25px;
             border-radius: 15px;
@@ -287,1352 +287,2039 @@
             margin-bottom: 20px;
         }
         
-        .control-group {
-            margin-bottom: 20px;
+        .teacher-list {
+            margin-top: 20px;
         }
         
-        .control-group h3 {
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-        
-        .url-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e5ee;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        
-        .blocked-list {
-            max-height: 200px;
-            overflow-y: auto;
-            border: 1px solid #e1e5ee;
-            border-radius: 8px;
+        .teacher-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 15px;
-        }
-        
-        .blocked-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px;
-            background: #ffeaea;
-            margin-bottom: 5px;
-            border-radius: 5px;
-        }
-        
-        .screen-view-panel {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            height: fit-content;
-            position: sticky;
-            top: 20px;
-        }
-        
-        .screen-view-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
             border-bottom: 1px solid #e1e5ee;
         }
         
-        .screen-container {
-            background: #f8f9fa;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            position: relative;
-            height: 300px;
+        .teacher-item:last-child {
+            border-bottom: none;
         }
         
-        .screen-placeholder {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .teacher-details h4 {
+            margin-bottom: 5px;
+        }
+        
+        .teacher-role {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .role-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .role-owner {
+            background: #e7f0ff;
+            color: var(--primary);
+        }
+        
+        .role-teacher {
+            background: #f0f0f0;
             color: #666;
         }
         
-        .screen-placeholder-icon {
-            font-size: 4rem;
-            margin-bottom: 15px;
-        }
-        
-        .screen-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-        
-        .screen-url {
-            font-family: monospace;
-            background: white;
-            padding: 8px 12px;
-            border-radius: 5px;
-            margin: 10px 0;
-            word-break: break-all;
-        }
-        
-        .sync-status {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--success);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-        
-        .instructions {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        
-        .screen-controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .refresh-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .take-control-btn {
-            background: var(--warning);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .share-link {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            word-break: break-all;
-        }
-        
-        .proxy-notice {
-            background: #d1ecf1;
-            border: 1px solid #bee5eb;
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 0.8rem;
-        }
-        
-        .website-preview {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            color: #333;
-        }
-        
-        .website-icon-large {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-        
-        .website-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .global-controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .global-control-btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            flex: 1;
-            min-width: 150px;
-        }
-        
-        .url-display {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-family: monospace;
-            word-break: break-all;
-        }
-        
-        .live-preview {
-            width: 100%;
-            height: 100%;
-            background: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .preview-content {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .activity-timeline {
+        /* Class Management */
+        .class-list {
             background: white;
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-top: 20px;
-        }
-
-        .timeline-item {
-            padding: 10px;
-            border-left: 3px solid var(--primary);
-            margin-bottom: 10px;
-            background: #f8f9fa;
-        }
-
-        .timeline-time {
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        .student-screenshot {
-            width: 100%;
-            border-radius: 8px;
-            margin-top: 10px;
-            display: none;
-            max-height: 250px;
-            object-fit: contain;
-        }
-
-        /* New styles for student screen thumbnails */
-        .student-screen-container {
-            margin-top: 15px;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            height: 180px;
-            position: relative;
-        }
-
-        .student-screen-thumbnail {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .student-screen-thumbnail:hover {
-            transform: scale(1.02);
-        }
-
-        .screen-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .student-screen-container:hover .screen-overlay {
-            opacity: 1;
-        }
-
-        .screen-overlay-text {
-            color: white;
-            font-weight: bold;
-            text-align: center;
-            padding: 10px;
-        }
-
-        .screenshot-info {
-            font-size: 0.8rem;
-            color: #666;
-            text-align: center;
-            margin-top: 5px;
-        }
-
-        .no-screenshot {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            background: #f8f9fa;
-        }
-
-        .no-screenshot-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
         
-        /* Fullscreen modal for screenshots */
-        .screenshot-modal {
+        .class-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #e1e5ee;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .class-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .class-item:last-child {
+            border-bottom: none;
+        }
+        
+        .class-info {
+            flex: 1;
+        }
+        
+        .class-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .class-stats {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
+            background: rgba(0,0,0,0.5);
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
         
-        .screenshot-modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            position: relative;
-        }
-        
-        .screenshot-modal-img {
-            max-width: 100%;
-            max-height: 90vh;
-            border-radius: 10px;
-        }
-        
-        .screenshot-modal-close {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            background: var(--danger);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        
-        .screenshot-modal-info {
-            color: white;
-            text-align: center;
-            margin-top: 15px;
-        }
-        
-        /* Live screen view */
-        .live-screen-view {
-            width: 100%;
-            height: 100%;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .modal-content {
             background: white;
-            position: relative;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
-        .live-screen-img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e1e5ee;
         }
         
-        .live-screen-refresh {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-close:hover {
+            color: var(--danger);
+        }
+        
+        /* Login Options */
+        .login-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .login-option {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: white;
+            border: 2px solid #e1e5ee;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .login-option:hover {
+            border-color: var(--primary);
+        }
+        
+        .login-option.active {
             background: var(--primary);
             color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 12px;
-            cursor: pointer;
+            border-color: var(--primary);
+        }
+        
+        /* Class Management Page */
+        .class-management {
+            display: none;
+        }
+        
+        .class-header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .student-list {
+            margin-top: 20px;
+        }
+        
+        .student-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #e1e5ee;
+        }
+        
+        .student-item:last-child {
+            border-bottom: none;
+        }
+        
+        .student-status {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 10px;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .status-online {
+            background: var(--success);
+        }
+        
+        .status-offline {
+            background: #ccc;
+        }
+        
+        .student-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .student-action-btn {
+            padding: 8px 15px;
+            background: white;
+            border: 1px solid #e1e5ee;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .student-action-btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .student-action-btn.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .student-action-btn.danger {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .teacher-nav {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                min-width: auto;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .login-options {
+                flex-direction: column;
+            }
+            
+            .student-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">🏫 Class Stacks</div>
-            <h1>Teacher Dashboard</h1>
-            <div class="class-management">
-                <div class="class-selector">
-                    <div class="class-code" id="classCodeDisplay">CLASS-XXXXXX</div>
-                    <button class="generate-code-btn" onclick="createNewClass()">Create New Class</button>
-                </div>
-            </div>
-            <p>Monitor and manage student browsing activity in real-time</p>
-        </div>
-
-        <div class="class-list" id="classList">
-            <!-- Classes will appear here -->
-        </div>
-
-        <div class="global-controls">
-            <button class="global-control-btn btn-success" onclick="enableBlockingForCurrentClass()">🔄 Enable Blocking</button>
-            <button class="global-control-btn btn-danger" onclick="disableBlockingForCurrentClass()">🚫 Disable Blocking</button>
-            <button class="global-control-btn btn-dark" onclick="lockAllStudents()">🔒 Lock All Browsers</button>
-            <button class="global-control-btn btn-primary" onclick="unlockAllStudents()">🔓 Unlock All Browsers</button>
-            <button class="global-control-btn btn-warning" onclick="requestAllScreenshots()">📸 Request All Screenshots</button>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="totalStudents">0</div>
-                <div>Total Students</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="activeStudents">0</div>
-                <div>Active Now</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="blockedSites">0</div>
-                <div>Blocked Sites</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="restrictedStudents">0</div>
-                <div>Locked</div>
-            </div>
-        </div>
-
-        <div class="dashboard-layout">
-            <div>
-                <div class="controls">
-                    <div class="control-group">
-                        <h3>Website Filtering</h3>
-                        <input type="text" class="url-input" id="blockUrlInput" placeholder="Enter website to block (e.g., youtube.com)">
-                        <button class="btn btn-danger" onclick="blockWebsite()">Block Website</button>
-                        <div class="proxy-notice">
-                            <strong>Note:</strong> Blocked sites are always blocked when blocking is enabled.
-                        </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <h3>Blocked Websites</h3>
-                        <div class="blocked-list" id="blockedList">
-                            <!-- Blocked sites will appear here -->
-                        </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <h3>Quick Actions</h3>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <button class="btn btn-warning" onclick="blockCommonSites()">Block Social Media</button>
-                            <button class="btn btn-success" onclick="unblockAllSites()">Unblock All</button>
-                            <button class="btn btn-primary" onclick="openAllEducational()">Open Educational Sites</button>
-                        </div>
-                    </div>
-                </div>
-
-                <h2 style="margin-bottom: 20px;">Student Management</h2>
-                <div class="student-grid" id="studentGrid">
-                    <!-- Students will appear here -->
-                </div>
-
-                <div class="activity-timeline" id="activityTimeline" style="display: none;">
-                    <h3>📊 Student Activity Timeline</h3>
-                    <div id="timelineContent">
-                        <!-- Timeline items will appear here -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="screen-view-panel">
-                <div class="screen-view-header">
-                    <h3>Student Screen View</h3>
-                    <div id="selectedStudentName">No student selected</div>
+        <!-- School Registration/Login -->
+        <div class="auth-container" id="authContainer">
+            <div class="auth-box">
+                <div class="auth-logo">
+                    <h1>🏫 Class Stacks</h1>
+                    <p>School & Teacher Portal</p>
                 </div>
                 
-                <div class="screen-container" id="screenContainer">
-                    <div class="screen-placeholder" id="screenPlaceholder">
-                        <div class="screen-placeholder-icon">👨‍🎓</div>
-                        <p>Select a student to view their screen</p>
+                <!-- Login Options -->
+                <div class="login-options">
+                    <div class="login-option active" id="schoolLoginOption" onclick="showSchoolLogin()">
+                        School Login
                     </div>
-                    <div class="live-screen-view" id="liveScreenView">
-                        <img class="live-screen-img" id="liveScreenImg" src="" alt="Student Screen">
-                        <button class="live-screen-refresh" onclick="refreshStudentScreen()">
-                            <span>🔄</span> Refresh
-                        </button>
+                    <div class="login-option" id="teacherLoginOption" onclick="showTeacherLogin()">
+                        Teacher Login
                     </div>
                 </div>
                 
-                <div class="screen-info" id="screenInfo" style="display: none;">
-                    <div><strong>Status:</strong> <span id="currentStudentStatus">Offline</span></div>
-                    <div><strong>Last Active:</strong> <span id="lastActiveTime">Just now</span></div>
-                    <div><strong>Last Screenshot:</strong> <span id="lastScreenshotTime">Never</span></div>
+                <!-- School Registration Form -->
+                <div id="schoolRegistrationForm" style="display: none;">
+                    <h2 style="text-align: center; margin-bottom: 20px;">Create School Account</h2>
                     
-                    <div class="screen-controls">
-                        <button class="take-control-btn" onclick="takeControlOfStudent()">
-                            <span>🎮</span> Navigate Student
-                        </button>
-                        <button class="refresh-btn" onclick="requestScreenshot()">
-                            <span>📸</span> Request Screenshot
-                        </button>
-                        <button class="btn btn-danger" onclick="closeStudentTab()">
-                            <span>❌</span> Close Tab
-                        </button>
+                    <div class="form-group">
+                        <label for="schoolName">School Name</label>
+                        <input type="text" id="schoolName" placeholder="Enter your school name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="schoolType">School Type</label>
+                        <select id="schoolType" required>
+                            <option value="">Select school type</option>
+                            <option value="elementary">Elementary School</option>
+                            <option value="middle">Middle School</option>
+                            <option value="high">High School</option>
+                            <option value="college">College/University</option>
+                            <option value="vocational">Vocational School</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="schoolAddress">School Address</label>
+                        <input type="text" id="schoolAddress" placeholder="Enter school address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="schoolPhone">Phone Number</label>
+                        <input type="tel" id="schoolPhone" placeholder="Enter school phone number">
+                    </div>
+                    
+                    <h3 style="margin: 25px 0 15px 0;">Administrator Account</h3>
+                    
+                    <div class="form-group">
+                        <label for="adminName">Administrator Name</label>
+                        <input type="text" id="adminName" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminEmail">Email Address</label>
+                        <input type="email" id="adminEmail" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" id="adminPassword" placeholder="Create a password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminConfirmPassword">Confirm Password</label>
+                        <input type="password" id="adminConfirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                    
+                    <button class="btn btn-success" onclick="registerSchool()">Create School Account</button>
+                    
+                    <div class="auth-toggle">
+                        <a href="#" onclick="showSchoolLogin()">Already have an account? Login</a>
                     </div>
                 </div>
-
-                <div class="share-link">
-                    <h4>Share with Students:</h4>
-                    <p>Student URL: <code id="studentUrl">student.html</code></p>
-                    <p>Current Class Code: <strong id="currentClassCode">XXXXXX</strong></p>
+                
+                <!-- School Login Form -->
+                <div id="schoolLoginForm">
+                    <h2 style="text-align: center; margin-bottom: 20px;">School Login</h2>
+                    
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button class="btn" onclick="loginSchool()">Login to School Account</button>
+                    
+                    <div class="auth-toggle">
+                        <a href="#" onclick="showSchoolRegistration()">Don't have an account? Register</a>
+                    </div>
+                </div>
+                
+                <!-- Teacher Login Form -->
+                <div id="teacherLoginForm" style="display: none;">
+                    <h2 style="text-align: center; margin-bottom: 20px;">Teacher Login</h2>
+                    
+                    <div class="form-group">
+                        <label for="teacherLoginEmail">Email Address</label>
+                        <input type="email" id="teacherLoginEmail" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="teacherLoginPassword">Password</label>
+                        <input type="password" id="teacherLoginPassword" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button class="btn" onclick="loginTeacher()">Login as Teacher</button>
+                    
+                    <div class="auth-toggle">
+                        <a href="#" onclick="showTeacherJoinForm()">Join a School as Teacher</a>
+                    </div>
+                </div>
+                
+                <!-- Teacher Join Form -->
+                <div id="teacherJoinForm" style="display: none;">
+                    <h2 style="text-align: center; margin-bottom: 20px;">Join School as Teacher</h2>
+                    
+                    <div class="form-group">
+                        <label for="teacherSchoolCode">School Code</label>
+                        <input type="text" id="teacherSchoolCode" placeholder="Enter school code" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="teacherName">Your Name</label>
+                        <input type="text" id="teacherName" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="teacherEmail">Email Address</label>
+                        <input type="email" id="teacherEmail" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="teacherPassword">Password</label>
+                        <input type="password" id="teacherPassword" placeholder="Create a password" required>
+                    </div>
+                    
+                    <button class="btn" onclick="joinAsTeacher()">Join School</button>
+                    
+                    <div class="auth-toggle">
+                        <a href="#" onclick="showTeacherLogin()">Back to Teacher Login</a>
+                    </div>
+                </div>
+                
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+            </div>
+        </div>
+        
+        <!-- School Dashboard -->
+        <div class="dashboard" id="schoolDashboard">
+            <div class="teacher-nav">
+                <div class="teacher-info">
+                    <div class="teacher-avatar" id="teacherAvatar">A</div>
+                    <div>
+                        <div><strong id="teacherNameDisplay">Administrator Name</strong></div>
+                        <div style="font-size: 0.9rem; color: #666;" id="schoolNameDisplay">School Name</div>
+                    </div>
+                </div>
+                <button class="btn" onclick="logout()" style="width: auto;">Logout</button>
+            </div>
+            
+            <div class="header">
+                <div style="font-size: 3rem; margin-bottom: 10px;">🏫 Class Stacks</div>
+                <h1>School Management Dashboard</h1>
+                <p>Manage your school, teachers, and classes in one place</p>
+            </div>
+            
+            <div class="school-info">
+                <h2>School Information</h2>
+                <p><strong>School Code:</strong> <span class="school-code" id="schoolCodeDisplay">XXXXXX</span></p>
+                <p>Share this code with teachers to allow them to join your school</p>
+                <button class="action-btn primary" onclick="generateNewSchoolCode()">Generate New Code</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalTeachers">0</div>
+                    <div>Total Teachers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalClasses">0</div>
+                    <div>Active Classes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalStudents">0</div>
+                    <div>Registered Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="activeSessions">0</div>
+                    <div>Active Sessions</div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-btn primary" onclick="showAddTeacherModal()">Add Teacher</button>
+                <button class="action-btn" onclick="showCreateClassModal()">Create Class</button>
+                <button class="action-btn" onclick="showSchoolSettingsModal()">School Settings</button>
+                <button class="action-btn" onclick="showReportsModal()">View Reports</button>
+            </div>
+            
+            <div class="management-section">
+                <h2>Teachers</h2>
+                <div class="teacher-list" id="teacherList">
+                    <!-- Teachers will be listed here -->
+                </div>
+            </div>
+            
+            <div class="management-section">
+                <h2>Classes</h2>
+                <div class="class-list" id="classList">
+                    <!-- Classes will be listed here -->
                 </div>
             </div>
         </div>
-
-        <div class="instructions">
-            <h3>🚀 Real Screen Monitoring:</h3>
-            <ol>
-                <li><strong>Live Screenshots</strong> - Students automatically capture screenshots every 2.5 seconds</li>
-                <li><strong>Real Monitoring</strong> - See exactly what students are viewing in real screenshots</li>
-                <li><strong>Works with All Sites</strong> - No iframe restrictions, works with Google, YouTube, etc.</li>
-                <li><strong>Cross-Device Support</strong> - Works even when teacher and students are on different devices</li>
-                <li><strong>Website Filtering</strong> - Block inappropriate or distracting sites</li>
-                <li><strong>Screen Control</strong> - Navigate students to specific websites</li>
-                <li><strong>Browser Locking</strong> - Prevent all website access when needed</li>
-            </ol>
+        
+        <!-- Teacher Dashboard -->
+        <div class="dashboard" id="teacherDashboard">
+            <div class="teacher-nav">
+                <div class="teacher-info">
+                    <div class="teacher-avatar" id="teacherAvatarDashboard">T</div>
+                    <div>
+                        <div><strong id="teacherNameDashboard">Teacher Name</strong></div>
+                        <div style="font-size: 0.9rem; color: #666;" id="schoolNameDashboard">School Name</div>
+                    </div>
+                </div>
+                <button class="btn" onclick="logout()" style="width: auto;">Logout</button>
+            </div>
+            
+            <div class="header">
+                <div style="font-size: 3rem; margin-bottom: 10px;"> Class Stacks</div>
+                <h1>Teacher Dashboard</h1>
+                <p>Manage your classes and monitor student activity</p>
+            </div>
+            
+            <div class="school-info">
+                <h2>Welcome, <span id="teacherWelcomeName">Teacher</span>!</h2>
+                <p>You are teaching at <strong id="teacherSchoolName">School Name</strong></p>
+                <button class="action-btn primary" onclick="showCreateClassModal()">Create New Class</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="teacherTotalClasses">0</div>
+                    <div>My Classes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="teacherTotalStudents">0</div>
+                    <div>Total Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="teacherActiveStudents">0</div>
+                    <div>Active Now</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="teacherBlockedSites">0</div>
+                    <div>Blocked Sites</div>
+                </div>
+            </div>
+            
+            <div class="management-section">
+                <h2>My Classes</h2>
+                <div class="class-list" id="teacherClassList">
+                    <!-- Teacher's classes will be listed here -->
+                </div>
+            </div>
         </div>
-    </div>
-
-    <!-- Screenshot Modal -->
-    <div class="screenshot-modal" id="screenshotModal">
-        <div class="screenshot-modal-content">
-            <button class="screenshot-modal-close" onclick="closeScreenshotModal()">×</button>
-            <img class="screenshot-modal-img" id="screenshotModalImg" src="" alt="Student Screen">
-            <div class="screenshot-modal-info">
-                <div id="screenshotModalStudent">Student Name</div>
-                <div id="screenshotModalTime">Time: Just now</div>
+        
+        <!-- Class Management -->
+        <div class="dashboard class-management" id="classManagement">
+            <div class="teacher-nav">
+                <div class="teacher-info">
+                    <div class="teacher-avatar" id="classTeacherAvatar">T</div>
+                    <div>
+                        <div><strong id="classTeacherName">Teacher Name</strong></div>
+                        <div style="font-size: 0.9rem; color: #666;" id="classNameDisplay">Class Name</div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn" onclick="goBackToDashboard()" style="width: auto; margin-right: 10px;">Back to Dashboard</button>
+                    <button class="btn" onclick="logout()" style="width: auto;">Logout</button>
+                </div>
+            </div>
+            
+            <div class="class-header">
+                <h1 id="classManagementTitle">Class Management</h1>
+                <p>Class Code: <strong id="classCodeDisplay">XXXXXX</strong></p>
+                <div class="action-buttons">
+                    <button class="action-btn primary" onclick="showClassSettingsModal()">Class Settings</button>
+                    <button class="action-btn" onclick="showBlockedSitesModal()">Manage Blocked Sites</button>
+                    <button class="action-btn" id="lockAllBtn" onclick="toggleClassLock()">Lock All Browsers</button>
+                    <button class="action-btn" onclick="showMessageModal()">Send Message to Class</button>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="classTotalStudents">0</div>
+                    <div>Total Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="classActiveStudents">0</div>
+                    <div>Active Now</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="classBlockedSites">0</div>
+                    <div>Blocked Sites</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="classRestrictedMode">On</div>
+                    <div>Restriction Mode</div>
+                </div>
+            </div>
+            
+            <div class="management-section">
+                <h2>Students</h2>
+                <div class="student-list" id="studentList">
+                    <!-- Students will be listed here -->
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="sync-status" id="syncStatus">🔄 Live - Auto Updating</div>
+    
+    <!-- Modals -->
+    <div class="modal" id="addTeacherModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Teacher to School</h3>
+                <button class="modal-close" onclick="closeModal('addTeacherModal')">×</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="newTeacherName">Teacher Name</label>
+                <input type="text" id="newTeacherName" placeholder="Enter teacher's full name">
+            </div>
+            
+            <div class="form-group">
+                <label for="newTeacherEmail">Email Address</label>
+                <input type="email" id="newTeacherEmail" placeholder="Enter teacher's email">
+            </div>
+            
+            <div class="form-group">
+                <label for="newTeacherPassword">Temporary Password</label>
+                <input type="text" id="newTeacherPassword" placeholder="Generate or enter password">
+                <button class="btn" style="margin-top: 10px; width: auto;" onclick="generatePassword()">Generate Password</button>
+            </div>
+            
+            <button class="btn btn-success" onclick="addTeacher()">Add Teacher</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="createClassModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Class</h3>
+                <button class="modal-close" onclick="closeModal('createClassModal')">×</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="className">Class Name</label>
+                <input type="text" id="className" placeholder="e.g., Math Grade 5">
+            </div>
+            
+            <div class="form-group">
+                <label for="classTeacher">Assign Teacher</label>
+                <select id="classTeacher">
+                    <!-- Teachers will be populated here -->
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="classSubject">Subject</label>
+                <input type="text" id="classSubject" placeholder="e.g., Mathematics">
+            </div>
+            
+            <div class="form-group">
+                <label for="classGrade">Grade Level</label>
+                <input type="text" id="classGrade" placeholder="e.g., Grade 5">
+            </div>
+            
+            <button class="btn btn-success" onclick="createClass()">Create Class</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="classSettingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Class Settings</h3>
+                <button class="modal-close" onclick="closeModal('classSettingsModal')">×</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="classNameEdit">Class Name</label>
+                <input type="text" id="classNameEdit" placeholder="Class Name">
+            </div>
+            
+            <div class="form-group">
+                <label for="classSubjectEdit">Subject</label>
+                <input type="text" id="classSubjectEdit" placeholder="Subject">
+            </div>
+            
+            <div class="form-group">
+                <label for="classGradeEdit">Grade Level</label>
+                <input type="text" id="classGradeEdit" placeholder="Grade Level">
+            </div>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="allowBrowsing"> Allow Browsing
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="blockingEnabled" checked> Enable Website Blocking
+                </label>
+            </div>
+            
+            <button class="btn btn-success" onclick="saveClassSettings()">Save Settings</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="blockedSitesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Manage Blocked Websites</h3>
+                <button class="modal-close" onclick="closeModal('blockedSitesModal')">×</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="newBlockedSite">Add Website to Block</label>
+                <input type="text" id="newBlockedSite" placeholder="e.g., facebook.com">
+                <button class="btn" style="margin-top: 10px; width: auto;" onclick="addBlockedSite()">Add Site</button>
+            </div>
+            
+            <div id="blockedSitesList" style="margin-top: 20px;">
+                <!-- Blocked sites will be listed here -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="messageModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Send Message to Class</h3>
+                <button class="modal-close" onclick="closeModal('messageModal')">×</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="messageText">Message</label>
+                <textarea id="messageText" rows="4" placeholder="Type your message to the class..." style="width: 100%; padding: 15px; border: 2px solid #e1e5ee; border-radius: 10px; font-size: 16px;"></textarea>
+            </div>
+            
+            <button class="btn btn-success" onclick="sendMessageToClass()">Send Message</button>
+        </div>
+    </div>
 
     <script>
         // Global variables
-        let lastUpdateTime = 0;
-        let selectedStudentId = null;
-        let currentClassCode = '';
-        let classes = {};
-        let updateInterval;
-
-        // Initialize data structure
-        function initializeData() {
-            // Load classes from localStorage
-            const savedClasses = localStorage.getItem('classStacksClasses');
-            if (savedClasses) {
-                classes = JSON.parse(savedClasses);
+        let currentSchool = null;
+        let currentUser = null;
+        let currentUserType = null; // 'school' or 'teacher'
+        let currentClass = null;
+        let dataUpdateInterval;
+        
+        // Initialize the application
+        function initializeApp() {
+            // Check if user is already logged in
+            const savedUser = localStorage.getItem('currentUser');
+            const savedSchool = localStorage.getItem('currentSchool');
+            const savedUserType = localStorage.getItem('currentUserType');
+            const savedClass = localStorage.getItem('currentClass');
+            
+            if (savedUser && savedSchool && savedUserType) {
+                currentUser = JSON.parse(savedUser);
+                currentSchool = JSON.parse(savedSchool);
+                currentUserType = savedUserType;
+                
+                if (savedClass) {
+                    currentClass = JSON.parse(savedClass);
+                    showClassManagement();
+                } else if (currentUserType === 'school') {
+                    showSchoolDashboard();
+                } else {
+                    showTeacherDashboard();
+                }
+            } else {
+                showSchoolLogin();
             }
             
-            // Initialize shared data if it doesn't exist
+            // Initialize data structure if it doesn't exist
+            initializeDataStructure();
+            
+            // Start data update interval
+            startDataUpdateInterval();
+        }
+        
+        // Initialize data structure
+        function initializeDataStructure() {
             if (!localStorage.getItem('classStacksData')) {
                 const initialData = {
-                    students: {},
+                    schools: {},
+                    teachers: {},
                     classes: {},
+                    students: {},
+                    classSettings: {},
                     blockedSites: [
                         'youtube.com', 'facebook.com', 'tiktok.com', 'instagram.com', 
                         'netflix.com', 'twitter.com', 'snapchat.com', 'reddit.com', 
                         'twitch.tv', 'porn', 'xxx', 'adult', 'gambling'
                     ],
-                    classSettings: {},
                     teacherControl: {},
-                    studentLocks: {},
                     messages: {},
+                    studentLocks: {},
                     screenshots: {},
                     activityLogs: {},
                     lastUpdated: Date.now()
                 };
                 localStorage.setItem('classStacksData', JSON.stringify(initialData));
             }
+        }
+        
+        // Start data update interval
+        function startDataUpdateInterval() {
+            dataUpdateInterval = setInterval(() => {
+                if (currentUser) {
+                    if (currentClass) {
+                        updateClassManagement();
+                    } else if (currentUserType === 'school') {
+                        updateSchoolDashboard();
+                    } else {
+                        updateTeacherDashboard();
+                    }
+                }
+            }, 3000); // Update every 3 seconds
+        }
+        
+        // Show school login
+        function showSchoolLogin() {
+            document.getElementById('schoolRegistrationForm').style.display = 'none';
+            document.getElementById('schoolLoginForm').style.display = 'block';
+            document.getElementById('teacherLoginForm').style.display = 'none';
+            document.getElementById('teacherJoinForm').style.display = 'none';
+            document.getElementById('schoolDashboard').style.display = 'none';
+            document.getElementById('teacherDashboard').style.display = 'none';
+            document.getElementById('classManagement').style.display = 'none';
+            document.getElementById('authContainer').style.display = 'flex';
             
-            // Set first class as current if none selected
-            if (!currentClassCode && Object.keys(classes).length > 0) {
-                currentClassCode = Object.keys(classes)[0];
+            // Update login options
+            document.getElementById('schoolLoginOption').classList.add('active');
+            document.getElementById('teacherLoginOption').classList.remove('active');
+            
+            // Clear any messages
+            hideMessages();
+        }
+        
+        // Show teacher login
+        function showTeacherLogin() {
+            document.getElementById('schoolRegistrationForm').style.display = 'none';
+            document.getElementById('schoolLoginForm').style.display = 'none';
+            document.getElementById('teacherLoginForm').style.display = 'block';
+            document.getElementById('teacherJoinForm').style.display = 'none';
+            document.getElementById('schoolDashboard').style.display = 'none';
+            document.getElementById('teacherDashboard').style.display = 'none';
+            document.getElementById('classManagement').style.display = 'none';
+            document.getElementById('authContainer').style.display = 'flex';
+            
+            // Update login options
+            document.getElementById('schoolLoginOption').classList.remove('active');
+            document.getElementById('teacherLoginOption').classList.add('active');
+            
+            // Clear any messages
+            hideMessages();
+        }
+        
+        // Show school registration
+        function showSchoolRegistration() {
+            document.getElementById('schoolRegistrationForm').style.display = 'block';
+            document.getElementById('schoolLoginForm').style.display = 'none';
+            document.getElementById('teacherLoginForm').style.display = 'none';
+            document.getElementById('teacherJoinForm').style.display = 'none';
+            hideMessages();
+        }
+        
+        // Show teacher join form
+        function showTeacherJoinForm() {
+            document.getElementById('schoolRegistrationForm').style.display = 'none';
+            document.getElementById('schoolLoginForm').style.display = 'none';
+            document.getElementById('teacherLoginForm').style.display = 'none';
+            document.getElementById('teacherJoinForm').style.display = 'block';
+            hideMessages();
+        }
+        
+        // Show school dashboard
+        function showSchoolDashboard() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('schoolDashboard').style.display = 'block';
+            document.getElementById('teacherDashboard').style.display = 'none';
+            document.getElementById('classManagement').style.display = 'none';
+            
+            // Update dashboard with current data
+            updateSchoolDashboard();
+        }
+        
+        // Show teacher dashboard
+        function showTeacherDashboard() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('schoolDashboard').style.display = 'none';
+            document.getElementById('teacherDashboard').style.display = 'block';
+            document.getElementById('classManagement').style.display = 'none';
+            
+            // Update dashboard with current data
+            updateTeacherDashboard();
+        }
+        
+        // Show class management
+        function showClassManagement() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('schoolDashboard').style.display = 'none';
+            document.getElementById('teacherDashboard').style.display = 'none';
+            document.getElementById('classManagement').style.display = 'block';
+            
+            // Update class management with current data
+            updateClassManagement();
+        }
+        
+        // Register a new school
+        function registerSchool() {
+            // Get form values
+            const schoolName = document.getElementById('schoolName').value;
+            const schoolType = document.getElementById('schoolType').value;
+            const schoolAddress = document.getElementById('schoolAddress').value;
+            const schoolPhone = document.getElementById('schoolPhone').value;
+            const adminName = document.getElementById('adminName').value;
+            const adminEmail = document.getElementById('adminEmail').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+            const adminConfirmPassword = document.getElementById('adminConfirmPassword').value;
+            
+            // Validate form
+            if (!schoolName || !schoolType || !adminName || !adminEmail || !adminPassword) {
+                showError('Please fill in all required fields');
+                return;
             }
             
-            updateStudentUrl();
-            updateClassList();
-            updateClassCodeDisplay();
+            if (adminPassword !== adminConfirmPassword) {
+                showError('Passwords do not match');
+                return;
+            }
             
-            // Start real-time updates
-            startRealTimeUpdates();
-        }
-
-        // Start real-time updates using polling
-        function startRealTimeUpdates() {
-            updateInterval = setInterval(() => {
-                checkForUpdates();
-                updateDashboard();
-            }, 1000); // Update every second for real-time feel
+            if (adminPassword.length < 6) {
+                showError('Password must be at least 6 characters long');
+                return;
+            }
             
-            window.addEventListener('storage', handleStorageEvent);
+            // Get existing data
+            const data = getData();
+            
+            // Check if email already exists
+            const existingUser = Object.values(data.teachers).find(teacher => 
+                teacher.email === adminEmail
+            );
+            
+            if (existingUser) {
+                showError('A user with this email already exists');
+                return;
+            }
+            
+            // Generate school ID and code
+            const schoolId = 'school_' + Date.now();
+            const schoolCode = generateSchoolCode();
+            
+            // Create school
+            data.schools[schoolId] = {
+                id: schoolId,
+                name: schoolName,
+                type: schoolType,
+                address: schoolAddress,
+                phone: schoolPhone,
+                code: schoolCode,
+                created: Date.now(),
+                owner: adminEmail
+            };
+            
+            // Create admin teacher
+            const teacherId = 'teacher_' + Date.now();
+            data.teachers[teacherId] = {
+                id: teacherId,
+                name: adminName,
+                email: adminEmail,
+                password: adminPassword,
+                schoolId: schoolId,
+                role: 'owner',
+                created: Date.now()
+            };
+            
+            // Save data
+            saveData(data);
+            
+            // Set current user and school
+            currentUser = data.teachers[teacherId];
+            currentSchool = data.schools[schoolId];
+            currentUserType = 'school';
+            
+            // Save to localStorage
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            localStorage.setItem('currentSchool', JSON.stringify(currentSchool));
+            localStorage.setItem('currentUserType', currentUserType);
+            
+            // Show success message and dashboard
+            showSuccess('School account created successfully!');
+            setTimeout(() => {
+                showSchoolDashboard();
+            }, 1500);
         }
-
-        function handleStorageEvent(e) {
-            if (e.key === 'classStacksData') {
-                checkForUpdates();
+        
+        // Login to school account
+        function loginSchool() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showError('Please enter both email and password');
+                return;
+            }
+            
+            const data = getData();
+            
+            // Find teacher with matching credentials
+            const teacher = Object.values(data.teachers).find(t => 
+                t.email === email && t.password === password
+            );
+            
+            if (teacher) {
+                // Get school data
+                const school = data.schools[teacher.schoolId];
+                
+                if (school) {
+                    currentUser = teacher;
+                    currentSchool = school;
+                    currentUserType = 'school';
+                    
+                    // Save to localStorage
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    localStorage.setItem('currentSchool', JSON.stringify(currentSchool));
+                    localStorage.setItem('currentUserType', currentUserType);
+                    
+                    showSchoolDashboard();
+                } else {
+                    showError('School not found');
+                }
+            } else {
+                showError('Invalid email or password');
             }
         }
-
-        // Create a new class
-        function createNewClass() {
-            const className = prompt('Enter class name (e.g., "Math Period 3"):');
-            if (!className) return;
+        
+        // Login as teacher
+        function loginTeacher() {
+            const email = document.getElementById('teacherLoginEmail').value;
+            const password = document.getElementById('teacherLoginPassword').value;
             
-            // Generate a 6-character alphanumeric code
+            if (!email || !password) {
+                showError('Please enter both email and password');
+                return;
+            }
+            
+            const data = getData();
+            
+            // Find teacher with matching credentials
+            const teacher = Object.values(data.teachers).find(t => 
+                t.email === email && t.password === password
+            );
+            
+            if (teacher) {
+                // Get school data
+                const school = data.schools[teacher.schoolId];
+                
+                if (school) {
+                    currentUser = teacher;
+                    currentSchool = school;
+                    currentUserType = 'teacher';
+                    
+                    // Save to localStorage
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    localStorage.setItem('currentSchool', JSON.stringify(currentSchool));
+                    localStorage.setItem('currentUserType', currentUserType);
+                    
+                    showTeacherDashboard();
+                } else {
+                    showError('School not found');
+                }
+            } else {
+                showError('Invalid email or password');
+            }
+        }
+        
+        // Join school as teacher
+        function joinAsTeacher() {
+            const schoolCode = document.getElementById('teacherSchoolCode').value;
+            const teacherName = document.getElementById('teacherName').value;
+            const teacherEmail = document.getElementById('teacherEmail').value;
+            const teacherPassword = document.getElementById('teacherPassword').value;
+            
+            if (!schoolCode || !teacherName || !teacherEmail || !teacherPassword) {
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            if (teacherPassword.length < 6) {
+                showError('Password must be at least 6 characters long');
+                return;
+            }
+            
+            const data = getData();
+            
+            // Find school with matching code
+            const school = Object.values(data.schools).find(s => 
+                s.code === schoolCode.toUpperCase()
+            );
+            
+            if (!school) {
+                showError('Invalid school code');
+                return;
+            }
+            
+            // Check if email already exists
+            const existingUser = Object.values(data.teachers).find(teacher => 
+                teacher.email === teacherEmail
+            );
+            
+            if (existingUser) {
+                showError('A user with this email already exists');
+                return;
+            }
+            
+            // Create teacher account
+            const teacherId = 'teacher_' + Date.now();
+            data.teachers[teacherId] = {
+                id: teacherId,
+                name: teacherName,
+                email: teacherEmail,
+                password: teacherPassword,
+                schoolId: school.id,
+                role: 'teacher',
+                created: Date.now()
+            };
+            
+            // Save data
+            saveData(data);
+            
+            // Set current user and school
+            currentUser = data.teachers[teacherId];
+            currentSchool = school;
+            currentUserType = 'teacher';
+            
+            // Save to localStorage
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            localStorage.setItem('currentSchool', JSON.stringify(currentSchool));
+            localStorage.setItem('currentUserType', currentUserType);
+            
+            // Show success message and dashboard
+            showSuccess('Successfully joined school!');
+            setTimeout(() => {
+                showTeacherDashboard();
+            }, 1500);
+        }
+        
+        // Update school dashboard with current data
+        function updateSchoolDashboard() {
+            if (!currentSchool || !currentUser) return;
+            
+            const data = getData();
+            
+            // Update school info
+            document.getElementById('teacherNameDisplay').textContent = currentUser.name;
+            document.getElementById('teacherAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('schoolNameDisplay').textContent = currentSchool.name;
+            document.getElementById('schoolCodeDisplay').textContent = currentSchool.code;
+            
+            // Update stats
+            updateSchoolStats(data);
+            
+            // Update teacher list
+            updateTeacherList(data);
+            
+            // Update class list
+            updateClassList(data);
+        }
+        
+        // Update teacher dashboard with current data
+        function updateTeacherDashboard() {
+            if (!currentSchool || !currentUser) return;
+            
+            const data = getData();
+            
+            // Update teacher info
+            document.getElementById('teacherNameDashboard').textContent = currentUser.name;
+            document.getElementById('teacherAvatarDashboard').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('schoolNameDashboard').textContent = currentSchool.name;
+            document.getElementById('teacherWelcomeName').textContent = currentUser.name;
+            document.getElementById('teacherSchoolName').textContent = currentSchool.name;
+            
+            // Update teacher stats
+            updateTeacherStats(data);
+            
+            // Update teacher's class list
+            updateTeacherClassList(data);
+        }
+        
+        // Update class management with current data
+        function updateClassManagement() {
+            if (!currentClass) return;
+            
+            const data = getData();
+            
+            // Update class info
+            document.getElementById('classTeacherAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('classTeacherName').textContent = currentUser.name;
+            document.getElementById('classNameDisplay').textContent = currentClass.name;
+            document.getElementById('classManagementTitle').textContent = currentClass.name + ' Management';
+            document.getElementById('classCodeDisplay').textContent = currentClass.code;
+            
+            // Update class stats
+            updateClassStats(data);
+            
+            // Update student list
+            updateStudentList(data);
+            
+            // Update lock button text
+            const classSettings = data.classSettings && data.classSettings[currentClass.code] ? 
+                data.classSettings[currentClass.code] : { allowBrowsing: true };
+            document.getElementById('lockAllBtn').textContent = classSettings.allowBrowsing ? 
+                'Lock All Browsers' : 'Unlock All Browsers';
+        }
+        
+        // Update school statistics
+        function updateSchoolStats(data) {
+            // Count teachers in this school
+            const schoolTeachers = Object.values(data.teachers).filter(t => 
+                t.schoolId === currentSchool.id
+            );
+            document.getElementById('totalTeachers').textContent = schoolTeachers.length;
+            
+            // Count classes in this school
+            const schoolClasses = Object.values(data.classes).filter(c => 
+                c.schoolId === currentSchool.id
+            );
+            document.getElementById('totalClasses').textContent = schoolClasses.length;
+            
+            // Count students across all classes
+            let totalStudents = 0;
+            if (data.students) {
+                const studentArray = Object.values(data.students);
+                totalStudents = studentArray.length;
+            }
+            document.getElementById('totalStudents').textContent = totalStudents;
+            
+            // Count active sessions (students with recent activity)
+            let activeSessions = 0;
+            if (data.students) {
+                const studentArray = Object.values(data.students);
+                const now = Date.now();
+                activeSessions = studentArray.filter(student => 
+                    student.lastActive && (now - student.lastActive) < 300000 // 5 minutes
+                ).length;
+            }
+            document.getElementById('activeSessions').textContent = activeSessions;
+        }
+        
+        // Update teacher statistics
+        function updateTeacherStats(data) {
+            // Count teacher's classes
+            const teacherClasses = Object.values(data.classes).filter(c => 
+                c.teacherId === currentUser.id
+            );
+            document.getElementById('teacherTotalClasses').textContent = teacherClasses.length;
+            
+            // Count students in teacher's classes
+            let totalStudents = 0;
+            let activeStudents = 0;
+            if (data.students) {
+                const studentArray = Object.values(data.students);
+                totalStudents = studentArray.length;
+                
+                const now = Date.now();
+                activeStudents = studentArray.filter(student => 
+                    student.lastActive && (now - student.lastActive) < 300000 // 5 minutes
+                ).length;
+            }
+            document.getElementById('teacherTotalStudents').textContent = totalStudents;
+            document.getElementById('teacherActiveStudents').textContent = activeStudents;
+            
+            // Count blocked sites
+            let blockedSites = 0;
+            if (data.blockedSites) {
+                blockedSites = data.blockedSites.length;
+            }
+            document.getElementById('teacherBlockedSites').textContent = blockedSites;
+        }
+        
+        // Update class statistics
+        function updateClassStats(data) {
+            // Count students in this class
+            let totalStudents = 0;
+            let activeStudents = 0;
+            if (data.students) {
+                const studentArray = Object.values(data.students);
+                const classStudents = studentArray.filter(student => 
+                    student.classCode === currentClass.code
+                );
+                totalStudents = classStudents.length;
+                
+                const now = Date.now();
+                activeStudents = classStudents.filter(student => 
+                    student.lastActive && (now - student.lastActive) < 300000 // 5 minutes
+                ).length;
+            }
+            document.getElementById('classTotalStudents').textContent = totalStudents;
+            document.getElementById('classActiveStudents').textContent = activeStudents;
+            
+            // Count blocked sites
+            let blockedSites = 0;
+            if (data.blockedSites) {
+                blockedSites = data.blockedSites.length;
+            }
+            document.getElementById('classBlockedSites').textContent = blockedSites;
+            
+            // Update restriction mode
+            const classSettings = data.classSettings && data.classSettings[currentClass.code] ? 
+                data.classSettings[currentClass.code] : { blockingEnabled: true };
+            document.getElementById('classRestrictedMode').textContent = classSettings.blockingEnabled ? 'On' : 'Off';
+        }
+        
+        // Update teacher list
+        function updateTeacherList(data) {
+            const teacherList = document.getElementById('teacherList');
+            teacherList.innerHTML = '';
+            
+            const schoolTeachers = Object.values(data.teachers).filter(t => 
+                t.schoolId === currentSchool.id
+            );
+            
+            if (schoolTeachers.length === 0) {
+                teacherList.innerHTML = '<p>No teachers found</p>';
+                return;
+            }
+            
+            schoolTeachers.forEach(teacher => {
+                const teacherItem = document.createElement('div');
+                teacherItem.className = 'teacher-item';
+                
+                teacherItem.innerHTML = `
+                    <div class="teacher-details">
+                        <h4>${teacher.name}</h4>
+                        <div class="teacher-role">${teacher.email}</div>
+                    </div>
+                    <div>
+                        <span class="role-badge ${teacher.role === 'owner' ? 'role-owner' : 'role-teacher'}">
+                            ${teacher.role === 'owner' ? 'Owner' : 'Teacher'}
+                        </span>
+                    </div>
+                `;
+                
+                teacherList.appendChild(teacherItem);
+            });
+        }
+        
+        // Update class list for school
+        function updateClassList(data) {
+            const classList = document.getElementById('classList');
+            classList.innerHTML = '';
+            
+            const schoolClasses = Object.values(data.classes).filter(c => 
+                c.schoolId === currentSchool.id
+            );
+            
+            if (schoolClasses.length === 0) {
+                classList.innerHTML = '<p>No classes created yet</p>';
+                return;
+            }
+            
+            schoolClasses.forEach(classItem => {
+                // Find teacher name
+                const teacher = data.teachers[classItem.teacherId];
+                const teacherName = teacher ? teacher.name : 'Unknown Teacher';
+                
+                const classElement = document.createElement('div');
+                classElement.className = 'class-item';
+                classElement.onclick = function() {
+                    openClassManagement(classItem);
+                };
+                
+                classElement.innerHTML = `
+                    <div class="class-info">
+                        <div class="class-name">${classItem.name}</div>
+                        <div class="class-stats">${classItem.subject} • ${classItem.grade} • Teacher: ${teacherName}</div>
+                    </div>
+                    <div>
+                        <span style="font-family: monospace; font-weight: bold;">${classItem.code}</span>
+                    </div>
+                `;
+                
+                classList.appendChild(classElement);
+            });
+        }
+        
+        // Update class list for teacher
+        function updateTeacherClassList(data) {
+            const classList = document.getElementById('teacherClassList');
+            classList.innerHTML = '';
+            
+            const teacherClasses = Object.values(data.classes).filter(c => 
+                c.teacherId === currentUser.id
+            );
+            
+            if (teacherClasses.length === 0) {
+                classList.innerHTML = '<p>No classes created yet</p>';
+                return;
+            }
+            
+            teacherClasses.forEach(classItem => {
+                const classElement = document.createElement('div');
+                classElement.className = 'class-item';
+                classElement.onclick = function() {
+                    openClassManagement(classItem);
+                };
+                
+                classElement.innerHTML = `
+                    <div class="class-info">
+                        <div class="class-name">${classItem.name}</div>
+                        <div class="class-stats">${classItem.subject} • ${classItem.grade}</div>
+                    </div>
+                    <div>
+                        <span style="font-family: monospace; font-weight: bold;">${classItem.code}</span>
+                    </div>
+                `;
+                
+                classList.appendChild(classElement);
+            });
+        }
+        
+        // Update student list for class
+        function updateStudentList(data) {
+            const studentList = document.getElementById('studentList');
+            studentList.innerHTML = '';
+            
+            if (!data.students) {
+                studentList.innerHTML = '<p>No students connected yet</p>';
+                return;
+            }
+            
+            const classStudents = Object.values(data.students).filter(s => 
+                s.classCode === currentClass.code
+            );
+            
+            if (classStudents.length === 0) {
+                studentList.innerHTML = '<p>No students connected yet</p>';
+                return;
+            }
+            
+            classStudents.forEach(student => {
+                const now = Date.now();
+                const isOnline = student.lastActive && (now - student.lastActive) < 300000; // 5 minutes
+                
+                const studentItem = document.createElement('div');
+                studentItem.className = 'student-item';
+                
+                studentItem.innerHTML = `
+                    <div class="student-details">
+                        <h4>${student.name}</h4>
+                        <div class="student-status">
+                            <div class="status-indicator ${isOnline ? 'status-online' : 'status-offline'}"></div>
+                            <span>${isOnline ? 'Online' : 'Offline'}</span>
+                            ${student.currentUrl ? `<span style="font-family: monospace; font-size: 0.9rem; color: #666;">• ${student.currentUrl}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="student-actions">
+                        <button class="student-action-btn primary" onclick="viewStudentActivity('${student.id}')">View Activity</button>
+                        <button class="student-action-btn" onclick="sendMessageToStudent('${student.id}')">Message</button>
+                        <button class="student-action-btn ${isOnline ? 'danger' : ''}" onclick="toggleStudentLock('${student.id}')">
+                            ${data.studentLocks && data.studentLocks[student.id] ? 'Unlock' : 'Lock'}
+                        </button>
+                    </div>
+                `;
+                
+                studentList.appendChild(studentItem);
+            });
+        }
+        
+        // Open class management
+        function openClassManagement(classItem) {
+            currentClass = classItem;
+            localStorage.setItem('currentClass', JSON.stringify(currentClass));
+            showClassManagement();
+        }
+        
+        // Go back to dashboard
+        function goBackToDashboard() {
+            currentClass = null;
+            localStorage.removeItem('currentClass');
+            
+            if (currentUserType === 'school') {
+                showSchoolDashboard();
+            } else {
+                showTeacherDashboard();
+            }
+        }
+        
+        // Generate new school code
+        function generateNewSchoolCode() {
+            const newCode = generateSchoolCode();
+            
+            const data = getData();
+            if (data.schools[currentSchool.id]) {
+                data.schools[currentSchool.id].code = newCode;
+                saveData(data);
+                
+                currentSchool.code = newCode;
+                localStorage.setItem('currentSchool', JSON.stringify(currentSchool));
+                
+                document.getElementById('schoolCodeDisplay').textContent = newCode;
+                showSuccess('New school code generated: ' + newCode);
+            }
+        }
+        
+        // Show add teacher modal
+        function showAddTeacherModal() {
+            document.getElementById('addTeacherModal').style.display = 'flex';
+        }
+        
+        // Show create class modal
+        function showCreateClassModal() {
+            // Populate teacher dropdown for school admins
+            if (currentUserType === 'school') {
+                const classTeacher = document.getElementById('classTeacher');
+                classTeacher.innerHTML = '';
+                
+                const data = getData();
+                const schoolTeachers = Object.values(data.teachers).filter(t => 
+                    t.schoolId === currentSchool.id
+                );
+                
+                schoolTeachers.forEach(teacher => {
+                    const option = document.createElement('option');
+                    option.value = teacher.id;
+                    option.textContent = teacher.name;
+                    classTeacher.appendChild(option);
+                });
+            }
+            
+            document.getElementById('createClassModal').style.display = 'flex';
+        }
+        
+        // Show class settings modal
+        function showClassSettingsModal() {
+            const data = getData();
+            const classSettings = data.classSettings && data.classSettings[currentClass.code] ? 
+                data.classSettings[currentClass.code] : { allowBrowsing: true, blockingEnabled: true };
+            
+            document.getElementById('classNameEdit').value = currentClass.name;
+            document.getElementById('classSubjectEdit').value = currentClass.subject;
+            document.getElementById('classGradeEdit').value = currentClass.grade;
+            document.getElementById('allowBrowsing').checked = classSettings.allowBrowsing;
+            document.getElementById('blockingEnabled').checked = classSettings.blockingEnabled;
+            
+            document.getElementById('classSettingsModal').style.display = 'flex';
+        }
+        
+        // Show blocked sites modal
+        function showBlockedSitesModal() {
+            const data = getData();
+            const blockedSitesList = document.getElementById('blockedSitesList');
+            blockedSitesList.innerHTML = '';
+            
+            if (data.blockedSites && data.blockedSites.length > 0) {
+                data.blockedSites.forEach(site => {
+                    const siteItem = document.createElement('div');
+                    siteItem.style.display = 'flex';
+                    siteItem.style.justifyContent = 'space-between';
+                    siteItem.style.alignItems = 'center';
+                    siteItem.style.padding = '10px';
+                    siteItem.style.borderBottom = '1px solid #e1e5ee';
+                    
+                    siteItem.innerHTML = `
+                        <span>${site}</span>
+                        <button class="btn-danger" style="padding: 5px 10px; font-size: 0.8rem;" onclick="removeBlockedSite('${site}')">Remove</button>
+                    `;
+                    
+                    blockedSitesList.appendChild(siteItem);
+                });
+            } else {
+                blockedSitesList.innerHTML = '<p>No blocked sites</p>';
+            }
+            
+            document.getElementById('blockedSitesModal').style.display = 'flex';
+        }
+        
+        // Show message modal
+        function showMessageModal() {
+            document.getElementById('messageModal').style.display = 'flex';
+        }
+        
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Add teacher to school
+        function addTeacher() {
+            const name = document.getElementById('newTeacherName').value;
+            const email = document.getElementById('newTeacherEmail').value;
+            const password = document.getElementById('newTeacherPassword').value;
+            
+            if (!name || !email || !password) {
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            const data = getData();
+            
+            // Check if email already exists
+            const existingUser = Object.values(data.teachers).find(teacher => 
+                teacher.email === email
+            );
+            
+            if (existingUser) {
+                showError('A teacher with this email already exists');
+                return;
+            }
+            
+            // Create teacher account
+            const teacherId = 'teacher_' + Date.now();
+            data.teachers[teacherId] = {
+                id: teacherId,
+                name: name,
+                email: email,
+                password: password,
+                schoolId: currentSchool.id,
+                role: 'teacher',
+                created: Date.now()
+            };
+            
+            // Save data
+            saveData(data);
+            
+            // Update dashboard
+            if (currentUserType === 'school') {
+                updateSchoolDashboard();
+            }
+            
+            // Close modal and show success
+            closeModal('addTeacherModal');
+            showSuccess('Teacher added successfully!');
+            
+            // Clear form
+            document.getElementById('newTeacherName').value = '';
+            document.getElementById('newTeacherEmail').value = '';
+            document.getElementById('newTeacherPassword').value = '';
+        }
+        
+        // Create new class
+        function createClass() {
+            const name = document.getElementById('className').value;
+            const teacherId = currentUserType === 'school' ? 
+                document.getElementById('classTeacher').value : currentUser.id;
+            const subject = document.getElementById('classSubject').value;
+            const grade = document.getElementById('classGrade').value;
+            
+            if (!name || !teacherId || !subject || !grade) {
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            const data = getData();
+            
+            // Generate class code
+            const classCode = generateClassCode();
+            
+            // Create class
+            data.classes[classCode] = {
+                id: classCode,
+                name: name,
+                teacherId: teacherId,
+                subject: subject,
+                grade: grade,
+                schoolId: currentSchool.id,
+                code: classCode,
+                created: Date.now()
+            };
+            
+            // Initialize class settings
+            if (!data.classSettings) data.classSettings = {};
+            data.classSettings[classCode] = {
+                allowBrowsing: true,
+                blockingEnabled: true
+            };
+            
+            // Save data
+            saveData(data);
+            
+            // Update dashboard
+            if (currentUserType === 'school') {
+                updateSchoolDashboard();
+            } else {
+                updateTeacherDashboard();
+            }
+            
+            // Close modal and show success
+            closeModal('createClassModal');
+            showSuccess('Class created successfully! Code: ' + classCode);
+            
+            // Clear form
+            document.getElementById('className').value = '';
+            document.getElementById('classSubject').value = '';
+            document.getElementById('classGrade').value = '';
+        }
+        
+        // Save class settings
+        function saveClassSettings() {
+            const name = document.getElementById('classNameEdit').value;
+            const subject = document.getElementById('classSubjectEdit').value;
+            const grade = document.getElementById('classGradeEdit').value;
+            const allowBrowsing = document.getElementById('allowBrowsing').checked;
+            const blockingEnabled = document.getElementById('blockingEnabled').checked;
+            
+            if (!name || !subject || !grade) {
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            const data = getData();
+            
+            // Update class info
+            if (data.classes[currentClass.code]) {
+                data.classes[currentClass.code].name = name;
+                data.classes[currentClass.code].subject = subject;
+                data.classes[currentClass.code].grade = grade;
+            }
+            
+            // Update class settings
+            if (!data.classSettings) data.classSettings = {};
+            data.classSettings[currentClass.code] = {
+                allowBrowsing: allowBrowsing,
+                blockingEnabled: blockingEnabled
+            };
+            
+            // Save data
+            saveData(data);
+            
+            // Update current class
+            currentClass.name = name;
+            currentClass.subject = subject;
+            currentClass.grade = grade;
+            localStorage.setItem('currentClass', JSON.stringify(currentClass));
+            
+            // Close modal and show success
+            closeModal('classSettingsModal');
+            showSuccess('Class settings updated successfully!');
+            
+            // Update class management
+            updateClassManagement();
+        }
+        
+        // Add blocked site
+        function addBlockedSite() {
+            const site = document.getElementById('newBlockedSite').value.trim();
+            
+            if (!site) {
+                showError('Please enter a website');
+                return;
+            }
+            
+            const data = getData();
+            
+            if (!data.blockedSites) data.blockedSites = [];
+            
+            // Check if site already exists
+            if (data.blockedSites.includes(site)) {
+                showError('This website is already blocked');
+                return;
+            }
+            
+            // Add site to blocked list
+            data.blockedSites.push(site);
+            
+            // Save data
+            saveData(data);
+            
+            // Clear input
+            document.getElementById('newBlockedSite').value = '';
+            
+            // Update blocked sites list
+            showBlockedSitesModal();
+            
+            showSuccess('Website added to blocked list');
+        }
+        
+        // Remove blocked site
+        function removeBlockedSite(site) {
+            const data = getData();
+            
+            if (data.blockedSites) {
+                data.blockedSites = data.blockedSites.filter(s => s !== site);
+                saveData(data);
+                showBlockedSitesModal();
+                showSuccess('Website removed from blocked list');
+            }
+        }
+        
+        // Toggle class lock
+        function toggleClassLock() {
+            const data = getData();
+            
+            if (!data.classSettings) data.classSettings = {};
+            if (!data.classSettings[currentClass.code]) {
+                data.classSettings[currentClass.code] = { allowBrowsing: true, blockingEnabled: true };
+            }
+            
+            // Toggle browsing permission
+            data.classSettings[currentClass.code].allowBrowsing = 
+                !data.classSettings[currentClass.code].allowBrowsing;
+            
+            // Save data
+            saveData(data);
+            
+            // Update button text
+            document.getElementById('lockAllBtn').textContent = 
+                data.classSettings[currentClass.code].allowBrowsing ? 
+                'Lock All Browsers' : 'Unlock All Browsers';
+            
+            showSuccess(data.classSettings[currentClass.code].allowBrowsing ? 
+                'All browsers unlocked' : 'All browsers locked');
+        }
+        
+        // Toggle student lock
+        function toggleStudentLock(studentId) {
+            const data = getData();
+            
+            if (!data.studentLocks) data.studentLocks = {};
+            
+            // Toggle student lock
+            data.studentLocks[studentId] = !data.studentLocks[studentId];
+            
+            // Save data
+            saveData(data);
+            
+            showSuccess(data.studentLocks[studentId] ? 
+                'Student browser locked' : 'Student browser unlocked');
+            
+            // Update student list
+            updateStudentList(data);
+        }
+        
+        // Send message to class
+        function sendMessageToClass() {
+            const message = document.getElementById('messageText').value.trim();
+            
+            if (!message) {
+                showError('Please enter a message');
+                return;
+            }
+            
+            const data = getData();
+            
+            if (!data.messages) data.messages = {};
+            
+            // Get students in this class
+            const classStudents = Object.values(data.students || {}).filter(s => 
+                s.classCode === currentClass.code
+            );
+            
+            // Send message to each student
+            classStudents.forEach(student => {
+                if (!data.messages[student.id]) data.messages[student.id] = [];
+                data.messages[student.id].push({
+                    text: message,
+                    from: currentUser.name,
+                    timestamp: Date.now()
+                });
+            });
+            
+            // Save data
+            saveData(data);
+            
+            // Close modal and clear input
+            closeModal('messageModal');
+            document.getElementById('messageText').value = '';
+            
+            showSuccess('Message sent to class');
+        }
+        
+        // Send message to student
+        function sendMessageToStudent(studentId) {
+            const message = prompt('Enter message for student:');
+            
+            if (message && message.trim()) {
+                const data = getData();
+                
+                if (!data.messages) data.messages = {};
+                if (!data.messages[studentId]) data.messages[studentId] = [];
+                
+                data.messages[studentId].push({
+                    text: message.trim(),
+                    from: currentUser.name,
+                    timestamp: Date.now()
+                });
+                
+                // Save data
+                saveData(data);
+                
+                showSuccess('Message sent to student');
+            }
+        }
+        
+        // View student activity
+        function viewStudentActivity(studentId) {
+            const data = getData();
+            const student = data.students[studentId];
+            const activityLogs = data.activityLogs && data.activityLogs[studentId] ? 
+                data.activityLogs[studentId] : [];
+            
+            let activityHTML = `<h3>Activity for ${student.name}</h3>`;
+            
+            if (activityLogs.length > 0) {
+                activityHTML += '<ul style="margin-top: 15px; max-height: 300px; overflow-y: auto;">';
+                activityLogs.slice(-10).reverse().forEach(log => {
+                    const time = new Date(log.timestamp).toLocaleTimeString();
+                    activityHTML += `<li style="margin-bottom: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                        <strong>${time}</strong>: ${log.action}
+                    </li>`;
+                });
+                activityHTML += '</ul>';
+            } else {
+                activityHTML += '<p>No activity recorded</p>';
+            }
+            
+            alert(activityHTML);
+        }
+        
+        // Generate password
+        function generatePassword() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let password = '';
+            for (let i = 0; i < 8; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('newTeacherPassword').value = password;
+        }
+        
+        // Show school settings modal (placeholder)
+        function showSchoolSettingsModal() {
+            alert('School settings feature coming soon!');
+        }
+        
+        // Show reports modal (placeholder)
+        function showReportsModal() {
+            alert('Reports feature coming soon!');
+        }
+        
+        // Logout
+        function logout() {
+            currentUser = null;
+            currentSchool = null;
+            currentUserType = null;
+            currentClass = null;
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('currentSchool');
+            localStorage.removeItem('currentUserType');
+            localStorage.removeItem('currentClass');
+            showSchoolLogin();
+        }
+        
+        // Utility functions
+        function getData() {
+            const defaultData = {
+                schools: {},
+                teachers: {},
+                classes: {},
+                students: {},
+                classSettings: {},
+                blockedSites: [
+                    'youtube.com', 'facebook.com', 'tiktok.com', 'instagram.com', 
+                    'netflix.com', 'twitter.com', 'snapchat.com', 'reddit.com', 
+                    'twitch.tv', 'porn', 'xxx', 'adult', 'gambling'
+                ],
+                teacherControl: {},
+                messages: {},
+                studentLocks: {},
+                screenshots: {},
+                activityLogs: {},
+                lastUpdated: Date.now()
+            };
+            
+            try {
+                const stored = localStorage.getItem('classStacksData');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    // Merge with default data to ensure all properties exist
+                    return {...defaultData, ...parsed};
+                }
+            } catch (e) {
+                console.error('Error parsing stored data:', e);
+            }
+            
+            return defaultData;
+        }
+        
+        function saveData(data) {
+            data.lastUpdated = Date.now();
+            localStorage.setItem('classStacksData', JSON.stringify(data));
+        }
+        
+        function generateSchoolCode() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let code = '';
             for (let i = 0; i < 6; i++) {
                 code += chars.charAt(Math.floor(Math.random() * chars.length));
             }
-            
-            // Add class to classes object
-            classes[code] = {
-                name: className,
-                created: Date.now(),
-                blockingEnabled: true,
-                settings: {
-                    allowBrowsing: true
-                }
-            };
-            
-            // Save classes
-            localStorage.setItem('classStacksClasses', JSON.stringify(classes));
-            
-            // Update class settings in shared data
-            const data = getData();
-            if (!data.classSettings) data.classSettings = {};
-            data.classSettings[code] = {
-                blockingEnabled: true,
-                allowBrowsing: true
-            };
-            saveData(data);
-            
-            currentClassCode = code;
-            updateClassList();
-            updateClassCodeDisplay();
-            
-            alert(`New class created: ${className}\nClass Code: ${code}`);
+            return code;
         }
-
-        // Select a class
-        function selectClass(classCode) {
-            currentClassCode = classCode;
-            updateClassList();
-            updateClassCodeDisplay();
-            updateDashboard();
-        }
-
-        // Update class list display
-        function updateClassList() {
-            const classList = document.getElementById('classList');
-            
-            if (Object.keys(classes).length === 0) {
-                classList.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #666;">
-                        <div style="font-size: 4rem; margin-bottom: 20px;">🏫</div>
-                        <h3>No Classes Created</h3>
-                        <p>Create your first class to get started</p>
-                    </div>
-                `;
-                return;
+        
+        function generateClassCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
             }
-
-            classList.innerHTML = '<h3>Your Classes</h3>';
-            Object.keys(classes).forEach(classCode => {
-                const classData = classes[classCode];
-                const isActive = classCode === currentClassCode;
-                
-                const classItem = document.createElement('div');
-                classItem.className = `class-item ${isActive ? 'active' : ''}`;
-                classItem.onclick = () => selectClass(classCode);
-                
-                // Get student count for this class
-                const data = getData();
-                const classStudents = Object.values(data.students).filter(s => s.classCode === classCode);
-                const activeStudents = classStudents.filter(s => Date.now() - s.lastActive < 30000).length;
-                
-                classItem.innerHTML = `
-                    <div class="class-info">
-                        <div class="class-name">${classData.name}</div>
-                        <div class="class-stats">Code: ${classCode} • Students: ${classStudents.length} (${activeStudents} active)</div>
-                    </div>
-                    <div>
-                        <span class="student-status ${classData.blockingEnabled ? 'status-restricted' : 'status-online'}">
-                            ${classData.blockingEnabled ? 'BLOCKING ON' : 'BLOCKING OFF'}
-                        </span>
-                    </div>
-                `;
-                classList.appendChild(classItem);
-            });
+            return code;
         }
-
-        // Update class code display
-        function updateClassCodeDisplay() {
-            if (currentClassCode && classes[currentClassCode]) {
-                document.getElementById('classCodeDisplay').textContent = `CLASS-${currentClassCode} - ${classes[currentClassCode].name}`;
-                document.getElementById('currentClassCode').textContent = currentClassCode;
-            } else {
-                document.getElementById('classCodeDisplay').textContent = 'CLASS-XXXXXX';
-                document.getElementById('currentClassCode').textContent = 'XXXXXX';
-            }
+        
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
         }
-
-        // Enable blocking for current class
-        function enableBlockingForCurrentClass() {
-            if (!currentClassCode) {
-                alert('Please select a class first');
-                return;
-            }
-            
-            classes[currentClassCode].blockingEnabled = true;
-            localStorage.setItem('classStacksClasses', JSON.stringify(classes));
-            
-            const data = getData();
-            if (!data.classSettings) data.classSettings = {};
-            if (!data.classSettings[currentClassCode]) data.classSettings[currentClassCode] = {};
-            data.classSettings[currentClassCode].blockingEnabled = true;
-            saveData(data);
-            
-            updateClassList();
-            alert('Blocking enabled for this class');
+        
+        function showSuccess(message) {
+            const successElement = document.getElementById('successMessage');
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            setTimeout(() => {
+                successElement.style.display = 'none';
+            }, 5000);
         }
-
-        // Disable blocking for current class
-        function disableBlockingForCurrentClass() {
-            if (!currentClassCode) {
-                alert('Please select a class first');
-                return;
-            }
-            
-            classes[currentClassCode].blockingEnabled = false;
-            localStorage.setItem('classStacksClasses', JSON.stringify(classes));
-            
-            const data = getData();
-            if (!data.classSettings) data.classSettings = {};
-            if (!data.classSettings[currentClassCode]) data.classSettings[currentClassCode] = {};
-            data.classSettings[currentClassCode].blockingEnabled = false;
-            saveData(data);
-            
-            updateClassList();
-            alert('Blocking disabled for this class');
+        
+        function hideMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
         }
-
-        // Lock all students in current class
-        function lockAllStudents() {
-            if (!currentClassCode) {
-                alert('Please select a class first');
-                return;
-            }
-            
-            const data = getData();
-            if (!data.classSettings) data.classSettings = {};
-            if (!data.classSettings[currentClassCode]) data.classSettings[currentClassCode] = {};
-            data.classSettings[currentClassCode].allowBrowsing = false;
-            saveData(data);
-            
-            alert('All student browsers locked - no websites can be accessed');
-        }
-
-        // Unlock all students in current class
-        function unlockAllStudents() {
-            if (!currentClassCode) {
-                alert('Please select a class first');
-                return;
-            }
-            
-            const data = getData();
-            if (!data.classSettings) data.classSettings = {};
-            if (!data.classSettings[currentClassCode]) data.classSettings[currentClassCode] = {};
-            data.classSettings[currentClassCode].allowBrowsing = true;
-            saveData(data);
-            
-            alert('Student browsers unlocked - websites can be accessed');
-        }
-
-        // Request screenshots from all students
-        function requestAllScreenshots() {
-            if (!currentClassCode) {
-                alert('Please select a class first');
-                return;
-            }
-            
-            const data = getData();
-            const classStudents = Object.values(data.students).filter(s => s.classCode === currentClassCode);
-            
-            classStudents.forEach(student => {
-                if (!data.screenshots) data.screenshots = {};
-                data.screenshots[student.id] = {
-                    requested: true,
-                    timestamp: Date.now()
-                };
-            });
-            
-            saveData(data);
-            alert('Screenshot requests sent to all students');
-        }
-
-        // Update student URL with full path
-        function updateStudentUrl() {
-            const currentUrl = window.location.href;
-            const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
-            document.getElementById('studentUrl').textContent = baseUrl + 'student.html';
-        }
-
-        // Get all data
-        function getData() {
-            return JSON.parse(localStorage.getItem('classStacksData') || '{"students":{},"classes":{},"blockedSites":[],"classSettings":{},"teacherControl":{},"studentLocks":{},"messages":{},"screenshots":{},"activityLogs":{}}');
-        }
-
-        // Save data
-        function saveData(data) {
-            data.lastUpdated = Date.now();
-            localStorage.setItem('classStacksData', JSON.stringify(data));
-            lastUpdateTime = Date.now();
-        }
-
-        // Check for updates
-        function checkForUpdates() {
-            const data = getData();
-            if (data.lastUpdated > lastUpdateTime) {
-                lastUpdateTime = data.lastUpdated;
-                return true;
-            }
-            return false;
-        }
-
-        // Update dashboard display
-        function updateDashboard() {
-            if (!currentClassCode) return;
-            
-            const data = getData();
-            const students = Object.values(data.students);
-            
-            // Filter students by current class code
-            const classStudents = students.filter(student => student.classCode === currentClassCode);
-            const activeStudents = classStudents.filter(s => Date.now() - s.lastActive < 30000).length;
-            
-            // Get class settings
-            const classSettings = data.classSettings && data.classSettings[currentClassCode] ? data.classSettings[currentClassCode] : { allowBrowsing: true, blockingEnabled: true };
-            const lockedStudents = classSettings.allowBrowsing === false ? classStudents.length : 0;
-
-            // Update stats
-            document.getElementById('totalStudents').textContent = classStudents.length;
-            document.getElementById('activeStudents').textContent = activeStudents;
-            document.getElementById('blockedSites').textContent = data.blockedSites.length;
-            document.getElementById('restrictedStudents').textContent = lockedStudents;
-
-            // Update student grid
-            updateStudentGrid(classStudents, classSettings);
-            
-            // Update blocked sites list
-            updateBlockedList(data.blockedSites);
-            
-            // Update screen view if a student is selected
-            if (selectedStudentId) {
-                updateScreenView(selectedStudentId);
-            }
-
-            // Update activity timeline
-            updateActivityTimeline();
-        }
-
-        // Update student grid
-        function updateStudentGrid(students, classSettings) {
-            const grid = document.getElementById('studentGrid');
-            const data = getData();
-            
-            if (students.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 15px;">
-                        <div style="font-size: 4rem; margin-bottom: 20px;">👨‍🎓</div>
-                        <h3>No Students Connected</h3>
-                        <p>Students will appear here when they connect using class code: <strong>${currentClassCode}</strong></p>
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = '';
-            students.forEach(student => {
-                const isActive = Date.now() - student.lastActive < 30000;
-                const isLocked = classSettings.allowBrowsing === false || (data.studentLocks && data.studentLocks[student.id]);
-                const isSelected = student.id === selectedStudentId;
-                
-                // Get latest screenshot for this student
-                const screenshot = data.screenshots && data.screenshots[student.id];
-                const hasScreenshot = screenshot && screenshot.imageData;
-                
-                const card = document.createElement('div');
-                card.className = `student-card ${isSelected ? 'active' : ''}`;
-                card.setAttribute('data-student-id', student.id);
-                card.onclick = () => selectStudent(student.id);
-                
-                card.innerHTML = `
-                    <div class="student-header">
-                        <div class="student-avatar">${student.name.charAt(0).toUpperCase()}</div>
-                        <div style="flex: 1;">
-                            <h3 style="margin: 0 0 5px 0;">${student.name}</h3>
-                            <div style="font-size: 0.8rem; color: #666;">ID: ${student.id.substring(0, 8)}</div>
-                        </div>
-                        <div class="student-status ${isActive ? (isLocked ? 'status-locked' : 'status-online') : 'status-offline'}">
-                            ${isActive ? (isLocked ? '🔒 LOCKED' : 'ONLINE') : 'OFFLINE'}
-                        </div>
-                    </div>
-                    <div class="student-details">
-                        <div class="detail-row">
-                            <span>Current Activity:</span>
-                            <span>${student.currentUrl ? getWebsiteName(extractDomain(student.currentUrl)) : 'Home Screen'}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span>Last Active:</span>
-                            <span>${formatTime(student.lastActive)}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span>Status:</span>
-                            <span>${isActive ? '🟢 Active' : '🔴 Offline'}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="student-screen-container">
-                        ${hasScreenshot ? 
-                            `<img src="${screenshot.imageData}" class="student-screen-thumbnail" alt="${student.name}'s screen" onclick="openScreenshotModal('${student.id}')">
-                             <div class="screen-overlay">
-                                <div class="screen-overlay-text">Click to view full screen</div>
-                             </div>
-                             <div class="screenshot-info">Updated: ${formatTime(screenshot.timestamp)}</div>` :
-                            `<div class="no-screenshot">
-                                <div class="no-screenshot-icon">📱</div>
-                                <div>Waiting for screenshot...</div>
-                             </div>`
-                        }
-                    </div>
-                    
-                    <div class="student-actions">
-                        <button class="btn ${isLocked ? 'btn-success' : 'btn-dark'}" onclick="event.stopPropagation(); toggleStudentLock('${student.id}')">
-                            ${isLocked ? 'Unlock' : 'Lock'}
-                        </button>
-                        <button class="btn btn-primary" onclick="event.stopPropagation(); sendMessage('${student.id}')">Message</button>
-                        <button class="btn btn-warning" onclick="event.stopPropagation(); requestScreenshot('${student.id}')">Screenshot</button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // Open screenshot in modal
-        function openScreenshotModal(studentId) {
-            const data = getData();
-            const screenshot = data.screenshots && data.screenshots[studentId];
-            const student = data.students[studentId];
-            
-            if (screenshot && screenshot.imageData) {
-                document.getElementById('screenshotModalImg').src = screenshot.imageData;
-                document.getElementById('screenshotModalStudent').textContent = student.name;
-                document.getElementById('screenshotModalTime').textContent = `Time: ${formatTime(screenshot.timestamp)}`;
-                document.getElementById('screenshotModal').style.display = 'flex';
-            }
-        }
-
-        // Close screenshot modal
-        function closeScreenshotModal() {
-            document.getElementById('screenshotModal').style.display = 'none';
-        }
-
-        // Toggle individual student lock
-        function toggleStudentLock(studentId) {
-            const data = getData();
-            if (!data.students[studentId]) return;
-            
-            if (!data.studentLocks) data.studentLocks = {};
-            
-            if (data.studentLocks[studentId]) {
-                delete data.studentLocks[studentId];
-            } else {
-                data.studentLocks[studentId] = true;
-            }
-            
-            saveData(data);
-            updateDashboard();
-        }
-
-        // Select a student to view their activity
-        function selectStudent(studentId) {
-            selectedStudentId = studentId;
-            updateScreenView(studentId);
-            updateDashboard();
-        }
-
-        // Update the screen view for the selected student
-        function updateScreenView(studentId) {
-            const data = getData();
-            const student = data.students[studentId];
-            
-            if (!student) {
-                document.getElementById('screenPlaceholder').style.display = 'flex';
-                document.getElementById('liveScreenView').style.display = 'none';
-                document.getElementById('screenInfo').style.display = 'none';
-                document.getElementById('selectedStudentName').textContent = 'Student not found';
-                return;
-            }
-            
-            const isActive = Date.now() - student.lastActive < 30000;
-            
-            // Update header
-            document.getElementById('selectedStudentName').textContent = student.name;
-            
-            // Update screen info
-            document.getElementById('currentStudentStatus').textContent = isActive ? 'Online' : 'Offline';
-            document.getElementById('lastActiveTime').textContent = formatTime(student.lastActive);
-            
-            // Check for screenshot
-            const screenshot = data.screenshots && data.screenshots[studentId];
-            if (screenshot && screenshot.imageData) {
-                document.getElementById('lastScreenshotTime').textContent = formatTime(screenshot.timestamp);
-                document.getElementById('liveScreenImg').src = screenshot.imageData;
-                document.getElementById('screenPlaceholder').style.display = 'none';
-                document.getElementById('liveScreenView').style.display = 'flex';
-                document.getElementById('screenInfo').style.display = 'block';
-            } else {
-                document.getElementById('lastScreenshotTime').textContent = 'Never';
-                document.getElementById('screenPlaceholder').style.display = 'flex';
-                document.getElementById('liveScreenView').style.display = 'none';
-                document.getElementById('screenInfo').style.display = 'block';
-                
-                // Update placeholder message
-                const placeholder = document.getElementById('screenPlaceholder');
-                if (!isActive) {
-                    placeholder.innerHTML = `
-                        <div class="screen-placeholder-icon">🔴</div>
-                        <p>Student is offline</p>
-                    `;
-                } else {
-                    placeholder.innerHTML = `
-                        <div class="screen-placeholder-icon">📱</div>
-                        <p>Waiting for student screen...</p>
-                    `;
-                }
-            }
-        }
-
-        // Refresh student screen
-        function refreshStudentScreen() {
-            if (!selectedStudentId) return;
-            requestScreenshot(selectedStudentId);
-        }
-
-        // Request screenshot from student
-        function requestScreenshot(studentId = null) {
-            const targetStudentId = studentId || selectedStudentId;
-            if (!targetStudentId) {
-                alert('Please select a student first');
-                return;
-            }
-            
-            const data = getData();
-            if (!data.screenshots) data.screenshots = {};
-            data.screenshots[targetStudentId] = {
-                requested: true,
-                timestamp: Date.now()
-            };
-            saveData(data);
-            
-            alert('Screenshot request sent to student');
-        }
-
-        // Close student tab
-        function closeStudentTab() {
-            if (!selectedStudentId) {
-                alert('Please select a student first');
-                return;
-            }
-            
-            const data = getData();
-            if (!data.teacherControl) data.teacherControl = {};
-            data.teacherControl[selectedStudentId] = {
-                action: 'closeTab',
-                timestamp: Date.now()
-            };
-            saveData(data);
-            
-            alert('Close tab command sent to student');
-        }
-
-        // Take control of student's browser
-        function takeControlOfStudent() {
-            if (!selectedStudentId) {
-                alert('Please select a student first');
-                return;
-            }
-            
-            const url = prompt('Enter URL to navigate student to:');
-            if (url) {
-                const data = getData();
-                if (!data.teacherControl) data.teacherControl = {};
-                data.teacherControl[selectedStudentId] = {
-                    url: url,
-                    timestamp: Date.now()
-                };
-                saveData(data);
-                alert(`Navigation command sent to student. They will be redirected to: ${url}`);
-            }
-        }
-
-        // Open all educational sites for students
-        function openAllEducational() {
-            if (!currentClassCode) {
-                alert('Please select a class first');
-                return;
-            }
-            
-            const data = getData();
-            const classStudents = Object.values(data.students).filter(s => s.classCode === currentClassCode);
-            
-            classStudents.forEach(student => {
-                if (!data.teacherControl) data.teacherControl = {};
-                data.teacherControl[student.id] = {
-                    url: 'https://www.khanacademy.org',
-                    timestamp: Date.now()
-                };
-            });
-            
-            saveData(data);
-            alert('All students redirected to Khan Academy');
-        }
-
-        // Update activity timeline
-        function updateActivityTimeline() {
-            const data = getData();
-            const timeline = document.getElementById('activityTimeline');
-            const timelineContent = document.getElementById('timelineContent');
-            
-            if (Object.keys(data.activityLogs || {}).length === 0) {
-                timeline.style.display = 'none';
-                return;
-            }
-            
-            timeline.style.display = 'block';
-            timelineContent.innerHTML = '';
-            
-            // Get recent activity for current class
-            const classStudents = Object.values(data.students).filter(s => s.classCode === currentClassCode);
-            const studentIds = classStudents.map(s => s.id);
-            
-            Object.entries(data.activityLogs || {}).forEach(([studentId, logs]) => {
-                if (studentIds.includes(studentId)) {
-                    const student = data.students[studentId];
-                    logs.slice(-5).forEach(log => {
-                        const timelineItem = document.createElement('div');
-                        timelineItem.className = 'timeline-item';
-                        timelineItem.innerHTML = `
-                            <div><strong>${student.name}</strong>: ${log.action}</div>
-                            <div class="timeline-time">${formatTime(log.timestamp)}</div>
-                        `;
-                        timelineContent.appendChild(timelineItem);
-                    });
-                }
-            });
-        }
-
-        // Extract domain from URL
-        function extractDomain(url) {
-            try {
-                const domain = new URL(url).hostname;
-                return domain.replace('www.', '');
-            } catch (e) {
-                const match = url.match(/(?:https?:\/\/)?(?:www\.)?([^\/]+)/i);
-                return match ? match[1] : url;
-            }
-        }
-
-        // Get website name from domain
-        function getWebsiteName(domain) {
-            const names = {
-                'google.com': 'Google',
-                'youtube.com': 'YouTube',
-                'wikipedia.org': 'Wikipedia',
-                'khanacademy.org': 'Khan Academy',
-                'github.com': 'GitHub',
-                'facebook.com': 'Facebook',
-                'twitter.com': 'Twitter',
-                'instagram.com': 'Instagram',
-                'tiktok.com': 'TikTok',
-                'netflix.com': 'Netflix',
-                'chat.openai.com': 'ChatGPT',
-                'stackoverflow.com': 'Stack Overflow',
-                'code.org': 'Code.org',
-                'scratch.mit.edu': 'Scratch',
-                'w3schools.com': 'W3Schools',
-                'duolingo.com': 'Duolingo'
-            };
-            return names[domain] || domain;
-        }
-
-        // Get website icon from domain
-        function getWebsiteIcon(domain) {
-            const icons = {
-                'google.com': '🔍',
-                'youtube.com': '📺',
-                'wikipedia.org': '📚',
-                'khanacademy.org': '🎓',
-                'github.com': '💻',
-                'facebook.com': '👥',
-                'twitter.com': '🐦',
-                'instagram.com': '📷',
-                'tiktok.com': '🎵',
-                'netflix.com': '🎬',
-                'chat.openai.com': '🤖',
-                'stackoverflow.com': '💡',
-                'code.org': '👨‍💻',
-                'scratch.mit.edu': '🐱',
-                'w3schools.com': '🌍',
-                'duolingo.com': '🦉'
-            };
-            return icons[domain] || '🌐';
-        }
-
-        // Update blocked sites list
-        function updateBlockedList(blockedSites) {
-            const list = document.getElementById('blockedList');
-            
-            if (blockedSites.length === 0) {
-                list.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No websites blocked</div>';
-                return;
-            }
-
-            list.innerHTML = '';
-            blockedSites.forEach(site => {
-                const item = document.createElement('div');
-                item.className = 'blocked-item';
-                item.innerHTML = `
-                    <span>${site}</span>
-                    <button class="btn btn-success" style="padding: 5px 10px; font-size: 0.8rem;" onclick="unblockWebsite('${site}')">Unblock</button>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        // Block a website
-        function blockWebsite() {
-            const urlInput = document.getElementById('blockUrlInput');
-            const url = urlInput.value.trim().toLowerCase();
-            
-            if (url) {
-                const data = getData();
-                if (!data.blockedSites.includes(url)) {
-                    data.blockedSites.push(url);
-                    saveData(data);
-                    urlInput.value = '';
-                    updateDashboard();
-                } else {
-                    alert('Website already blocked!');
-                }
-            }
-        }
-
-        // Unblock a website
-        function unblockWebsite(site) {
-            const data = getData();
-            data.blockedSites = data.blockedSites.filter(s => s !== site);
-            saveData(data);
-            updateDashboard();
-        }
-
-        // Block common social media sites
-        function blockCommonSites() {
-            const commonSites = ['youtube.com', 'facebook.com', 'tiktok.com', 'instagram.com', 'netflix.com', 'twitter.com', 'snapchat.com', 'reddit.com', 'twitch.tv'];
-            const data = getData();
-            
-            commonSites.forEach(site => {
-                if (!data.blockedSites.includes(site)) {
-                    data.blockedSites.push(site);
-                }
-            });
-            
-            saveData(data);
-            updateDashboard();
-        }
-
-        // Unblock all sites
-        function unblockAllSites() {
-            const data = getData();
-            data.blockedSites = [];
-            saveData(data);
-            updateDashboard();
-        }
-
-        // Send message to student
-        function sendMessage(studentId) {
-            const message = prompt('Enter message to send to student:');
-            if (message) {
-                const data = getData();
-                if (!data.messages) data.messages = {};
-                if (!data.messages[studentId]) data.messages[studentId] = [];
-                
-                data.messages[studentId].push({
-                    text: message,
-                    timestamp: Date.now(),
-                    from: 'Teacher'
-                });
-                
-                saveData(data);
-                alert('Message sent!');
-            }
-        }
-
-        // Format time display
-        function formatTime(timestamp) {
-            const now = Date.now();
-            const diff = now - timestamp;
-            
-            if (diff < 60000) return 'Just now';
-            if (diff < 3600000) return `${Math.floor(diff / 60000)} minutes ago`;
-            if (diff < 86400000) return `${Math.floor(diff / 3600000)} hours ago`;
-            return new Date(timestamp).toLocaleDateString();
-        }
-
-        // Initialize and start monitoring
-        initializeData();
-        updateDashboard();
+        
+        // Initialize the application when the page loads
+        document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
 </html>
