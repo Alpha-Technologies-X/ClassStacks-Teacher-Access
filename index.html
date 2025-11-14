@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class Stacks - Teacher Dashboard</title>
+    <title>Class Stacks - Complete System</title>
     <style>
         :root {
             --primary: #4361ee;
@@ -15,6 +15,9 @@
             --light: #f8f9fa;
             --sidebar: #2c3e50;
             --sidebar-hover: #34495e;
+            --tab-active: #ffffff;
+            --tab-inactive: #f1f3f4;
+            --tab-border: #dadce0;
         }
         
         * {
@@ -1103,9 +1106,6 @@
                 <li class="sidebar-item" onclick="showDashboardView('bypass')">
                     <span>🔓</span> <span>Bypass Codes</span>
                 </li>
-                <li class="sidebar-item" onclick="showDashboardView('schedule')">
-                    <span>📅</span> <span>Schedule</span>
-                </li>
                 <li class="sidebar-item" onclick="showDashboardView('settings')">
                     <span>⚙️</span> <span>Settings</span>
                 </li>
@@ -1326,22 +1326,6 @@
                 
                 <div class="bypass-grid" id="bypassCodesList">
                     <!-- Bypass codes will be listed here -->
-                </div>
-            </div>
-            
-            <!-- Schedule View -->
-            <div class="dashboard-view" id="scheduleView" style="display: none;">
-                <div class="content-header">
-                    <div class="content-title">Class Schedule</div>
-                    <button class="btn" onclick="showCreateScheduleModal()" style="width: auto;">Add Schedule</button>
-                </div>
-                
-                <div class="content-card">
-                    <div class="card-body">
-                        <div class="schedule-list" id="scheduleList">
-                            <!-- Schedules will be listed here -->
-                        </div>
-                    </div>
                 </div>
             </div>
             
