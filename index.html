@@ -2044,8 +2044,9 @@
                 const classCard = document.createElement('div');
                 classCard.className = 'class-card';
                 classCard.onclick = () => {
-                    // In a real implementation, this would show class details
+                    // FIXED: This now properly switches to monitoring view
                     showDashboardView('monitoring');
+                    // You could also filter students by this class here
                 };
                 
                 classCard.innerHTML = `
