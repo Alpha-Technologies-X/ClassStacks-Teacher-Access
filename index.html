@@ -59,6 +59,28 @@
             margin-bottom: 10px;
         }
         
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e1e5ee;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .auth-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
         .form-group {
             margin-bottom: 20px;
         }
@@ -124,6 +146,22 @@
         
         .btn-warning:hover {
             background: #e67e22;
+        }
+        
+        .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .auth-toggle a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .auth-toggle a:hover {
+            text-decoration: underline;
         }
         
         .error-message {
@@ -813,28 +851,124 @@
                 <p>Teacher Dashboard</p>
             </div>
             
-            <div class="form-group">
-                <label for="teacherName">Your Name</label>
-                <input type="text" id="teacherName" placeholder="Enter your name" required>
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="schoolTab" onclick="showAuthTab('school')">School Login</div>
+                <div class="auth-tab" id="teacherTab" onclick="showAuthTab('teacher')">Teacher Login</div>
             </div>
             
-            <div class="form-group">
-                <label for="schoolName">School Name</label>
-                <input type="text" id="schoolName" placeholder="Enter your school name" required>
+            <!-- School Login Form -->
+            <div id="schoolAuth">
+                <div class="form-group">
+                    <label for="schoolEmail">Email Address</label>
+                    <input type="email" id="schoolEmail" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="schoolPassword">Password</label>
+                    <input type="password" id="schoolPassword" placeholder="Enter your password" required>
+                </div>
+                
+                <button class="btn" onclick="loginSchool()">Login to School Account</button>
+                
+                <div class="auth-toggle">
+                    <a href="#" onclick="showSchoolRegistration()">Don't have an account? Register</a>
+                </div>
             </div>
             
-            <button class="btn" onclick="loginTeacher()">Enter Dashboard</button>
+            <!-- Teacher Login Form -->
+            <div id="teacherAuth" style="display: none;">
+                <div class="form-group">
+                    <label for="teacherEmail">Email Address</label>
+                    <input type="email" id="teacherEmail" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="teacherPassword">Password</label>
+                    <input type="password" id="teacherPassword" placeholder="Enter your password" required>
+                </div>
+                
+                <button class="btn" onclick="loginTeacher()">Login as Teacher</button>
+                
+                <div class="auth-toggle">
+                    <a href="#" onclick="showTeacherJoin()">Join a School as Teacher</a>
+                </div>
+            </div>
+            
+            <!-- School Registration Form -->
+            <div id="schoolRegistration" style="display: none;">
+                <h2 style="text-align: center; margin-bottom: 20px;">Create School Account</h2>
+                
+                <div class="form-group">
+                    <label for="schoolName">School Name</label>
+                    <input type="text" id="schoolName" placeholder="Enter your school name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="schoolType">School Type</label>
+                    <select id="schoolType" required>
+                        <option value="">Select school type</option>
+                        <option value="elementary">Elementary School</option>
+                        <option value="middle">Middle School</option>
+                        <option value="high">High School</option>
+                        <option value="college">College/University</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminName">Administrator Name</label>
+                    <input type="text" id="adminName" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminEmail">Email Address</label>
+                    <input type="email" id="adminEmail" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" placeholder="Create a password" required>
+                </div>
+                
+                <button class="btn btn-success" onclick="registerSchool()">Create School Account</button>
+                
+                <div class="auth-toggle">
+                    <a href="#" onclick="showSchoolLogin()">Already have an account? Login</a>
+                </div>
+            </div>
+            
+            <!-- Teacher Join Form -->
+            <div id="teacherJoin" style="display: none;">
+                <h2 style="text-align: center; margin-bottom: 20px;">Join School as Teacher</h2>
+                
+                <div class="form-group">
+                    <label for="joinSchoolCode">School Code</label>
+                    <input type="text" id="joinSchoolCode" placeholder="Enter school code" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="joinTeacherName">Your Name</label>
+                    <input type="text" id="joinTeacherName" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="joinTeacherEmail">Email Address</label>
+                    <input type="email" id="joinTeacherEmail" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="joinTeacherPassword">Password</label>
+                    <input type="password" id="joinTeacherPassword" placeholder="Create a password" required>
+                </div>
+                
+                <button class="btn" onclick="joinAsTeacher()">Join School</button>
+                
+                <div class="auth-toggle">
+                    <a href="#" onclick="showTeacherLogin()">Back to Teacher Login</a>
+                </div>
+            </div>
             
             <div class="error-message" id="errorMessage"></div>
             <div class="success-message" id="successMessage"></div>
-            
-            <div style="margin-top: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; font-size: 14px;">
-                <strong>How it works:</strong><br>
-                1. Enter your name and school<br>
-                2. Create classes and share codes with students<br>
-                3. Monitor student activity in real-time<br>
-                4. Control browsing and send messages
-            </div>
         </div>
     </div>
     
@@ -985,6 +1119,9 @@
                                 <button class="control-btn danger" onclick="closeStudentTab()">
                                     <span>❌</span> Close Tab
                                 </button>
+                                <button class="control-btn primary" onclick="showOpenTabModal()">
+                                    <span>➕</span> Open Tab
+                                </button>
                             </div>
                         </div>
                         
@@ -1121,6 +1258,23 @@
             <button class="btn btn-success" onclick="sendMessageToStudent()">Send Message</button>
         </div>
     </div>
+    
+    <!-- Open Tab Modal -->
+    <div class="modal" id="openTabModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Open Tab on Student Browser</div>
+                <button class="modal-close" onclick="closeModal('openTabModal')">×</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="tabUrl">Website URL</label>
+                <input type="text" id="tabUrl" placeholder="https://example.com">
+            </div>
+            
+            <button class="btn btn-success" onclick="openTabOnStudent()">Open Tab</button>
+        </div>
+    </div>
 
     <script>
         // Global variables
@@ -1140,6 +1294,8 @@
                 currentUser = JSON.parse(savedUser);
                 currentSchool = JSON.parse(savedSchool);
                 showTeacherDashboard();
+            } else {
+                showAuthTab('school');
             }
             
             // Initialize data structure if it doesn't exist
@@ -1167,41 +1323,107 @@
             }
         }
         
-        // Login teacher
-        function loginTeacher() {
-            const teacherName = document.getElementById('teacherName').value.trim();
-            const schoolName = document.getElementById('schoolName').value.trim();
+        // Show authentication tab
+        function showAuthTab(tab) {
+            document.getElementById('schoolTab').classList.remove('active');
+            document.getElementById('teacherTab').classList.remove('active');
             
-            if (!teacherName || !schoolName) {
-                showError('Please enter both your name and school name');
+            document.getElementById('schoolAuth').style.display = 'none';
+            document.getElementById('teacherAuth').style.display = 'none';
+            document.getElementById('schoolRegistration').style.display = 'none';
+            document.getElementById('teacherJoin').style.display = 'none';
+            
+            if (tab === 'school') {
+                document.getElementById('schoolTab').classList.add('active');
+                document.getElementById('schoolAuth').style.display = 'block';
+            } else {
+                document.getElementById('teacherTab').classList.add('active');
+                document.getElementById('teacherAuth').style.display = 'block';
+            }
+        }
+        
+        // Show school registration
+        function showSchoolRegistration() {
+            document.getElementById('schoolAuth').style.display = 'none';
+            document.getElementById('schoolRegistration').style.display = 'block';
+        }
+        
+        // Show school login
+        function showSchoolLogin() {
+            document.getElementById('schoolRegistration').style.display = 'none';
+            document.getElementById('schoolAuth').style.display = 'block';
+        }
+        
+        // Show teacher join
+        function showTeacherJoin() {
+            document.getElementById('teacherAuth').style.display = 'none';
+            document.getElementById('teacherJoin').style.display = 'block';
+        }
+        
+        // Show teacher login
+        function showTeacherLogin() {
+            document.getElementById('teacherJoin').style.display = 'none';
+            document.getElementById('teacherAuth').style.display = 'block';
+        }
+        
+        // Register a new school
+        function registerSchool() {
+            const schoolName = document.getElementById('schoolName').value;
+            const schoolType = document.getElementById('schoolType').value;
+            const adminName = document.getElementById('adminName').value;
+            const adminEmail = document.getElementById('adminEmail').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+            
+            if (!schoolName || !schoolType || !adminName || !adminEmail || !adminPassword) {
+                showError('Please fill in all required fields');
+                return;
+            }
+            
+            if (adminPassword.length < 6) {
+                showError('Password must be at least 6 characters long');
                 return;
             }
             
             const data = getSharedData();
             
-            // Create teacher ID
-            const teacherId = 'teacher_' + Date.now();
-            
-            // Create school if it doesn't exist
-            let schoolId = Object.keys(data.schools).find(id => 
-                data.schools[id].name === schoolName
+            // Check if email already exists
+            const existingUser = Object.values(data.teachers).find(teacher => 
+                teacher.email === adminEmail
             );
             
-            if (!schoolId) {
-                schoolId = 'school_' + Date.now();
-                data.schools[schoolId] = {
-                    id: schoolId,
-                    name: schoolName,
-                    created: Date.now(),
-                    owner: teacherId
-                };
+            if (existingUser) {
+                showError('A user with this email already exists');
+                return;
             }
             
-            // Create teacher
+            // Generate school ID and code
+            const schoolId = 'school_' + Date.now();
+            const schoolCode = generateSchoolCode();
+            
+            // Create school
+            data.schools[schoolId] = {
+                id: schoolId,
+                name: schoolName,
+                type: schoolType,
+                code: schoolCode,
+                created: Date.now(),
+                owner: adminEmail,
+                blockedSites: [
+                    'youtube.com', 'facebook.com', 'tiktok.com', 'instagram.com', 
+                    'netflix.com', 'twitter.com', 'snapchat.com', 'reddit.com', 
+                    'twitch.tv', 'porn', 'xxx', 'adult', 'gambling'
+                ]
+            };
+            
+            // Create admin teacher
+            const teacherId = 'teacher_' + Date.now();
             data.teachers[teacherId] = {
                 id: teacherId,
-                name: teacherName,
+                name: adminName,
+                email: adminEmail,
+                password: adminPassword,
                 schoolId: schoolId,
+                role: 'owner',
                 created: Date.now()
             };
             
@@ -1216,7 +1438,156 @@
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             localStorage.setItem('currentSchool', JSON.stringify(currentSchool));
             
-            showTeacherDashboard();
+            // Show success message and dashboard
+            showSuccess('School account created successfully!');
+            setTimeout(() => {
+                showTeacherDashboard();
+            }, 1500);
+        }
+        
+        // Login to school account
+        function loginSchool() {
+            const email = document.getElementById('schoolEmail').value;
+            const password = document.getElementById('schoolPassword').value;
+            
+            if (!email || !password) {
+                showError('Please enter both email and password');
+                return;
+            }
+            
+            const data = getSharedData();
+            
+            // Find teacher with matching credentials
+            const teacher = Object.values(data.teachers).find(t => 
+                t.email === email && t.password === password
+            );
+            
+            if (teacher) {
+                // Get school data
+                const school = data.schools[teacher.schoolId];
+                
+                if (school) {
+                    currentUser = teacher;
+                    currentSchool = school;
+                    
+                    // Save to localStorage
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    localStorage.setItem('currentSchool', JSON.stringify(currentSchool));
+                    
+                    showTeacherDashboard();
+                } else {
+                    showError('School not found');
+                }
+            } else {
+                showError('Invalid email or password');
+            }
+        }
+        
+        // Login as teacher
+        function loginTeacher() {
+            const email = document.getElementById('teacherEmail').value;
+            const password = document.getElementById('teacherPassword').value;
+            
+            if (!email || !password) {
+                showError('Please enter both email and password');
+                return;
+            }
+            
+            const data = getSharedData();
+            
+            // Find teacher with matching credentials
+            const teacher = Object.values(data.teachers).find(t => 
+                t.email === email && t.password === password
+            );
+            
+            if (teacher) {
+                // Get school data
+                const school = data.schools[teacher.schoolId];
+                
+                if (school) {
+                    currentUser = teacher;
+                    currentSchool = school;
+                    
+                    // Save to localStorage
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    localStorage.setItem('currentSchool', JSON.stringify(currentSchool));
+                    
+                    showTeacherDashboard();
+                } else {
+                    showError('School not found');
+                }
+            } else {
+                showError('Invalid email or password');
+            }
+        }
+        
+        // Join school as teacher
+        function joinAsTeacher() {
+            const schoolCode = document.getElementById('joinSchoolCode').value;
+            const teacherName = document.getElementById('joinTeacherName').value;
+            const teacherEmail = document.getElementById('joinTeacherEmail').value;
+            const teacherPassword = document.getElementById('joinTeacherPassword').value;
+            
+            if (!schoolCode || !teacherName || !teacherEmail || !teacherPassword) {
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            if (teacherPassword.length < 6) {
+                showError('Password must be at least 6 characters long');
+                return;
+            }
+            
+            const data = getSharedData();
+            
+            // Find school with matching code
+            const school = Object.values(data.schools).find(s => 
+                s.code === schoolCode.toUpperCase()
+            );
+            
+            if (!school) {
+                showError('Invalid school code');
+                return;
+            }
+            
+            // Check if email already exists
+            const existingUser = Object.values(data.teachers).find(teacher => 
+                teacher.email === teacherEmail
+            );
+            
+            if (existingUser) {
+                showError('A user with this email already exists');
+                return;
+            }
+            
+            // Create teacher account
+            const teacherId = 'teacher_' + Date.now();
+            data.teachers[teacherId] = {
+                id: teacherId,
+                name: teacherName,
+                email: teacherEmail,
+                password: teacherPassword,
+                schoolId: school.id,
+                role: 'teacher',
+                created: Date.now()
+            };
+            
+            // Save data
+            saveSharedData(data);
+            
+            // Set current user and school
+            currentUser = data.teachers[teacherId];
+            currentSchool = school;
+            
+            // Save to localStorage
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            localStorage.setItem('currentSchool', JSON.stringify(currentSchool));
+            
+            // Show success message and dashboard
+            showSuccess('Successfully joined school!');
+            setTimeout(() => {
+                showTeacherDashboard();
+            }, 1500);
         }
         
         // Show teacher dashboard
@@ -1240,6 +1611,7 @@
             // Update user info
             document.getElementById('userName').textContent = currentUser.name;
             document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('userRole').textContent = currentUser.role === 'owner' ? 'School Admin' : 'Teacher';
             
             // Update current view
             updateDashboardView();
@@ -1291,7 +1663,7 @@
         function updateOverviewView(data) {
             // Get teacher's classes
             const teacherClasses = Object.values(data.classes).filter(c => 
-                c.teacherId === currentUser.id
+                c.teacherId === currentUser.id || c.schoolId === currentSchool.id
             );
             
             // Get all students
@@ -1404,7 +1776,7 @@
             
             // Get teacher's classes
             const teacherClasses = Object.values(data.classes).filter(c => 
-                c.teacherId === currentUser.id
+                c.teacherId === currentUser.id || c.schoolId === currentSchool.id
             );
             
             if (teacherClasses.length === 0) {
@@ -1428,7 +1800,6 @@
                 classCard.onclick = () => {
                     // Show monitoring view with this class's students
                     showDashboardView('monitoring');
-                    // In a real implementation, you would filter students by class
                 };
                 
                 classCard.innerHTML = `
@@ -1775,9 +2146,6 @@
             if (!selectedStudentId) return;
             
             const data = getSharedData();
-            const student = data.students[selectedStudentId];
-            
-            if (!student || !student.tabs || student.tabs.length === 0) return;
             
             // Send close command to student
             if (!data.teacherControl) data.teacherControl = {};
@@ -1789,6 +2157,40 @@
             
             saveSharedData(data);
             showSuccess('Tab close command sent');
+        }
+        
+        function showOpenTabModal() {
+            if (!selectedStudentId) return;
+            document.getElementById('openTabModal').style.display = 'flex';
+        }
+        
+        function openTabOnStudent() {
+            if (!selectedStudentId) return;
+            
+            const url = document.getElementById('tabUrl').value;
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+            
+            const data = getSharedData();
+            
+            // Send open tab command to student
+            if (!data.teacherControl) data.teacherControl = {};
+            data.teacherControl[selectedStudentId] = {
+                action: 'openTab',
+                url: url,
+                timestamp: Date.now()
+            };
+            
+            saveSharedData(data);
+            
+            // Close modal and show success
+            closeModal('openTabModal');
+            showSuccess('Tab opened on student browser');
+            
+            // Clear form
+            document.getElementById('tabUrl').value = '';
         }
         
         function refreshAllScreens() {
@@ -1884,6 +2286,7 @@
                 subject: subject,
                 grade: grade,
                 code: classCode,
+                schoolId: currentSchool.id,
                 created: Date.now()
             };
             
@@ -2038,6 +2441,15 @@
                 console.error('Error saving data:', e);
                 return false;
             }
+        }
+        
+        function generateSchoolCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
         }
         
         function generateClassCode() {
