@@ -144,6 +144,10 @@
             background: var(--warning);
         }
         
+        .btn-warning:hover {
+            background: #e6893a;
+        }
+        
         .auth-toggle {
             text-align: center;
             margin-top: 20px;
@@ -444,56 +448,54 @@
             background: #c0392b;
         }
         
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Student Management */
+        .students-table {
             width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            border-collapse: collapse;
         }
         
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+        .students-table th, .students-table td {
+            padding: 15px;
+            text-align: left;
             border-bottom: 1px solid #e1e5ee;
         }
         
-        .modal-title {
-            font-size: 1.4rem;
+        .students-table th {
+            background: #f8f9fa;
             font-weight: 600;
-            color: var(--dark);
+            color: #555;
         }
         
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+        .students-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .student-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-online {
+            background: #e7f7e9;
+            color: var(--success);
+        }
+        
+        .status-offline {
+            background: #f0f0f0;
             color: #666;
         }
         
-        .modal-close:hover {
+        .status-locked {
+            background: #ffeaea;
             color: var(--danger);
+        }
+        
+        .student-actions {
+            display: flex;
+            gap: 5px;
         }
         
         /* Parent Connections */
@@ -555,6 +557,139 @@
             color: var(--warning);
         }
         
+        /* Bypass Codes */
+        .bypass-codes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .bypass-code-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+            border-left: 4px solid var(--warning);
+        }
+        
+        .bypass-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .bypass-code {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .bypass-info {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .bypass-usage {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .bypass-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        /* Connection Codes */
+        .connection-codes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .connection-code-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .connection-code-display {
+            font-family: monospace;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            letter-spacing: 3px;
+        }
+        
+        .connection-code-student {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e1e5ee;
+        }
+        
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-close:hover {
+            color: var(--danger);
+        }
+        
         /* Responsive Design */
         @media (max-width: 1024px) {
             .sidebar {
@@ -583,7 +718,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .class-grid, .parent-connections-grid {
+            .class-grid, .parent-connections-grid, .bypass-codes-grid, .connection-codes-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -799,8 +934,17 @@
                 <li class="sidebar-item" onclick="showDashboardView('classes')">
                     <span>👨‍🏫</span> <span>My Classes</span>
                 </li>
+                <li class="sidebar-item" onclick="showDashboardView('students')">
+                    <span>👨‍🎓</span> <span>Students</span>
+                </li>
                 <li class="sidebar-item" onclick="showDashboardView('parentConnections')">
                     <span>👨‍👩‍👧‍👦</span> <span>Parent Connections</span>
+                </li>
+                <li class="sidebar-item" onclick="showDashboardView('bypassCodes')">
+                    <span>🔓</span> <span>Bypass Codes</span>
+                </li>
+                <li class="sidebar-item" onclick="showDashboardView('connectionCodes')">
+                    <span>🔗</span> <span>Connection Codes</span>
                 </li>
             </ul>
         </div>
@@ -856,6 +1000,39 @@
                 </div>
             </div>
             
+            <!-- Students View -->
+            <div class="dashboard-view" id="studentsView" style="display: none;">
+                <div class="content-header">
+                    <div class="content-title">Students</div>
+                    <div>
+                        <button class="btn" onclick="showCreateBypassCodeModal()" style="width: auto; margin-right: 10px;">Create Bypass Code</button>
+                        <button class="btn" onclick="showCreateConnectionCodeModal()" style="width: auto;">Create Connection Code</button>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-title">All Students</div>
+                    </div>
+                    <div class="card-body">
+                        <table class="students-table">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Class</th>
+                                    <th>Status</th>
+                                    <th>Last Active</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsList">
+                                <!-- Students will be listed here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Parent Connections View -->
             <div class="dashboard-view" id="parentConnectionsView" style="display: none;">
                 <div class="content-header">
@@ -865,6 +1042,30 @@
                 
                 <div class="parent-connections-grid" id="parentConnectionsList">
                     <!-- Parent connections will be listed here -->
+                </div>
+            </div>
+            
+            <!-- Bypass Codes View -->
+            <div class="dashboard-view" id="bypassCodesView" style="display: none;">
+                <div class="content-header">
+                    <div class="content-title">Bypass Codes</div>
+                    <button class="btn" onclick="showCreateBypassCodeModal()" style="width: auto;">Create Bypass Code</button>
+                </div>
+                
+                <div class="bypass-codes-grid" id="bypassCodesList">
+                    <!-- Bypass codes will be listed here -->
+                </div>
+            </div>
+            
+            <!-- Connection Codes View -->
+            <div class="dashboard-view" id="connectionCodesView" style="display: none;">
+                <div class="content-header">
+                    <div class="content-title">Connection Codes</div>
+                    <button class="btn" onclick="showCreateConnectionCodeModal()" style="width: auto;">Create Connection Code</button>
+                </div>
+                
+                <div class="connection-codes-grid" id="connectionCodesList">
+                    <!-- Connection codes will be listed here -->
                 </div>
             </div>
         </div>
@@ -931,6 +1132,74 @@
         </div>
     </div>
     
+    <div class="modal" id="createBypassCodeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Create Bypass Code</div>
+                <button class="modal-close" onclick="closeModal('createBypassCodeModal')">×</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="bypassCodeName">Code Name (Optional)</label>
+                <input type="text" id="bypassCodeName" placeholder="e.g., Research Project">
+            </div>
+            
+            <div class="form-group">
+                <label for="bypassCodeExpiry">Code Expiry</label>
+                <select id="bypassCodeExpiry">
+                    <option value="1">1 hour</option>
+                    <option value="3">3 hours</option>
+                    <option value="6">6 hours</option>
+                    <option value="24">1 day</option>
+                    <option value="168">1 week</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="bypassCodeMaxUsage">Maximum Usage</label>
+                <select id="bypassCodeMaxUsage">
+                    <option value="1">1 use</option>
+                    <option value="5" selected>5 uses</option>
+                    <option value="10">10 uses</option>
+                    <option value="25">25 uses</option>
+                    <option value="100">100 uses</option>
+                </select>
+            </div>
+            
+            <div id="bypassCodeDisplay" style="display: none; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; text-align: center;">
+                <h3>Bypass Code Created</h3>
+                <div style="font-family: monospace; font-size: 1.5rem; font-weight: bold; margin: 10px 0;" id="generatedBypassCode"></div>
+                <p style="font-size: 0.9rem; color: #666;">Share this code with students to temporarily bypass website restrictions.</p>
+            </div>
+            
+            <button class="btn btn-success" onclick="generateBypassCode()">Generate Code</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="createConnectionCodeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Create Connection Code</div>
+                <button class="modal-close" onclick="closeModal('createConnectionCodeModal')">×</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="connectionStudentSelect">Select Student</label>
+                <select id="connectionStudentSelect">
+                    <!-- Students will be populated here -->
+                </select>
+            </div>
+            
+            <div id="connectionCodeDisplay" style="display: none; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; text-align: center;">
+                <h3>Student Connection Code</h3>
+                <div style="font-family: monospace; font-size: 1.5rem; font-weight: bold; margin: 10px 0;" id="generatedConnectionCode"></div>
+                <p style="font-size: 0.9rem; color: #666;">Share this code with the student. They can enter it at browser://connect to connect their browser.</p>
+            </div>
+            
+            <button class="btn btn-success" onclick="generateConnectionCode()">Generate Code</button>
+        </div>
+    </div>
+    
     <div class="modal" id="deleteClassModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -951,12 +1220,52 @@
             </div>
         </div>
     </div>
+    
+    <div class="modal" id="studentControlModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Student Control</div>
+                <button class="modal-close" onclick="closeModal('studentControlModal')">×</button>
+            </div>
+            
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 10px;">👨‍🎓</div>
+                <h3 id="studentControlName">Student Name</h3>
+                <p id="studentControlClass">Class: Unknown</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="studentMessage">Send Message</label>
+                <textarea id="studentMessage" placeholder="Type a message to send to the student..." rows="3"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="studentUrl">Open Website</label>
+                <input type="text" id="studentUrl" placeholder="https://example.com">
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn" onclick="sendStudentMessage()" style="flex: 1;">Send Message</button>
+                <button class="btn" onclick="openStudentWebsite()" style="flex: 1;">Open Website</button>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn btn-warning" onclick="lockStudentBrowser()" style="flex: 1;">Lock Browser</button>
+                <button class="btn btn-success" onclick="unlockStudentBrowser()" style="flex: 1;">Unlock Browser</button>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn" onclick="requestStudentScreenshot()" style="flex: 1;">Request Screenshot</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Global variables
         let currentUser = null;
         let currentView = 'overview';
         let classToDelete = null;
+        let studentToControl = null;
         
         // Initialize the application
         function initializeApp() {
@@ -980,6 +1289,7 @@
                     classes: {},
                     students: {},
                     parentCodes: {},
+                    bypassCodes: {},
                     activityLogs: {},
                     lastUpdated: Date.now()
                 };
@@ -1366,8 +1676,17 @@
                 case 'classes':
                     updateClassesView(data);
                     break;
+                case 'students':
+                    updateStudentsView(data);
+                    break;
                 case 'parentConnections':
                     updateParentConnectionsView(data);
+                    break;
+                case 'bypassCodes':
+                    updateBypassCodesView(data);
+                    break;
+                case 'connectionCodes':
+                    updateConnectionCodesView(data);
                     break;
             }
         }
@@ -1497,6 +1816,49 @@
             });
         }
         
+        // Update students view
+        function updateStudentsView(data) {
+            const studentsList = document.getElementById('studentsList');
+            studentsList.innerHTML = '';
+            
+            // Get teacher's students
+            const teacherStudents = Object.values(data.students).filter(s => {
+                const studentClass = data.classes[s.classCode];
+                return studentClass && (studentClass.teacherId === currentUser.id || currentUser.role === 'school');
+            });
+            
+            if (teacherStudents.length === 0) {
+                studentsList.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">No students found</td></tr>';
+                return;
+            }
+            
+            teacherStudents.forEach(student => {
+                const studentClass = data.classes[student.classCode];
+                const isOnline = student.lastActive && (Date.now() - student.lastActive) < 30000;
+                const isLocked = data.studentLocks && data.studentLocks[student.id];
+                
+                const statusClass = isLocked ? 'status-locked' : (isOnline ? 'status-online' : 'status-offline');
+                const statusText = isLocked ? 'Locked' : (isOnline ? 'Online' : 'Offline');
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.name}</td>
+                    <td>${studentClass ? studentClass.name : student.classCode}</td>
+                    <td><span class="student-status ${statusClass}">${statusText}</span></td>
+                    <td>${student.lastActive ? new Date(student.lastActive).toLocaleTimeString() : 'Never'}</td>
+                    <td>
+                        <div class="student-actions">
+                            <button class="btn" onclick="showStudentControlModal('${student.id}')" style="padding: 5px 10px;">Control</button>
+                            <button class="btn btn-warning" onclick="lockStudent('${student.id}')" style="padding: 5px 10px;">Lock</button>
+                            <button class="btn btn-success" onclick="unlockStudent('${student.id}')" style="padding: 5px 10px;">Unlock</button>
+                        </div>
+                    </td>
+                `;
+                
+                studentsList.appendChild(row);
+            });
+        }
+        
         // Update parent connections view
         function updateParentConnectionsView(data) {
             const parentConnectionsList = document.getElementById('parentConnectionsList');
@@ -1543,6 +1905,96 @@
                 `;
                 
                 parentConnectionsList.appendChild(connectionCard);
+            });
+        }
+        
+        // Update bypass codes view
+        function updateBypassCodesView(data) {
+            const bypassCodesList = document.getElementById('bypassCodesList');
+            bypassCodesList.innerHTML = '';
+            
+            // Get bypass codes created by this teacher
+            const teacherBypassCodes = Object.values(data.bypassCodes || {}).filter(code => 
+                code.teacherId === currentUser.id || currentUser.role === 'school'
+            );
+            
+            if (teacherBypassCodes.length === 0) {
+                bypassCodesList.innerHTML = '<p>No bypass codes created yet</p>';
+                return;
+            }
+            
+            teacherBypassCodes.forEach(code => {
+                const isExpired = Date.now() > code.expiry;
+                const isUsedUp = code.usageCount >= code.maxUsage;
+                
+                const bypassCard = document.createElement('div');
+                bypassCard.className = 'bypass-code-card';
+                
+                bypassCard.innerHTML = `
+                    <div class="bypass-header">
+                        <div class="bypass-code">${code.code}</div>
+                        <div>
+                            ${isExpired ? '<span style="color: var(--danger);">Expired</span>' : 
+                              isUsedUp ? '<span style="color: var(--warning);">Used Up</span>' : 
+                              '<span style="color: var(--success);">Active</span>'}
+                        </div>
+                    </div>
+                    <div class="bypass-info">
+                        ${code.name ? `<strong>${code.name}</strong><br>` : ''}
+                        Created: ${new Date(code.created).toLocaleDateString()}<br>
+                        Expires: ${new Date(code.expiry).toLocaleDateString()}
+                    </div>
+                    <div class="bypass-usage">
+                        <span>Usage: ${code.usageCount || 0}/${code.maxUsage}</span>
+                        <span>${Math.floor((code.expiry - Date.now()) / (1000 * 60 * 60))}h remaining</span>
+                    </div>
+                    <div class="bypass-actions">
+                        <button class="btn" onclick="copyBypassCode('${code.code}')" style="padding: 5px 10px;">Copy</button>
+                        <button class="btn btn-danger" onclick="deleteBypassCode('${code.code}')" style="padding: 5px 10px;">Delete</button>
+                    </div>
+                `;
+                
+                bypassCodesList.appendChild(bypassCard);
+            });
+        }
+        
+        // Update connection codes view
+        function updateConnectionCodesView(data) {
+            const connectionCodesList = document.getElementById('connectionCodesList');
+            connectionCodesList.innerHTML = '';
+            
+            // Get connection codes for this teacher's students
+            const teacherStudents = Object.values(data.students).filter(s => {
+                const studentClass = data.classes[s.classCode];
+                return studentClass && (studentClass.teacherId === currentUser.id || currentUser.role === 'school');
+            });
+            
+            // Find students with connection codes
+            const studentsWithCodes = teacherStudents.filter(s => s.connectionCode);
+            
+            if (studentsWithCodes.length === 0) {
+                connectionCodesList.innerHTML = '<p>No connection codes generated yet</p>';
+                return;
+            }
+            
+            studentsWithCodes.forEach(student => {
+                const connectionCard = document.createElement('div');
+                connectionCard.className = 'connection-code-card';
+                
+                connectionCard.innerHTML = `
+                    <div class="connection-code-student">${student.name}</div>
+                    <div class="connection-code-display">${student.connectionCode}</div>
+                    <div style="text-align: center;">
+                        <p>Share this code with the student</p>
+                        <p style="font-size: 0.9rem; color: #666;">Student can enter this code at browser://connect</p>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn" onclick="copyConnectionCode('${student.connectionCode}')" style="flex: 1;">Copy Code</button>
+                        <button class="btn btn-danger" onclick="deleteConnectionCode('${student.id}')" style="flex: 1;">Delete Code</button>
+                    </div>
+                `;
+                
+                connectionCodesList.appendChild(connectionCard);
             });
         }
         
@@ -1632,6 +2084,165 @@
             classToDelete = null;
         }
         
+        // Student control functions
+        function showStudentControlModal(studentId) {
+            const data = getSharedData();
+            const student = data.students[studentId];
+            
+            if (student) {
+                studentToControl = studentId;
+                document.getElementById('studentControlName').textContent = student.name;
+                document.getElementById('studentControlClass').textContent = `Class: ${student.classCode}`;
+                document.getElementById('studentControlModal').style.display = 'flex';
+            }
+        }
+        
+        function sendStudentMessage() {
+            if (!studentToControl) return;
+            
+            const message = document.getElementById('studentMessage').value;
+            if (!message) {
+                alert('Please enter a message');
+                return;
+            }
+            
+            const data = getSharedData();
+            
+            // Create messages object if it doesn't exist
+            if (!data.messages) data.messages = {};
+            if (!data.messages[studentToControl]) data.messages[studentToControl] = [];
+            
+            // Add message
+            data.messages[studentToControl].push({
+                text: message,
+                from: currentUser.name,
+                timestamp: Date.now()
+            });
+            
+            // Save data
+            saveSharedData(data);
+            
+            // Clear message field
+            document.getElementById('studentMessage').value = '';
+            
+            showSuccess('Message sent to student!');
+        }
+        
+        function openStudentWebsite() {
+            if (!studentToControl) return;
+            
+            const url = document.getElementById('studentUrl').value;
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+            
+            const data = getSharedData();
+            
+            // Create teacher control object if it doesn't exist
+            if (!data.teacherControl) data.teacherControl = {};
+            
+            // Set control command
+            data.teacherControl[studentToControl] = {
+                action: 'openTab',
+                url: url,
+                timestamp: Date.now()
+            };
+            
+            // Save data
+            saveSharedData(data);
+            
+            showSuccess('Website opened in student browser!');
+        }
+        
+        function lockStudentBrowser() {
+            if (!studentToControl) return;
+            
+            const data = getSharedData();
+            
+            // Create student locks object if it doesn't exist
+            if (!data.studentLocks) data.studentLocks = {};
+            
+            // Lock student
+            data.studentLocks[studentToControl] = true;
+            
+            // Save data
+            saveSharedData(data);
+            
+            showSuccess('Student browser locked!');
+        }
+        
+        function unlockStudentBrowser() {
+            if (!studentToControl) return;
+            
+            const data = getSharedData();
+            
+            // Unlock student
+            if (data.studentLocks) {
+                delete data.studentLocks[studentToControl];
+            }
+            
+            // Save data
+            saveSharedData(data);
+            
+            showSuccess('Student browser unlocked!');
+        }
+        
+        function requestStudentScreenshot() {
+            if (!studentToControl) return;
+            
+            const data = getSharedData();
+            
+            // Create screenshots object if it doesn't exist
+            if (!data.screenshots) data.screenshots = {};
+            
+            // Request screenshot
+            data.screenshots[studentToControl] = {
+                requested: true,
+                timestamp: Date.now()
+            };
+            
+            // Save data
+            saveSharedData(data);
+            
+            showSuccess('Screenshot requested from student!');
+        }
+        
+        function lockStudent(studentId) {
+            const data = getSharedData();
+            
+            // Create student locks object if it doesn't exist
+            if (!data.studentLocks) data.studentLocks = {};
+            
+            // Lock student
+            data.studentLocks[studentId] = true;
+            
+            // Save data
+            saveSharedData(data);
+            
+            // Update dashboard
+            updateDashboardView();
+            
+            showSuccess('Student browser locked!');
+        }
+        
+        function unlockStudent(studentId) {
+            const data = getSharedData();
+            
+            // Unlock student
+            if (data.studentLocks) {
+                delete data.studentLocks[studentId];
+            }
+            
+            // Save data
+            saveSharedData(data);
+            
+            // Update dashboard
+            updateDashboardView();
+            
+            showSuccess('Student browser unlocked!');
+        }
+        
         // Parent connection functions
         function showCreateParentCodeModal() {
             document.getElementById('createParentCodeModal').style.display = 'flex';
@@ -1688,6 +2299,140 @@
             showSuccess('Parent connection code generated!');
         }
         
+        // Bypass code functions
+        function showCreateBypassCodeModal() {
+            document.getElementById('createBypassCodeModal').style.display = 'flex';
+        }
+        
+        function generateBypassCode() {
+            const name = document.getElementById('bypassCodeName').value;
+            const expiryHours = parseInt(document.getElementById('bypassCodeExpiry').value);
+            const maxUsage = parseInt(document.getElementById('bypassCodeMaxUsage').value);
+            
+            const data = getSharedData();
+            
+            // Generate bypass code
+            const code = generateBypassCodeString();
+            
+            // Create bypass code
+            data.bypassCodes[code] = {
+                code: code,
+                name: name || null,
+                teacherId: currentUser.id,
+                created: Date.now(),
+                expiry: Date.now() + (expiryHours * 60 * 60 * 1000),
+                maxUsage: maxUsage,
+                usageCount: 0
+            };
+            
+            // Save data
+            saveSharedData(data);
+            
+            // Display the code
+            document.getElementById('generatedBypassCode').textContent = code;
+            document.getElementById('bypassCodeDisplay').style.display = 'block';
+            
+            showSuccess('Bypass code generated!');
+        }
+        
+        function copyBypassCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                showSuccess('Bypass code copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+        
+        function deleteBypassCode(code) {
+            const data = getSharedData();
+            
+            // Remove bypass code
+            delete data.bypassCodes[code];
+            
+            // Save data
+            saveSharedData(data);
+            
+            // Update dashboard
+            updateDashboardView();
+            
+            showSuccess('Bypass code deleted!');
+        }
+        
+        // Connection code functions
+        function showCreateConnectionCodeModal() {
+            document.getElementById('createConnectionCodeModal').style.display = 'flex';
+            
+            // Populate student dropdown
+            const studentSelect = document.getElementById('connectionStudentSelect');
+            studentSelect.innerHTML = '';
+            
+            const data = getSharedData();
+            const teacherStudents = Object.values(data.students).filter(s => {
+                const studentClass = data.classes[s.classCode];
+                return studentClass && (studentClass.teacherId === currentUser.id || currentUser.role === 'school');
+            });
+            
+            teacherStudents.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.id;
+                option.textContent = student.name + ' (' + student.classCode + ')';
+                studentSelect.appendChild(option);
+            });
+        }
+        
+        function generateConnectionCode() {
+            const studentId = document.getElementById('connectionStudentSelect').value;
+            
+            if (!studentId) {
+                alert('Please select a student');
+                return;
+            }
+            
+            const data = getSharedData();
+            
+            // Generate connection code
+            const code = generateConnectionCodeString();
+            
+            // Update student with connection code
+            if (data.students[studentId]) {
+                data.students[studentId].connectionCode = code;
+            }
+            
+            // Save data
+            saveSharedData(data);
+            
+            // Display the code
+            document.getElementById('generatedConnectionCode').textContent = code;
+            document.getElementById('connectionCodeDisplay').style.display = 'block';
+            
+            showSuccess('Connection code generated!');
+        }
+        
+        function copyConnectionCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                showSuccess('Connection code copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+        
+        function deleteConnectionCode(studentId) {
+            const data = getSharedData();
+            
+            // Remove connection code from student
+            if (data.students[studentId]) {
+                delete data.students[studentId].connectionCode;
+            }
+            
+            // Save data
+            saveSharedData(data);
+            
+            // Update dashboard
+            updateDashboardView();
+            
+            showSuccess('Connection code deleted!');
+        }
+        
         // Utility functions
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
@@ -1709,6 +2454,7 @@
                 classes: {},
                 students: {},
                 parentCodes: {},
+                bypassCodes: {},
                 activityLogs: {},
                 lastUpdated: Date.now()
             };
@@ -1747,6 +2493,24 @@
         }
         
         function generateParentConnectionCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+        
+        function generateBypassCodeString() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 10; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+        
+        function generateConnectionCodeString() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let code = '';
             for (let i = 0; i < 8; i++) {
