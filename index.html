@@ -1022,9 +1022,6 @@
                 <li class="sidebar-item" onclick="showDashboardView('bypassCodes')">
                     <span>🔓</span> <span>Bypass Codes</span>
                 </li>
-                <li class="sidebar-item" onclick="showDashboardView('connectionCodes')">
-                    <span>🔗</span> <span>Connection Codes</span>
-                </li>
                 <li class="sidebar-item" id="schoolSettingsTab" style="display: none;" onclick="showDashboardView('schoolSettings')">
                     <span>⚙️</span> <span>School Settings</span>
                 </li>
@@ -1088,14 +1085,18 @@
                     <div class="content-title">Students</div>
                     <div>
                         <button class="btn" onclick="showCreateBypassCodeModal()" style="width: auto; margin-right: 10px;">Create Bypass Code</button>
-                        <button class="btn" onclick="showCreateConnectionCodeModal()" style="width: auto;">Create Connection Code</button>
+                        <button class="btn" onclick="showAddStudentModal()" style="width: auto;">Add Student to Class</button>
                     </div>
                 </div>
                 
                 <div class="content-card">
                     <div class="card-header">
                         <div class="card-title">All Students</div>
-                        <button class="btn" onclick="showAddStudentModal()" style="width: auto;">Add Student to Class</button>
+                        <div>
+                            <select id="classFilter" onchange="filterStudentsByClass()" style="padding: 8px; border-radius: 5px; border: 1px solid #e1e5ee;">
+                                <option value="">All Classes</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="card-body">
                         <table class="students-table">
@@ -1149,18 +1150,6 @@
                 
                 <div class="bypass-codes-grid" id="bypassCodesList">
                     <!-- Bypass codes will be listed here -->
-                </div>
-            </div>
-            
-            <!-- Connection Codes View -->
-            <div class="dashboard-view" id="connectionCodesView" style="display: none;">
-                <div class="content-header">
-                    <div class="content-title">Connection Codes</div>
-                    <button class="btn" onclick="showCreateConnectionCodeModal()" style="width: auto;">Create Connection Code</button>
-                </div>
-                
-                <div class="connection-codes-grid" id="connectionCodesList">
-                    <!-- Connection codes will be listed here -->
                 </div>
             </div>
             
@@ -1244,6 +1233,11 @@
                 <input type="text" id="classGrade" placeholder="e.g., Grade 5">
             </div>
             
+            <div class="form-group">
+                <label for="classBlocks">Blocked Websites (one per line)</label>
+                <textarea id="classBlocks" rows="4" placeholder="Add websites to block for this class"></textarea>
+            </div>
+            
             <button class="btn btn-success" onclick="createClass()">Create Class</button>
         </div>
     </div>
@@ -1256,11 +1250,13 @@
             </div>
             
             <div class="form-group">
-                <label for="studentSearch">Search Student by Name</label>
-                <input type="text" id="studentSearch" placeholder="Enter student first or last name" onkeyup="searchStudents()">
-                <div id="studentSearchResults" style="max-height: 200px; overflow-y: auto; margin-top: 10px; display: none;">
-                    <!-- Search results will appear here -->
-                </div>
+                <label for="studentFirstName">First Name</label>
+                <input type="text" id="studentFirstName" placeholder="Enter student first name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="studentLastName">Last Name</label>
+                <input type="text" id="studentLastName" placeholder="Enter student last name" required>
             </div>
             
             <div class="form-group">
@@ -1395,31 +1391,6 @@
         </div>
     </div>
     
-    <div class="modal" id="createConnectionCodeModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">Create Connection Code</div>
-                <button class="modal-close" onclick="closeModal('createConnectionCodeModal')">×</button>
-            </div>
-            
-            <div class="form-group">
-                <label for="connectionStudentSelect">Select Student</label>
-                <select id="connectionStudentSelect">
-                    <!-- Students will be populated here -->
-                </select>
-            </div>
-            
-            <div id="connectionCodeDisplay" style="display: none; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; text-align: center;">
-                <h3>Student Connection Code</h3>
-                <div style="font-family: monospace; font-size: 1.5rem; font-weight: bold; margin: 10px 0;" id="generatedConnectionCode"></div>
-                <p style="font-size: 0.9rem; color: #666;">Share this code with the student. They can enter it at browser://connect to connect their browser.</p>
-            </div>
-            
-            <button class="btn btn-success" onclick="generateConnectionCode()">Generate Code</button>
-            <button class="btn" onclick="closeModal('createConnectionCodeModal')" style="margin-top: 10px; display: none;" id="closeConnectionCodeBtn">Finish</button>
-        </div>
-    </div>
-    
     <div class="modal" id="deleteClassModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1486,7 +1457,6 @@
         let currentView = 'overview';
         let classToDelete = null;
         let studentToControl = null;
-        let selectedStudentForClass = null;
         
         // Initialize the application
         function initializeApp() {
@@ -1795,29 +1765,14 @@
                 return;
             }
             
-            // Find parent code - FIXED: Check if parent code exists and is valid
-            let parentCode = null;
-            let studentId = null;
-            
-            // First check if it's a parent connection code
-            parentCode = Object.values(data.parentCodes).find(code => 
+            // Find parent code
+            const parentCode = Object.values(data.parentCodes).find(code => 
                 code.code === connectionCode && !code.used && Date.now() < code.expiry
             );
             
-            if (parentCode) {
-                studentId = parentCode.studentId;
-            } else {
-                // If not a parent code, check if it's a student connection code
-                const student = Object.values(data.students).find(s => 
-                    s.connectionCode === connectionCode
-                );
-                
-                if (student) {
-                    studentId = student.id;
-                } else {
-                    showError('Invalid or expired connection code');
-                    return;
-                }
+            if (!parentCode) {
+                showError('Invalid or expired connection code');
+                return;
             }
             
             // Create parent account
@@ -1828,16 +1783,14 @@
                 email: parentEmail,
                 password: parentPassword,
                 role: 'parent',
-                connectedStudents: [studentId],
+                connectedStudents: [parentCode.studentId],
                 created: Date.now()
             };
             
-            // Mark parent code as used if it was a parent code
-            if (parentCode) {
-                parentCode.used = true;
-                parentCode.usedBy = parentId;
-                parentCode.usedAt = Date.now();
-            }
+            // Mark parent code as used
+            parentCode.used = true;
+            parentCode.usedBy = parentId;
+            parentCode.usedAt = Date.now();
             
             // Save data
             saveSharedData(data);
@@ -1943,9 +1896,6 @@
                     break;
                 case 'bypassCodes':
                     updateBypassCodesView(data);
-                    break;
-                case 'connectionCodes':
-                    updateConnectionCodesView(data);
                     break;
                 case 'schoolSettings':
                     updateSchoolSettingsView(data);
@@ -2072,6 +2022,9 @@
                             <div class="stat-label">Active</div>
                         </div>
                     </div>
+                    <div style="margin-top: 15px;">
+                        <button class="btn" onclick="viewClassStudents('${classItem.id}')" style="padding: 5px 10px; width: 100%;">View Students</button>
+                    </div>
                 `;
                 
                 classesList.appendChild(classCard);
@@ -2082,6 +2035,9 @@
         function updateStudentsView(data) {
             const studentsList = document.getElementById('studentsList');
             studentsList.innerHTML = '';
+            
+            // Update class filter
+            updateClassFilter();
             
             // Get teacher's students
             const teacherStudents = Object.values(data.students).filter(s => {
@@ -2119,6 +2075,53 @@
                 
                 studentsList.appendChild(row);
             });
+        }
+        
+        // Update class filter dropdown
+        function updateClassFilter() {
+            const classFilter = document.getElementById('classFilter');
+            classFilter.innerHTML = '<option value="">All Classes</option>';
+            
+            const data = getSharedData();
+            const teacherClasses = Object.values(data.classes).filter(c => 
+                c.teacherId === currentUser.id || currentUser.role === 'school'
+            );
+            
+            teacherClasses.forEach(classItem => {
+                const option = document.createElement('option');
+                option.value = classItem.id;
+                option.textContent = classItem.name;
+                classFilter.appendChild(option);
+            });
+        }
+        
+        // Filter students by class
+        function filterStudentsByClass() {
+            const classId = document.getElementById('classFilter').value;
+            const rows = document.getElementById('studentsList').getElementsByTagName('tr');
+            
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const classCell = row.cells[1];
+                
+                if (classId === "" || classCell.textContent.includes(classId)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        }
+        
+        // View students in a specific class
+        function viewClassStudents(classId) {
+            // Set the class filter to this class
+            document.getElementById('classFilter').value = classId;
+            
+            // Switch to students view
+            showDashboardView('students');
+            
+            // Apply the filter
+            filterStudentsByClass();
         }
         
         // Update schedules view
@@ -2264,46 +2267,6 @@
             });
         }
         
-        // Update connection codes view
-        function updateConnectionCodesView(data) {
-            const connectionCodesList = document.getElementById('connectionCodesList');
-            connectionCodesList.innerHTML = '';
-            
-            // Get connection codes for this teacher's students
-            const teacherStudents = Object.values(data.students).filter(s => {
-                const studentClass = data.classes[s.classCode];
-                return studentClass && (studentClass.teacherId === currentUser.id || currentUser.role === 'school');
-            });
-            
-            // Find students with connection codes
-            const studentsWithCodes = teacherStudents.filter(s => s.connectionCode);
-            
-            if (studentsWithCodes.length === 0) {
-                connectionCodesList.innerHTML = '<p>No connection codes generated yet</p>';
-                return;
-            }
-            
-            studentsWithCodes.forEach(student => {
-                const connectionCard = document.createElement('div');
-                connectionCard.className = 'connection-code-card';
-                
-                connectionCard.innerHTML = `
-                    <div class="connection-code-student">${student.name}</div>
-                    <div class="connection-code-display">${student.connectionCode}</div>
-                    <div style="text-align: center;">
-                        <p>Share this code with the student</p>
-                        <p style="font-size: 0.9rem; color: #666;">Student can enter this code at browser://connect</p>
-                    </div>
-                    <div style="display: flex; gap: 10px; margin-top: 15px;">
-                        <button class="btn" onclick="copyConnectionCode('${student.connectionCode}')" style="flex: 1;">Copy Code</button>
-                        <button class="btn btn-danger" onclick="deleteConnectionCode('${student.id}')" style="flex: 1;">Delete Code</button>
-                    </div>
-                `;
-                
-                connectionCodesList.appendChild(connectionCard);
-            });
-        }
-        
         // Update school settings view
         function updateSchoolSettingsView(data) {
             if (currentUser.role !== 'school') return;
@@ -2332,6 +2295,7 @@
             const name = document.getElementById('className').value;
             const subject = document.getElementById('classSubject').value;
             const grade = document.getElementById('classGrade').value;
+            const blocks = document.getElementById('classBlocks').value;
             
             if (!name || !subject || !grade) {
                 alert('Please fill in all required fields');
@@ -2343,6 +2307,11 @@
             // Generate class code
             const classCode = generateClassCode();
             
+            // Parse blocked sites
+            const blockedSites = blocks.split('\n')
+                .map(site => site.trim())
+                .filter(site => site.length > 0);
+            
             // Create class
             data.classes[classCode] = {
                 id: classCode,
@@ -2351,6 +2320,7 @@
                 subject: subject,
                 grade: grade,
                 code: classCode,
+                blockedSites: blockedSites,
                 created: Date.now()
             };
             
@@ -2368,6 +2338,7 @@
             document.getElementById('className').value = '';
             document.getElementById('classSubject').value = '';
             document.getElementById('classGrade').value = '';
+            document.getElementById('classBlocks').value = '';
         }
         
         function showDeleteClassModal(classId) {
@@ -2392,7 +2363,7 @@
             // Remove students from this class
             Object.keys(data.students).forEach(studentId => {
                 if (data.students[studentId].classCode === classToDelete) {
-                    delete data.students[studentId];
+                    data.students[studentId].classCode = '';
                 }
             });
             
@@ -2430,56 +2401,16 @@
             });
         }
         
-        function searchStudents() {
-            const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
-            const resultsContainer = document.getElementById('studentSearchResults');
-            
-            if (!searchTerm) {
-                resultsContainer.style.display = 'none';
-                return;
-            }
-            
-            const data = getSharedData();
-            const allStudents = Object.values(data.students);
-            
-            // Filter students by name
-            const matchingStudents = allStudents.filter(student => 
-                student.name.toLowerCase().includes(searchTerm)
-            );
-            
-            resultsContainer.innerHTML = '';
-            
-            if (matchingStudents.length === 0) {
-                resultsContainer.innerHTML = '<p>No students found</p>';
-            } else {
-                matchingStudents.forEach(student => {
-                    const studentElement = document.createElement('div');
-                    studentElement.style.padding = '10px';
-                    studentElement.style.borderBottom = '1px solid #e1e5ee';
-                    studentElement.style.cursor = 'pointer';
-                    studentElement.innerHTML = `
-                        <strong>${student.name}</strong>
-                        <div style="font-size: 0.8rem; color: #666;">${student.classCode || 'No class'}</div>
-                    `;
-                    studentElement.onclick = () => {
-                        selectedStudentForClass = student.id;
-                        document.getElementById('studentSearch').value = student.name;
-                        resultsContainer.style.display = 'none';
-                    };
-                    resultsContainer.appendChild(studentElement);
-                });
-            }
-            
-            resultsContainer.style.display = 'block';
-        }
-        
         function addStudentToClass() {
-            if (!selectedStudentForClass) {
-                alert('Please select a student');
+            const firstName = document.getElementById('studentFirstName').value;
+            const lastName = document.getElementById('studentLastName').value;
+            const classId = document.getElementById('studentClassSelect').value;
+            
+            if (!firstName || !lastName) {
+                alert('Please enter student first and last name');
                 return;
             }
             
-            const classId = document.getElementById('studentClassSelect').value;
             if (!classId) {
                 alert('Please select a class');
                 return;
@@ -2488,9 +2419,24 @@
             const data = getSharedData();
             const classItem = data.classes[classId];
             
-            if (classItem && data.students[selectedStudentForClass]) {
-                // Add student to class
-                data.students[selectedStudentForClass].classCode = classId;
+            if (classItem) {
+                // Create student
+                const studentName = `${firstName} ${lastName}`;
+                const studentId = 'student_' + btoa(studentName + classId).replace(/[^a-zA-Z0-9]/g, '');
+                
+                data.students[studentId] = {
+                    id: studentId,
+                    firstName: firstName,
+                    lastName: lastName,
+                    name: studentName,
+                    schoolCode: currentUser.schoolCode || 'SCHOOL',
+                    classCode: classId,
+                    lastActive: Date.now(),
+                    device: 'Desktop',
+                    connected: true,
+                    tabs: [],
+                    activeTab: 0
+                };
                 
                 // Save data
                 saveSharedData(data);
@@ -2502,9 +2448,9 @@
                 closeModal('addStudentModal');
                 showSuccess('Student added to class successfully!');
                 
-                // Reset selection
-                selectedStudentForClass = null;
-                document.getElementById('studentSearch').value = '';
+                // Clear form
+                document.getElementById('studentFirstName').value = '';
+                document.getElementById('studentLastName').value = '';
             } else {
                 alert('Error adding student to class');
             }
@@ -2882,84 +2828,6 @@
             showSuccess('Bypass code deleted!');
         }
         
-        // Connection code functions
-        function showCreateConnectionCodeModal() {
-            document.getElementById('createConnectionCodeModal').style.display = 'flex';
-            
-            // Populate student dropdown
-            const studentSelect = document.getElementById('connectionStudentSelect');
-            studentSelect.innerHTML = '';
-            
-            const data = getSharedData();
-            const teacherStudents = Object.values(data.students).filter(s => {
-                const studentClass = data.classes[s.classCode];
-                return studentClass && (studentClass.teacherId === currentUser.id || currentUser.role === 'school');
-            });
-            
-            teacherStudents.forEach(student => {
-                const option = document.createElement('option');
-                option.value = student.id;
-                option.textContent = student.name + ' (' + student.classCode + ')';
-                studentSelect.appendChild(option);
-            });
-        }
-        
-        function generateConnectionCode() {
-            const studentId = document.getElementById('connectionStudentSelect').value;
-            
-            if (!studentId) {
-                alert('Please select a student');
-                return;
-            }
-            
-            const data = getSharedData();
-            
-            // Generate connection code
-            const code = generateConnectionCodeString();
-            
-            // Update student with connection code
-            if (data.students[studentId]) {
-                data.students[studentId].connectionCode = code;
-            }
-            
-            // Save data
-            saveSharedData(data);
-            
-            // Display the code
-            document.getElementById('generatedConnectionCode').textContent = code;
-            document.getElementById('connectionCodeDisplay').style.display = 'block';
-            
-            // Show finish button
-            document.getElementById('closeConnectionCodeBtn').style.display = 'block';
-            
-            showSuccess('Connection code generated!');
-        }
-        
-        function copyConnectionCode(code) {
-            navigator.clipboard.writeText(code).then(() => {
-                showSuccess('Connection code copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        }
-        
-        function deleteConnectionCode(studentId) {
-            const data = getSharedData();
-            
-            // Remove connection code from student
-            if (data.students[studentId]) {
-                delete data.students[studentId].connectionCode;
-            }
-            
-            // Save data
-            saveSharedData(data);
-            
-            // Update dashboard
-            updateDashboardView();
-            
-            showSuccess('Connection code deleted!');
-        }
-        
         // School settings functions
         function updateSchoolInfo() {
             if (currentUser.role !== 'school') return;
@@ -3121,15 +2989,6 @@
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let code = '';
             for (let i = 0; i < 10; i++) {
-                code += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return code;
-        }
-        
-        function generateConnectionCodeString() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let code = '';
-            for (let i = 0; i < 8; i++) {
                 code += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return code;
