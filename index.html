@@ -497,114 +497,6 @@
             gap: 5px;
         }
         
-        /* Parent Connections */
-        .parent-connections-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .parent-connection-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            padding: 25px;
-            border-left: 4px solid var(--success);
-        }
-        
-        .connection-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .connection-student {
-            font-weight: 600;
-            font-size: 1.2rem;
-        }
-        
-        .connection-code {
-            font-family: monospace;
-            background: #f8f9fa;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-        }
-        
-        .connection-info {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 15px;
-        }
-        
-        .connection-status {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        
-        .status-connected {
-            background: #e7f7e9;
-            color: var(--success);
-        }
-        
-        .status-pending {
-            background: #fff3cd;
-            color: var(--warning);
-        }
-        
-        /* Bypass Codes */
-        .bypass-codes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .bypass-code-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            padding: 25px;
-            border-left: 4px solid var(--warning);
-        }
-        
-        .bypass-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .bypass-code {
-            font-family: monospace;
-            background: #f8f9fa;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-        
-        .bypass-info {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 15px;
-        }
-        
-        .bypass-usage {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        .bypass-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
         /* Connection Codes */
         .connection-codes-grid {
             display: grid;
@@ -794,7 +686,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .class-grid, .parent-connections-grid, .bypass-codes-grid, .connection-codes-grid, .schedule-grid, .settings-grid {
+            .class-grid, .connection-codes-grid, .schedule-grid, .settings-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -806,13 +698,12 @@
         <div class="auth-box">
             <div class="auth-logo">
                 <h1>🏫 Class Stacks</h1>
-                <p>Educational Browser System</p>
+                <p>Teacher Dashboard</p>
             </div>
             
             <div class="auth-tabs">
                 <div class="auth-tab active" id="schoolTab" onclick="showAuthTab('school')">School Admin</div>
                 <div class="auth-tab" id="teacherTab" onclick="showAuthTab('teacher')">Teacher Login</div>
-                <div class="auth-tab" id="parentTab" onclick="showAuthTab('parent')">Parent Login</div>
             </div>
             
             <!-- School Admin Login Form -->
@@ -850,25 +741,6 @@
                 
                 <div class="auth-toggle">
                     <a href="#" onclick="showTeacherRegistration()">Don't have an account? Register</a>
-                </div>
-            </div>
-            
-            <!-- Parent Login Form -->
-            <div id="parentAuth" style="display: none;">
-                <div class="form-group">
-                    <label for="parentEmail">Email Address</label>
-                    <input type="email" id="parentEmail" placeholder="Enter your email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="parentPassword">Password</label>
-                    <input type="password" id="parentPassword" placeholder="Enter your password" required>
-                </div>
-                
-                <button class="btn" onclick="loginParent()">Login as Parent</button>
-                
-                <div class="auth-toggle">
-                    <a href="#" onclick="showParentRegistration()">Don't have an account? Register</a>
                 </div>
             </div>
             
@@ -945,40 +817,6 @@
                 </div>
             </div>
             
-            <!-- Parent Registration Form -->
-            <div id="parentRegistration" style="display: none;">
-                <h2 style="text-align: center; margin-bottom: 20px;">Parent Registration</h2>
-                
-                <div class="form-group">
-                    <label for="parentName">Full Name</label>
-                    <input type="text" id="parentName" placeholder="Enter your full name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="parentRegEmail">Email Address</label>
-                    <input type="email" id="parentRegEmail" placeholder="Enter your email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="parentRegPassword">Password</label>
-                    <input type="password" id="parentRegPassword" placeholder="Create a password" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="studentConnectionCode">Student Connection Code</label>
-                    <input type="text" id="studentConnectionCode" placeholder="Enter code from teacher" required>
-                    <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">
-                        Ask your child's teacher for the connection code
-                    </div>
-                </div>
-                
-                <button class="btn btn-success" onclick="registerParent()">Create Parent Account</button>
-                
-                <div class="auth-toggle">
-                    <a href="#" onclick="showParentLogin()">Already have an account? Login</a>
-                </div>
-            </div>
-            
             <div class="error-message" id="errorMessage"></div>
             <div class="success-message" id="successMessage"></div>
         </div>
@@ -1016,14 +854,14 @@
                 <li class="sidebar-item" onclick="showDashboardView('schedules')">
                     <span>📅</span> <span>Class Schedules</span>
                 </li>
-                <li class="sidebar-item" onclick="showDashboardView('parentConnections')">
-                    <span>👨‍👩‍👧‍👦</span> <span>Parent Connections</span>
-                </li>
-                <li class="sidebar-item" onclick="showDashboardView('bypassCodes')">
-                    <span>🔓</span> <span>Bypass Codes</span>
+                <li class="sidebar-item" onclick="showDashboardView('connectionCodes')">
+                    <span>🔗</span> <span>Connection Codes</span>
                 </li>
                 <li class="sidebar-item" id="schoolSettingsTab" style="display: none;" onclick="showDashboardView('schoolSettings')">
                     <span>⚙️</span> <span>School Settings</span>
+                </li>
+                <li class="sidebar-item" onclick="window.open('classstacks-aware.html', '_blank')">
+                    <span>👁️</span> <span>ClassStacks Aware</span>
                 </li>
             </ul>
         </div>
@@ -1050,8 +888,8 @@
                         <div class="stat-label">Active Now</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value" id="overviewParents">0</div>
-                        <div class="stat-label">Parent Connections</div>
+                        <div class="stat-value" id="overviewMessages">0</div>
+                        <div class="stat-label">Messages Sent</div>
                     </div>
                 </div>
                 
@@ -1083,10 +921,7 @@
             <div class="dashboard-view" id="studentsView" style="display: none;">
                 <div class="content-header">
                     <div class="content-title">Students</div>
-                    <div>
-                        <button class="btn" onclick="showCreateBypassCodeModal()" style="width: auto; margin-right: 10px;">Create Bypass Code</button>
-                        <button class="btn" onclick="showAddStudentModal()" style="width: auto;">Add Student to Class</button>
-                    </div>
+                    <button class="btn" onclick="showAddStudentModal()" style="width: auto;">Add Student to Class</button>
                 </div>
                 
                 <div class="content-card">
@@ -1129,27 +964,15 @@
                 </div>
             </div>
             
-            <!-- Parent Connections View -->
-            <div class="dashboard-view" id="parentConnectionsView" style="display: none;">
+            <!-- Connection Codes View -->
+            <div class="dashboard-view" id="connectionCodesView" style="display: none;">
                 <div class="content-header">
-                    <div class="content-title">Parent Connections</div>
-                    <button class="btn" onclick="showCreateParentCodeModal()" style="width: auto;">Generate Parent Code</button>
+                    <div class="content-title">Connection Codes</div>
+                    <button class="btn" onclick="showCreateConnectionCodeModal()" style="width: auto;">Generate Code</button>
                 </div>
                 
-                <div class="parent-connections-grid" id="parentConnectionsList">
-                    <!-- Parent connections will be listed here -->
-                </div>
-            </div>
-            
-            <!-- Bypass Codes View -->
-            <div class="dashboard-view" id="bypassCodesView" style="display: none;">
-                <div class="content-header">
-                    <div class="content-title">Bypass Codes</div>
-                    <button class="btn" onclick="showCreateBypassCodeModal()" style="width: auto;">Create Bypass Code</button>
-                </div>
-                
-                <div class="bypass-codes-grid" id="bypassCodesList">
-                    <!-- Bypass codes will be listed here -->
+                <div class="connection-codes-grid" id="connectionCodesList">
+                    <!-- Connection codes will be listed here -->
                 </div>
             </div>
             
@@ -1311,23 +1134,16 @@
         </div>
     </div>
     
-    <div class="modal" id="createParentCodeModal">
+    <div class="modal" id="createConnectionCodeModal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title">Generate Parent Connection Code</div>
-                <button class="modal-close" onclick="closeModal('createParentCodeModal')">×</button>
+                <div class="modal-title">Generate Connection Code</div>
+                <button class="modal-close" onclick="closeModal('createConnectionCodeModal')">×</button>
             </div>
             
             <div class="form-group">
-                <label for="parentStudentSelect">Select Student</label>
-                <select id="parentStudentSelect">
-                    <!-- Students will be populated here -->
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="parentCodeExpiry">Code Expiry</label>
-                <select id="parentCodeExpiry">
+                <label for="connectionCodeExpiry">Code Expiry</label>
+                <select id="connectionCodeExpiry">
                     <option value="7">7 days</option>
                     <option value="30">30 days</option>
                     <option value="90">90 days</option>
@@ -1335,59 +1151,14 @@
                 </select>
             </div>
             
-            <div id="parentCodeDisplay" style="display: none; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; text-align: center;">
-                <h3>Parent Connection Code</h3>
-                <div style="font-family: monospace; font-size: 1.5rem; font-weight: bold; margin: 10px 0;" id="generatedParentCode"></div>
-                <p style="font-size: 0.9rem; color: #666;">Share this code with the parent to connect to the student's account.</p>
+            <div id="connectionCodeDisplay" style="display: none; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; text-align: center;">
+                <h3>School Connection Code</h3>
+                <div style="font-family: monospace; font-size: 1.5rem; font-weight: bold; margin: 10px 0;" id="generatedConnectionCode"></div>
+                <p style="font-size: 0.9rem; color: #666;">Share this code with students to connect to your school.</p>
             </div>
             
-            <button class="btn btn-success" onclick="generateParentCode()">Generate Code</button>
-            <button class="btn" onclick="closeModal('createParentCodeModal')" style="margin-top: 10px; display: none;" id="closeParentCodeBtn">Finish</button>
-        </div>
-    </div>
-    
-    <div class="modal" id="createBypassCodeModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">Create Bypass Code</div>
-                <button class="modal-close" onclick="closeModal('createBypassCodeModal')">×</button>
-            </div>
-            
-            <div class="form-group">
-                <label for="bypassCodeName">Code Name (Optional)</label>
-                <input type="text" id="bypassCodeName" placeholder="e.g., Research Project">
-            </div>
-            
-            <div class="form-group">
-                <label for="bypassCodeExpiry">Code Expiry</label>
-                <select id="bypassCodeExpiry">
-                    <option value="1">1 hour</option>
-                    <option value="3">3 hours</option>
-                    <option value="6">6 hours</option>
-                    <option value="24">1 day</option>
-                    <option value="168">1 week</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="bypassCodeMaxUsage">Maximum Usage</label>
-                <select id="bypassCodeMaxUsage">
-                    <option value="1">1 use</option>
-                    <option value="5" selected>5 uses</option>
-                    <option value="10">10 uses</option>
-                    <option value="25">25 uses</option>
-                    <option value="100">100 uses</option>
-                </select>
-            </div>
-            
-            <div id="bypassCodeDisplay" style="display: none; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; text-align: center;">
-                <h3>Bypass Code Created</h3>
-                <div style="font-family: monospace; font-size: 1.5rem; font-weight: bold; margin: 10px 0;" id="generatedBypassCode"></div>
-                <p style="font-size: 0.9rem; color: #666;">Share this code with students to temporarily bypass website restrictions.</p>
-            </div>
-            
-            <button class="btn btn-success" onclick="generateBypassCode()">Generate Code</button>
-            <button class="btn" onclick="closeModal('createBypassCodeModal')" style="margin-top: 10px; display: none;" id="closeBypassCodeBtn">Finish</button>
+            <button class="btn btn-success" onclick="generateConnectionCode()">Generate Code</button>
+            <button class="btn" onclick="closeModal('createConnectionCodeModal')" style="margin-top: 10px; display: none;" id="closeConnectionCodeBtn">Finish</button>
         </div>
     </div>
     
@@ -1476,14 +1247,16 @@
                 const initialData = {
                     schools: {},
                     teachers: {},
-                    parents: {},
                     classes: {},
                     students: {},
-                    parentCodes: {},
-                    bypassCodes: {},
                     schedules: {},
                     schoolSettings: {},
                     activityLogs: {},
+                    messages: {},
+                    teacherControl: {},
+                    studentLocks: {},
+                    screenshots: {},
+                    connectionCodes: {},
                     lastUpdated: Date.now()
                 };
                 localStorage.setItem('classStacksData', JSON.stringify(initialData));
@@ -1494,14 +1267,11 @@
         function showAuthTab(tab) {
             document.getElementById('schoolTab').classList.remove('active');
             document.getElementById('teacherTab').classList.remove('active');
-            document.getElementById('parentTab').classList.remove('active');
             
             document.getElementById('schoolAuth').style.display = 'none';
             document.getElementById('teacherAuth').style.display = 'none';
-            document.getElementById('parentAuth').style.display = 'none';
             document.getElementById('schoolRegistration').style.display = 'none';
             document.getElementById('teacherRegistration').style.display = 'none';
-            document.getElementById('parentRegistration').style.display = 'none';
             
             if (tab === 'school') {
                 document.getElementById('schoolTab').classList.add('active');
@@ -1509,9 +1279,6 @@
             } else if (tab === 'teacher') {
                 document.getElementById('teacherTab').classList.add('active');
                 document.getElementById('teacherAuth').style.display = 'block';
-            } else {
-                document.getElementById('parentTab').classList.add('active');
-                document.getElementById('parentAuth').style.display = 'block';
             }
         }
         
@@ -1537,18 +1304,6 @@
         function showTeacherLogin() {
             document.getElementById('teacherRegistration').style.display = 'none';
             document.getElementById('teacherAuth').style.display = 'block';
-        }
-        
-        // Show parent registration
-        function showParentRegistration() {
-            document.getElementById('parentAuth').style.display = 'none';
-            document.getElementById('parentRegistration').style.display = 'block';
-        }
-        
-        // Show parent login
-        function showParentLogin() {
-            document.getElementById('parentRegistration').style.display = 'none';
-            document.getElementById('parentAuth').style.display = 'block';
         }
         
         // Register a new school
@@ -1736,96 +1491,6 @@
             }
         }
         
-        // Register as parent
-        function registerParent() {
-            const parentName = document.getElementById('parentName').value;
-            const parentEmail = document.getElementById('parentRegEmail').value;
-            const parentPassword = document.getElementById('parentRegPassword').value;
-            const connectionCode = document.getElementById('studentConnectionCode').value;
-            
-            if (!parentName || !parentEmail || !parentPassword || !connectionCode) {
-                showError('Please fill in all required fields');
-                return;
-            }
-            
-            if (parentPassword.length < 6) {
-                showError('Password must be at least 6 characters long');
-                return;
-            }
-            
-            const data = getSharedData();
-            
-            // Check if email already exists
-            const existingUser = Object.values(data.parents).find(parent => 
-                parent.email === parentEmail
-            );
-            
-            if (existingUser) {
-                showError('A parent with this email already exists');
-                return;
-            }
-            
-            // Find parent code
-            const parentCode = Object.values(data.parentCodes).find(code => 
-                code.code === connectionCode && !code.used && Date.now() < code.expiry
-            );
-            
-            if (!parentCode) {
-                showError('Invalid or expired connection code');
-                return;
-            }
-            
-            // Create parent account
-            const parentId = 'parent_' + Date.now();
-            data.parents[parentId] = {
-                id: parentId,
-                name: parentName,
-                email: parentEmail,
-                password: parentPassword,
-                role: 'parent',
-                connectedStudents: [parentCode.studentId],
-                created: Date.now()
-            };
-            
-            // Mark parent code as used
-            parentCode.used = true;
-            parentCode.usedBy = parentId;
-            parentCode.usedAt = Date.now();
-            
-            // Save data
-            saveSharedData(data);
-            
-            // Show success message
-            showSuccess('Parent account created successfully! You can now login.');
-            showParentLogin();
-        }
-        
-        // Login as parent
-        function loginParent() {
-            const email = document.getElementById('parentEmail').value;
-            const password = document.getElementById('parentPassword').value;
-            
-            if (!email || !password) {
-                showError('Please enter both email and password');
-                return;
-            }
-            
-            const data = getSharedData();
-            
-            // Find parent with matching credentials
-            const parent = Object.values(data.parents).find(p => 
-                p.email === email && p.password === password
-            );
-            
-            if (parent) {
-                // For this demo, we'll just show a success message
-                // In a real implementation, this would show the parent dashboard
-                showSuccess('Parent login successful! Parent dashboard would open here.');
-            } else {
-                showError('Invalid email or password');
-            }
-        }
-        
         // Show teacher dashboard
         function showTeacherDashboard() {
             document.getElementById('authContainer').style.display = 'none';
@@ -1891,11 +1556,8 @@
                 case 'schedules':
                     updateSchedulesView(data);
                     break;
-                case 'parentConnections':
-                    updateParentConnectionsView(data);
-                    break;
-                case 'bypassCodes':
-                    updateBypassCodesView(data);
+                case 'connectionCodes':
+                    updateConnectionCodesView(data);
                     break;
                 case 'schoolSettings':
                     updateSchoolSettingsView(data);
@@ -1918,16 +1580,17 @@
                 s.lastActive && (Date.now() - s.lastActive) < 30000
             );
             
-            // Count parent connections
-            const parentConnections = Object.values(data.parentCodes).filter(code => 
-                code.used
-            ).length;
+            // Count messages sent
+            let messageCount = 0;
+            Object.values(data.messages || {}).forEach(messages => {
+                messageCount += messages.length;
+            });
             
             // Update stats
             document.getElementById('overviewClasses').textContent = teacherClasses.length;
             document.getElementById('overviewStudents').textContent = allStudents.length;
             document.getElementById('overviewActive').textContent = activeStudents.length;
-            document.getElementById('overviewParents').textContent = parentConnections;
+            document.getElementById('overviewMessages').textContent = messageCount;
             
             // Update recent activity
             updateRecentActivity(data);
@@ -2168,102 +1831,42 @@
             });
         }
         
-        // Update parent connections view
-        function updateParentConnectionsView(data) {
-            const parentConnectionsList = document.getElementById('parentConnectionsList');
-            parentConnectionsList.innerHTML = '';
+        // Update connection codes view
+        function updateConnectionCodesView(data) {
+            const connectionCodesList = document.getElementById('connectionCodesList');
+            connectionCodesList.innerHTML = '';
             
-            // Get parent codes for this teacher's students
-            const teacherStudents = Object.values(data.students).filter(s => {
-                const studentClass = data.classes[s.classCode];
-                return studentClass && (studentClass.teacherId === currentUser.id || currentUser.role === 'school');
-            });
-            
-            const parentCodes = Object.values(data.parentCodes || {}).filter(code => 
-                teacherStudents.some(s => s.id === code.studentId)
+            // Get connection codes for this teacher's school
+            const teacherSchool = currentUser.school || (currentUser.role === 'school' ? currentUser.name : '');
+            const connectionCodes = Object.values(data.connectionCodes || {}).filter(code => 
+                code.school === teacherSchool
             );
             
-            if (parentCodes.length === 0) {
-                parentConnectionsList.innerHTML = '<p>No parent connections yet</p>';
+            if (connectionCodes.length === 0) {
+                connectionCodesList.innerHTML = '<p>No connection codes generated yet</p>';
                 return;
             }
             
-            parentCodes.forEach(code => {
-                const student = data.students[code.studentId];
-                const parent = code.usedBy ? data.parents[code.usedBy] : null;
-                
+            connectionCodes.forEach(code => {
                 const connectionCard = document.createElement('div');
-                connectionCard.className = 'parent-connection-card';
+                connectionCard.className = 'connection-code-card';
                 
                 connectionCard.innerHTML = `
-                    <div class="connection-header">
-                        <div class="connection-student">${student ? student.name : 'Unknown Student'}</div>
-                        <div class="connection-code">${code.code}</div>
-                    </div>
-                    <div class="connection-info">
-                        Class: ${student ? student.classCode : 'Unknown'}<br>
-                        Created: ${new Date(code.created).toLocaleDateString()}<br>
-                        Expires: ${new Date(code.expiry).toLocaleDateString()}
-                    </div>
-                    <div>
-                        <span class="connection-status ${code.used ? 'status-connected' : 'status-pending'}">
-                            ${code.used ? 'Connected' : 'Pending'}
-                        </span>
-                        ${parent ? `<div style="margin-top: 10px; font-size: 0.9rem;">Connected to: ${parent.name}</div>` : ''}
-                    </div>
-                `;
-                
-                parentConnectionsList.appendChild(connectionCard);
-            });
-        }
-        
-        // Update bypass codes view
-        function updateBypassCodesView(data) {
-            const bypassCodesList = document.getElementById('bypassCodesList');
-            bypassCodesList.innerHTML = '';
-            
-            // Get bypass codes created by this teacher
-            const teacherBypassCodes = Object.values(data.bypassCodes || {}).filter(code => 
-                code.teacherId === currentUser.id || currentUser.role === 'school'
-            );
-            
-            if (teacherBypassCodes.length === 0) {
-                bypassCodesList.innerHTML = '<p>No bypass codes created yet</p>';
-                return;
-            }
-            
-            teacherBypassCodes.forEach(code => {
-                const isExpired = Date.now() > code.expiry;
-                const isUsedUp = code.usageCount >= code.maxUsage;
-                
-                const bypassCard = document.createElement('div');
-                bypassCard.className = 'bypass-code-card';
-                
-                bypassCard.innerHTML = `
-                    <div class="bypass-header">
-                        <div class="bypass-code">${code.code}</div>
-                        <div>
-                            ${isExpired ? '<span style="color: var(--danger);">Expired</span>' : 
-                              isUsedUp ? '<span style="color: var(--warning);">Used Up</span>' : 
-                              '<span style="color: var(--success);">Active</span>'}
+                    <div class="connection-code-display">${code.code}</div>
+                    <div style="text-align: center;">
+                        <div style="font-weight: 600; margin-bottom: 5px;">${code.school}</div>
+                        <div style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">
+                            Created: ${new Date(code.created).toLocaleDateString()}<br>
+                            Expires: ${new Date(code.expiry).toLocaleDateString()}
+                        </div>
+                        <div style="display: flex; gap: 10px; justify-content: center;">
+                            <button class="btn" onclick="copyConnectionCode('${code.code}')" style="padding: 5px 10px;">Copy</button>
+                            <button class="btn btn-danger" onclick="deleteConnectionCode('${code.code}')" style="padding: 5px 10px;">Delete</button>
                         </div>
                     </div>
-                    <div class="bypass-info">
-                        ${code.name ? `<strong>${code.name}</strong><br>` : ''}
-                        Created: ${new Date(code.created).toLocaleDateString()}<br>
-                        Expires: ${new Date(code.expiry).toLocaleDateString()}
-                    </div>
-                    <div class="bypass-usage">
-                        <span>Usage: ${code.usageCount || 0}/${code.maxUsage}</span>
-                        <span>${Math.floor((code.expiry - Date.now()) / (1000 * 60 * 60))}h remaining</span>
-                    </div>
-                    <div class="bypass-actions">
-                        <button class="btn" onclick="copyBypassCode('${code.code}')" style="padding: 5px 10px;">Copy</button>
-                        <button class="btn btn-danger" onclick="deleteBypassCode('${code.code}')" style="padding: 5px 10px;">Delete</button>
-                    </div>
                 `;
                 
-                bypassCodesList.appendChild(bypassCard);
+                connectionCodesList.appendChild(connectionCard);
             });
         }
         
@@ -2548,6 +2151,65 @@
                    currentTime <= schedule.endTime;
         }
         
+        // Connection code functions
+        function showCreateConnectionCodeModal() {
+            document.getElementById('createConnectionCodeModal').style.display = 'flex';
+        }
+        
+        function generateConnectionCode() {
+            const expiryDays = parseInt(document.getElementById('connectionCodeExpiry').value);
+            
+            const data = getSharedData();
+            
+            // Generate connection code
+            const code = generateSchoolConnectionCode();
+            const schoolName = currentUser.role === 'school' ? currentUser.name : currentUser.school;
+            
+            // Create connection code
+            data.connectionCodes[code] = {
+                code: code,
+                school: schoolName,
+                teacherId: currentUser.id,
+                created: Date.now(),
+                expiry: Date.now() + (expiryDays * 24 * 60 * 60 * 1000)
+            };
+            
+            // Save data
+            saveSharedData(data);
+            
+            // Display the code
+            document.getElementById('generatedConnectionCode').textContent = code;
+            document.getElementById('connectionCodeDisplay').style.display = 'block';
+            
+            // Show finish button
+            document.getElementById('closeConnectionCodeBtn').style.display = 'block';
+            
+            showSuccess('Connection code generated!');
+        }
+        
+        function copyConnectionCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                showSuccess('Connection code copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+        
+        function deleteConnectionCode(code) {
+            const data = getSharedData();
+            
+            // Remove connection code
+            delete data.connectionCodes[code];
+            
+            // Save data
+            saveSharedData(data);
+            
+            // Update dashboard
+            updateDashboardView();
+            
+            showSuccess('Connection code deleted!');
+        }
+        
         // Student control functions
         function showStudentControlModal(studentId) {
             const data = getSharedData();
@@ -2707,127 +2369,6 @@
             showSuccess('Student browser unlocked!');
         }
         
-        // Parent connection functions
-        function showCreateParentCodeModal() {
-            document.getElementById('createParentCodeModal').style.display = 'flex';
-            
-            // Populate student dropdown
-            const studentSelect = document.getElementById('parentStudentSelect');
-            studentSelect.innerHTML = '';
-            
-            const data = getSharedData();
-            const teacherStudents = Object.values(data.students).filter(s => {
-                const studentClass = data.classes[s.classCode];
-                return studentClass && (studentClass.teacherId === currentUser.id || currentUser.role === 'school');
-            });
-            
-            teacherStudents.forEach(student => {
-                const option = document.createElement('option');
-                option.value = student.id;
-                option.textContent = student.name + ' (' + student.classCode + ')';
-                studentSelect.appendChild(option);
-            });
-        }
-        
-        function generateParentCode() {
-            const studentId = document.getElementById('parentStudentSelect').value;
-            const expiryDays = parseInt(document.getElementById('parentCodeExpiry').value);
-            
-            if (!studentId) {
-                alert('Please select a student');
-                return;
-            }
-            
-            const data = getSharedData();
-            
-            // Generate parent code
-            const code = generateParentConnectionCode();
-            
-            // Create parent code
-            data.parentCodes[code] = {
-                code: code,
-                studentId: studentId,
-                teacherId: currentUser.id,
-                created: Date.now(),
-                expiry: Date.now() + (expiryDays * 24 * 60 * 60 * 1000),
-                used: false
-            };
-            
-            // Save data
-            saveSharedData(data);
-            
-            // Display the code
-            document.getElementById('generatedParentCode').textContent = code;
-            document.getElementById('parentCodeDisplay').style.display = 'block';
-            
-            // Show finish button
-            document.getElementById('closeParentCodeBtn').style.display = 'block';
-            
-            showSuccess('Parent connection code generated!');
-        }
-        
-        // Bypass code functions
-        function showCreateBypassCodeModal() {
-            document.getElementById('createBypassCodeModal').style.display = 'flex';
-        }
-        
-        function generateBypassCode() {
-            const name = document.getElementById('bypassCodeName').value;
-            const expiryHours = parseInt(document.getElementById('bypassCodeExpiry').value);
-            const maxUsage = parseInt(document.getElementById('bypassCodeMaxUsage').value);
-            
-            const data = getSharedData();
-            
-            // Generate bypass code
-            const code = generateBypassCodeString();
-            
-            // Create bypass code
-            data.bypassCodes[code] = {
-                code: code,
-                name: name || null,
-                teacherId: currentUser.id,
-                created: Date.now(),
-                expiry: Date.now() + (expiryHours * 60 * 60 * 1000),
-                maxUsage: maxUsage,
-                usageCount: 0
-            };
-            
-            // Save data
-            saveSharedData(data);
-            
-            // Display the code
-            document.getElementById('generatedBypassCode').textContent = code;
-            document.getElementById('bypassCodeDisplay').style.display = 'block';
-            
-            // Show finish button
-            document.getElementById('closeBypassCodeBtn').style.display = 'block';
-            
-            showSuccess('Bypass code generated!');
-        }
-        
-        function copyBypassCode(code) {
-            navigator.clipboard.writeText(code).then(() => {
-                showSuccess('Bypass code copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        }
-        
-        function deleteBypassCode(code) {
-            const data = getSharedData();
-            
-            // Remove bypass code
-            delete data.bypassCodes[code];
-            
-            // Save data
-            saveSharedData(data);
-            
-            // Update dashboard
-            updateDashboardView();
-            
-            showSuccess('Bypass code deleted!');
-        }
-        
         // School settings functions
         function updateSchoolInfo() {
             if (currentUser.role !== 'school') return;
@@ -2923,14 +2464,16 @@
             const defaultData = {
                 schools: {},
                 teachers: {},
-                parents: {},
                 classes: {},
                 students: {},
-                parentCodes: {},
-                bypassCodes: {},
                 schedules: {},
                 schoolSettings: {},
                 activityLogs: {},
+                messages: {},
+                teacherControl: {},
+                studentLocks: {},
+                screenshots: {},
+                connectionCodes: {},
                 lastUpdated: Date.now()
             };
             
@@ -2970,25 +2513,16 @@
         function generateClassCode() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let code = '';
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i = 6; i++) {
                 code += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return code;
         }
         
-        function generateParentConnectionCode() {
+        function generateSchoolConnectionCode() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let code = '';
             for (let i = 0; i < 8; i++) {
-                code += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return code;
-        }
-        
-        function generateBypassCodeString() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let code = '';
-            for (let i = 0; i < 10; i++) {
                 code += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return code;
